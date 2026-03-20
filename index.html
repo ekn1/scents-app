@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SCENTS">
+<meta name="theme-color" content="#06080C">
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icon-512.png">
+<title>SCENTS</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<style>
+:root {
+  --bg:#06080C; --s1:#0D1219; --s2:#141C28; --s3:#1B2536; --s4:#222F42;
+  --b1:rgba(255,255,255,0.07); --b2:rgba(255,255,255,0.13); --b3:rgba(255,255,255,0.20);
+  --t1:#E4ECF8; --t2:#7080A0; --t3:#364558;
+  --cyan:#00C8F0; --cD:rgba(0,200,240,0.12); --cM:rgba(0,200,240,0.22);
+  --green:#00D67A; --gD:rgba(0,214,122,0.12);
+  --amber:#F5A800; --aD:rgba(245,168,0,0.12);
+  --red:#FF3A5C; --rD:rgba(255,58,92,0.12);
+  --gold:#E8C200; --goD:rgba(232,194,0,0.12);
+  --purple:#9B72FF; --pD:rgba(155,114,255,0.12);
+  --ff:'DM Sans',sans-serif; --fd:'Syne',sans-serif; --fm:'JetBrains Mono',monospace;
+  --tab-h:82px;
+  --safe-top:env(safe-area-inset-top, 44px);
+  --safe-bot:env(safe-area-inset-bottom, 34px);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html { height: 100%; background: var(--bg); }
+body {
+  height: 100%; background: var(--bg); color: var(--t1);
+  font-family: var(--ff); font-size: 15px; line-height: 1.5;
+  -webkit-font-smoothing: antialiased; overflow: hidden;
+  overscroll-behavior: none;
+}
+::-webkit-scrollbar { display: none; }
+
+/* ── SHELL ── */
+.shell { display: flex; flex-direction: column; height: 100vh; height: 100dvh; }
+
+/* ── STATUS BAR SPACER ── */
+.status-bar { height: var(--safe-top); background: var(--s1); flex-shrink: 0; }
+
+/* ── TOPBAR ── */
+.topbar {
+  height: 52px; background: var(--s1); border-bottom: 0.5px solid var(--b1);
+  display: flex; align-items: center; padding: 0 18px; gap: 10px; flex-shrink: 0;
+}
+.tb-logo { font-family: var(--fd); font-size: 18px; font-weight: 800; color: var(--cyan); letter-spacing: .06em; }
+.tb-sub { font-size: 11px; color: var(--t3); font-family: var(--fm); }
+.tb-actions { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+.tb-btn {
+  width: 36px; height: 36px; border-radius: 10px; border: none;
+  background: var(--s2); color: var(--t2); font-size: 16px;
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+  -webkit-tap-highlight-color: transparent; transition: background .1s;
+}
+.tb-btn:active { background: var(--s3); }
+.tb-btn.primary { background: var(--cyan); color: #04080F; font-size: 13px; font-weight: 700; width: auto; padding: 0 14px; font-family: var(--fd); }
+
+/* ── SCROLL AREA ── */
+.scroll { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
+
+/* ── BOTTOM TAB BAR ── */
+.tabbar {
+  height: var(--tab-h); background: var(--s1); border-top: 0.5px solid var(--b1);
+  display: flex; align-items: flex-start; padding: 8px 0 0;
+  flex-shrink: 0;
+  padding-bottom: var(--safe-bot);
+}
+.tab {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 6px 0; cursor: pointer; border: none; background: transparent;
+  color: var(--t3); transition: color .15s; -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none; min-height: 44px; justify-content: center;
+}
+.tab.on { color: var(--cyan); }
+.tab:active { opacity: .7; }
+.tab-icon { font-size: 20px; line-height: 1; }
+.tab-label { font-size: 10px; font-family: var(--ff); letter-spacing: .01em; }
+.tab-badge {
+  position: absolute; top: 4px; right: calc(50% - 18px);
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--red); border: 1.5px solid var(--s1);
+}
+
+/* ── VIEWS ── */
+.view { display: none; padding: 16px; }
+.view.on { display: block; }
+.view-pad { padding-bottom: 20px; }
+
+/* ── INSTALL PROMPT ── */
+.install-card {
+  background: linear-gradient(135deg, var(--cD), var(--s2));
+  border: 0.5px solid var(--cyan); border-radius: 16px;
+  padding: 18px; margin-bottom: 16px;
+}
+.ic-title { font-family: var(--fd); font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+.ic-body { font-size: 13px; color: var(--t2); line-height: 1.65; margin-bottom: 14px; }
+.ic-steps { display: flex; flex-direction: column; gap: 10px; }
+.ic-step { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+.ic-num {
+  width: 22px; height: 22px; border-radius: 50%; background: var(--cD);
+  border: 0.5px solid var(--cyan); color: var(--cyan);
+  font-size: 11px; font-weight: 700; font-family: var(--fm);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.ic-share { display: inline-block; background: var(--cD); color: var(--cyan); border-radius: 5px; padding: 1px 6px; font-size: 13px; }
+
+/* ── HERO ── */
+.hero { text-align: center; padding: 32px 16px 24px; }
+.hero-logo { font-family: var(--fd); font-size: 36px; font-weight: 800; color: var(--cyan); letter-spacing: .06em; margin-bottom: 4px; }
+.hero-tag { font-size: 10px; font-family: var(--fm); color: var(--t3); text-transform: uppercase; letter-spacing: .12em; margin-bottom: 14px; }
+.hero-sub { font-size: 14px; color: var(--t2); line-height: 1.7; margin-bottom: 20px; }
+.hero-step { display: flex; align-items: flex-start; gap: 12px; background: var(--s1); border: 0.5px solid var(--b1); border-radius: 14px; padding: 14px; margin-bottom: 8px; text-align: left; }
+.hs-num { width: 22px; height: 22px; border-radius: 50%; background: var(--cD); border: 0.5px solid var(--cyan); color: var(--cyan); font-size: 10px; font-weight: 700; font-family: var(--fm); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.hs-t { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+.hs-s { font-size: 12px; color: var(--t2); }
+
+/* ── UPLOAD ── */
+.upload-zone {
+  border: 1.5px dashed var(--b2); border-radius: 16px;
+  padding: 28px 20px; text-align: center; cursor: pointer;
+  transition: all .18s; margin-bottom: 12px; background: transparent;
+  width: 100%;
+}
+.upload-zone:active { background: var(--cD); border-color: var(--cyan); }
+.uz-icon { font-size: 32px; color: var(--t3); margin-bottom: 10px; }
+.uz-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+.uz-sub { font-size: 12px; color: var(--t2); margin-bottom: 6px; }
+.uz-types { font-size: 10px; color: var(--t3); font-family: var(--fm); letter-spacing: .04em; }
+#file-input { display: none; }
+
+/* ── FILE LIST ── */
+.file-item {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--s1); border: 0.5px solid var(--b1); border-radius: 12px;
+  padding: 12px; margin-bottom: 8px; cursor: pointer;
+  transition: background .1s; -webkit-tap-highlight-color: transparent;
+}
+.file-item:active { background: var(--s2); }
+.fi-badge { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; font-family: var(--fm); flex-shrink: 0; }
+.fi-info { flex: 1; min-width: 0; }
+.fi-name { font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
+.fi-meta { font-size: 11px; color: var(--t3); font-family: var(--fm); }
+.fi-status { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── ANALYSE BUTTON ── */
+.analyse-btn {
+  width: 100%; padding: 16px; border-radius: 14px; border: none;
+  background: var(--cyan); color: #04080F; font-family: var(--fd);
+  font-size: 16px; font-weight: 700; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-bottom: 12px; transition: all .15s;
+  -webkit-tap-highlight-color: transparent; min-height: 56px;
+}
+.analyse-btn:active { background: #00AED4; transform: scale(.98); }
+.analyse-btn:disabled { background: var(--s3); color: var(--t3); }
+
+/* ── CARDS ── */
+.card { background: var(--s1); border: 0.5px solid var(--b1); border-radius: 16px; padding: 16px; margin-bottom: 12px; }
+
+/* ── METRICS ── */
+.metrics-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.metric { background: var(--s1); border: 0.5px solid var(--b1); border-radius: 14px; padding: 14px; }
+.metric.accent { border-color: var(--cyan); background: var(--cD); }
+.metric.warn { border-color: var(--amber); }
+.ml { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; font-family: var(--fm); color: var(--t3); margin-bottom: 6px; }
+.mv { font-family: var(--fd); font-size: 24px; font-weight: 700; }
+.md { font-size: 10px; color: var(--t3); margin-top: 3px; font-family: var(--fm); }
+
+/* ── INSIGHT CARDS ── */
+.insight {
+  border-left: 3px solid var(--cyan); background: var(--s1);
+  border: 0.5px solid var(--b1); border-left: 3px solid var(--cyan);
+  border-radius: 14px; padding: 14px; margin-bottom: 10px;
+  animation: up .3s ease both;
+}
+.i-type { font-size: 9px; text-transform: uppercase; letter-spacing: .15em; font-family: var(--fm); margin-bottom: 5px; }
+.i-title { font-size: 14px; font-weight: 600; margin-bottom: 6px; line-height: 1.4; }
+.i-body { font-size: 13px; color: var(--t2); line-height: 1.7; }
+.i-foot { display: flex; align-items: center; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.i-src { font-size: 10px; color: var(--t3); font-family: var(--fm); }
+
+/* ── TAGS ── */
+.tag { display: inline-flex; align-items: center; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-family: var(--fm); font-weight: 500; }
+.tc { background: var(--cD); color: var(--cyan); }
+.tg { background: var(--gD); color: var(--green); }
+.ta { background: var(--aD); color: var(--amber); }
+.tr { background: var(--rD); color: var(--red); }
+.tp { background: var(--pD); color: var(--purple); }
+.tgo { background: var(--goD); color: var(--gold); }
+
+/* ── QUERY BOX ── */
+.qbox {
+  background: var(--s1); border: 0.5px solid var(--b1); border-radius: 16px;
+  padding: 14px; margin-bottom: 14px; display: flex; gap: 10px; align-items: flex-end;
+}
+.qi {
+  flex: 1; background: transparent; border: none; color: var(--t1);
+  font-family: var(--ff); font-size: 15px; outline: none; resize: none;
+  line-height: 1.5; min-height: 40px; max-height: 120px;
+}
+.qi::placeholder { color: var(--t3); }
+.q-send {
+  width: 40px; height: 40px; border-radius: 12px; border: none;
+  background: var(--cyan); color: #04080F; font-size: 18px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; flex-shrink: 0; -webkit-tap-highlight-color: transparent;
+}
+.q-send:active { background: #00AED4; }
+.q-send:disabled { background: var(--s3); color: var(--t3); }
+
+/* ── SECTION HEADER ── */
+.sh { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.sh-t { font-family: var(--fd); font-size: 16px; font-weight: 700; }
+.sh-s { font-size: 11px; color: var(--t3); font-family: var(--fm); }
+
+/* ── TABLE ── */
+.tbl { width: 100%; border-collapse: collapse; }
+.tbl th { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(--t3); font-family: var(--fm); padding: 8px 10px; text-align: left; border-bottom: 0.5px solid var(--b1); font-weight: 400; }
+.tbl td { padding: 10px; border-bottom: 0.5px solid var(--b1); font-size: 13px; vertical-align: middle; }
+.tbl tr:last-child td { border-bottom: none; }
+
+/* ── PRIORITIES ── */
+.priority-item { display: flex; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid var(--b1); align-items: flex-start; }
+.priority-item:last-child { border-bottom: none; }
+.p-num { font-family: var(--fm); font-size: 12px; color: var(--gold); min-width: 24px; margin-top: 1px; }
+
+/* ── BUTTONS ── */
+.btn {
+  padding: 10px 16px; border-radius: 10px; border: 0.5px solid var(--b2);
+  background: transparent; color: var(--t2); font-family: var(--ff);
+  font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+  -webkit-tap-highlight-color: transparent; min-height: 44px;
+}
+.btn:active { background: var(--s2); }
+.btn-p { background: var(--cyan); border-color: var(--cyan); color: #04080F; font-weight: 600; }
+.btn-p:active { background: #00AED4; }
+
+/* ── REPORT ── */
+.report-body h2 { font-family: var(--fd); font-size: 18px; font-weight: 700; color: var(--t1); margin: 20px 0 8px; padding-bottom: 8px; border-bottom: 0.5px solid var(--b1); }
+.report-body h3 { font-size: 11px; color: var(--cyan); font-family: var(--fm); text-transform: uppercase; letter-spacing: .12em; margin: 14px 0 6px; }
+.report-body p { font-size: 14px; color: var(--t2); line-height: 1.8; margin-bottom: 10px; }
+.report-body li { font-size: 14px; color: var(--t2); line-height: 1.75; margin-bottom: 4px; }
+.report-body ul { padding-left: 18px; margin-bottom: 10px; }
+.report-body strong { color: var(--t1); font-weight: 600; }
+
+/* ── LOADING DOTS ── */
+.dots span { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--cyan); margin: 0 2px; animation: bounce .75s ease infinite; }
+.dots span:nth-child(2) { animation-delay: .15s; }
+.dots span:nth-child(3) { animation-delay: .30s; }
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+@keyframes up { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── PROCESSING ── */
+.processing { text-align: center; padding: 48px 24px; }
+.proc-title { font-family: var(--fd); font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+.proc-sub { font-size: 14px; color: var(--t2); margin-bottom: 24px; }
+.prog-bar { height: 4px; background: var(--s3); border-radius: 4px; overflow: hidden; }
+.prog-fill { height: 100%; background: var(--cyan); border-radius: 4px; transition: width .5s ease; }
+.prog-file { font-size: 11px; color: var(--t3); font-family: var(--fm); margin-top: 8px; }
+
+/* ── TOASTS ── */
+.toast-wrap { position: fixed; top: calc(var(--safe-top) + 60px); left: 16px; right: 16px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
+.toast { background: var(--s2); border: 0.5px solid var(--b2); border-radius: 12px; padding: 12px 16px; font-size: 13px; display: flex; gap: 8px; align-items: center; animation: up .25s ease; pointer-events: auto; box-shadow: 0 8px 32px rgba(0,0,0,.4); }
+.tok { border-left: 2px solid var(--green); }
+.toi { border-left: 2px solid var(--cyan); }
+.tow { border-left: 2px solid var(--amber); }
+
+/* ── MODAL ── */
+.modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 9000; display: flex; align-items: flex-end; justify-content: center; }
+.modal { background: var(--s1); border-radius: 24px 24px 0 0; padding: 20px 20px calc(20px + var(--safe-bot)); width: 100%; max-height: 80vh; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+.modal-handle { width: 36px; height: 4px; background: var(--b2); border-radius: 2px; margin: 0 auto 16px; }
+.modal-title { font-family: var(--fd); font-size: 17px; font-weight: 700; margin-bottom: 14px; }
+
+/* ── FORM ── */
+select, textarea, input[type=text] {
+  background: var(--s2); border: 0.5px solid var(--b2); border-radius: 12px;
+  color: var(--t1); font-family: var(--ff); padding: 12px 14px;
+  font-size: 15px; outline: none; width: 100%; appearance: none;
+}
+select { cursor: pointer; }
+textarea { resize: none; }
+.form-label { font-size: 11px; color: var(--t3); font-family: var(--fm); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 6px; margin-top: 14px; }
+
+/* ── EMPTY STATE ── */
+.empty { text-align: center; padding: 48px 24px; color: var(--t3); }
+.empty-icon { font-size: 40px; margin-bottom: 12px; opacity: .4; }
+.empty-text { font-size: 14px; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- Status bar spacer (fills iPhone notch area) -->
+  <div class="status-bar"></div>
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <div>
+      <div class="tb-logo">SCENTS</div>
+    </div>
+    <div class="tb-actions">
+      <div style="font-size:10px;color:var(--t3);font-family:var(--fm)" id="file-count-top"></div>
+      <button class="tb-btn" onclick="openUploadModal()" title="Add files">+</button>
+      <button class="tb-btn primary" onclick="analyseAll()" id="analyse-top-btn" style="display:none">Analyse</button>
+    </div>
+  </div>
+
+  <!-- Scrollable content -->
+  <div class="scroll" id="scroll-area">
+
+    <!-- HOME -->
+    <div class="view on view-pad" id="view-home">
+
+      <!-- Install prompt (shown if not already installed) -->
+      <div class="install-card" id="install-card" style="display:none">
+        <div class="ic-title">Add to Home Screen</div>
+        <div class="ic-body">Install SCENTS as an app — no App Store needed. Opens full-screen like a native app.</div>
+        <div class="ic-steps">
+          <div class="ic-step"><div class="ic-num">1</div><span>Tap <span class="ic-share">⎙ Share</span> at the bottom of Safari</span></div>
+          <div class="ic-step"><div class="ic-num">2</div><span>Scroll down → tap <strong>Add to Home Screen</strong></span></div>
+          <div class="ic-step"><div class="ic-num">3</div><span>Tap <strong>Add</strong> — done, SCENTS is on your home screen</span></div>
+        </div>
+        <button class="btn btn-p" style="margin-top:14px;width:100%;justify-content:center;font-size:14px" onclick="dismissInstall()">Got it</button>
+      </div>
+
+      <!-- Dashboard (shown after analysis) -->
+      <div id="home-dashboard" style="display:none">
+        <div class="metrics-row" id="metrics-grid"></div>
+        <div class="qbox">
+          <textarea class="qi" id="main-q" placeholder="Ask anything about your files…" rows="2"></textarea>
+          <button class="q-send" id="main-send" onclick="runQ('main-q','main-result')">↑</button>
+        </div>
+        <div id="main-result"></div>
+        <div class="sh"><div class="sh-t">Intelligence</div><span class="tag tc">Live</span></div>
+        <div id="home-insights"></div>
+      </div>
+
+      <!-- Hero (shown before analysis) -->
+      <div id="home-hero">
+        <div class="hero">
+          <div class="hero-logo">SCENTS</div>
+          <div class="hero-tag">Personal Intelligence · EKN Consulting</div>
+          <div class="hero-sub">Your files. Your intelligence. Proposals, spreadsheets, emails — analysed and turned into insights personal to you.</div>
+          <div class="hero-step"><div class="hs-num">1</div><div><div class="hs-t">Tap + to add files</div><div class="hs-s">Pick from iCloud Drive, Files app, or anywhere on your iPhone.</div></div></div>
+          <div class="hero-step"><div class="hs-num">2</div><div><div class="hs-t">Tap Analyse</div><div class="hs-s">SCENTS reads everything and builds your personal intelligence corpus.</div></div></div>
+          <div class="hero-step"><div class="hs-num">3</div><div><div class="hs-t">Get insights</div><div class="hs-s">Opportunities, risks, clients, financials — ask anything.</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROCESSING -->
+    <div class="view view-pad" id="view-processing">
+      <div class="processing">
+        <div class="dots" style="display:flex;justify-content:center;margin-bottom:20px"><span></span><span></span><span></span></div>
+        <div class="proc-title" id="proc-title">Extracting…</div>
+        <div class="proc-sub" id="proc-sub">Reading your files</div>
+        <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+        <div class="prog-file" id="prog-file">—</div>
+      </div>
+    </div>
+
+    <!-- INSIGHTS -->
+    <div class="view view-pad" id="view-insights">
+      <div class="qbox">
+        <textarea class="qi" id="ins-q" placeholder="Deep analysis… compare projects, identify gaps, strategic priorities…" rows="2"></textarea>
+        <button class="q-send" onclick="runQ('ins-q','ins-result')">↑</button>
+      </div>
+      <div id="ins-result"></div>
+      <div class="sh"><div class="sh-t">All Insights</div></div>
+      <div id="insights-list"><div class="empty"><div class="empty-icon">✦</div><div class="empty-text">Analyse your files to generate insights</div></div></div>
+    </div>
+
+    <!-- OPPORTUNITIES -->
+    <div class="view view-pad" id="view-opps">
+      <div class="sh"><div class="sh-t">Opportunities</div><span class="tag tgo">From your files</span></div>
+      <div id="opps-list"><div class="empty"><div class="empty-icon">⬡</div><div class="empty-text">Load and analyse files to extract opportunities</div></div></div>
+    </div>
+
+    <!-- RISKS -->
+    <div class="view view-pad" id="view-risks">
+      <div class="sh"><div class="sh-t">Risks & Deadlines</div><span class="tag tr" id="risk-count"></span></div>
+      <div id="risks-list"><div class="empty"><div class="empty-icon">⚠</div><div class="empty-text">Load documents to extract risk flags</div></div></div>
+    </div>
+
+    <!-- FILES -->
+    <div class="view view-pad" id="view-files">
+      <div class="sh"><div class="sh-t">Your Files</div><div class="sh-s" id="files-sub">—</div></div>
+
+      <!-- Upload zone -->
+      <button class="upload-zone" onclick="openFilePicker()">
+        <div class="uz-icon">⊕</div>
+        <div class="uz-title">Add Files</div>
+        <div class="uz-sub">Tap to pick from iCloud Drive or Files app</div>
+        <div class="uz-types">PDF · DOCX · XLSX · CSV · PPTX · EML · TXT · IMG</div>
+      </button>
+      <input type="file" id="file-input" multiple
+        accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.pptx,.eml,.msg,.txt,.png,.jpg,.jpeg,.gif,.webp">
+
+      <button class="analyse-btn" id="analyse-btn" disabled onclick="analyseAll()">✦ Analyse All</button>
+      <div id="file-list"></div>
+    </div>
+
+    <!-- REPORT -->
+    <div class="view view-pad" id="view-report">
+      <div class="sh"><div class="sh-t">Report Builder</div></div>
+      <div class="card">
+        <div class="form-label" style="margin-top:0">Report Type</div>
+        <select id="rpt-type">
+          <option>Personal Intelligence Summary</option>
+          <option>Client Briefing</option>
+          <option>Opportunity Pipeline</option>
+          <option>Risk & Compliance Review</option>
+          <option>Financial Analysis</option>
+          <option>Weekly Consulting Brief</option>
+          <option>Investor Update</option>
+        </select>
+        <div class="form-label">Focus / Client</div>
+        <input type="text" id="rpt-focus" placeholder="e.g. Mulika VPP, BIPOLAR™, Safaricom Land…">
+        <div class="form-label">Additional Context</div>
+        <textarea id="rpt-ctx" rows="3" placeholder="Specific questions, angles, audience…"></textarea>
+        <button class="btn btn-p" onclick="generateReport()" style="width:100%;justify-content:center;margin-top:16px;font-size:15px;min-height:52px">✦ Generate with AI</button>
+      </div>
+      <div id="report-out" style="display:none">
+        <div class="card"><div id="report-content" class="report-body"></div></div>
+        <button class="btn" onclick="shareReport()" style="width:100%;justify-content:center;margin-top:8px">⎙ Share Report</button>
+      </div>
+    </div>
+
+  </div><!-- /scroll -->
+
+  <!-- Bottom tab bar -->
+  <div class="tabbar">
+    <button class="tab on" id="tab-home" onclick="switchTab('home')">
+      <span class="tab-icon">◈</span>
+      <span class="tab-label">Home</span>
+    </button>
+    <button class="tab" id="tab-insights" onclick="switchTab('insights')">
+      <span class="tab-icon">✦</span>
+      <span class="tab-label">Insights</span>
+    </button>
+    <button class="tab" id="tab-opps" onclick="switchTab('opps')">
+      <span class="tab-icon">⬡</span>
+      <span class="tab-label">Opps</span>
+    </button>
+    <button class="tab" id="tab-risks" onclick="switchTab('risks')" style="position:relative">
+      <span class="tab-icon">⚠</span>
+      <span class="tab-label">Risks</span>
+      <span class="tab-badge" id="risk-badge" style="display:none"></span>
+    </button>
+    <button class="tab" id="tab-files" onclick="switchTab('files')">
+      <span class="tab-icon">▤</span>
+      <span class="tab-label">Files</span>
+    </button>
+    <button class="tab" id="tab-report" onclick="switchTab('report')">
+      <span class="tab-icon">≡</span>
+      <span class="tab-label">Report</span>
+    </button>
+  </div>
+
+</div><!-- /shell -->
+
+<!-- Upload modal -->
+<div id="upload-modal" style="display:none">
+  <div class="modal-bg" onclick="closeUploadModal()">
+    <div class="modal" onclick="e=>e.stopPropagation()">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Add Files</div>
+      <button class="upload-zone" onclick="openFilePicker();closeUploadModal()">
+        <div class="uz-icon">⊕</div>
+        <div class="uz-title">Choose from Files / iCloud Drive</div>
+        <div class="uz-sub">PDF, Excel, Word, email, images</div>
+        <div class="uz-types">PDF · DOCX · XLSX · CSV · PPTX · EML · TXT · IMG</div>
+      </button>
+      <button class="btn" style="width:100%;justify-content:center" onclick="closeUploadModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div class="toast-wrap" id="toasts"></div>
+
+<script>
+// ── STATE ──────────────────────────────────────────────
+const S = {
+  files:[], corpus:'', analysed:false,
+  summary:{}, insights:[], opps:[], risks:[], clients:[], financials:[], weekly:[], rQ:[]
+};
+
+// ── SERVICE WORKER ──────────────────────────────────────
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+
+// ── INSTALL PROMPT ──────────────────────────────────────
+window.addEventListener('load', () => {
+  const isStandalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
+  const dismissed = localStorage.getItem('ios-ib');
+  if (!isStandalone && !dismissed) document.getElementById('install-card').style.display = '';
+});
+function dismissInstall() {
+  document.getElementById('install-card').style.display = 'none';
+  localStorage.setItem('ios-ib', '1');
+}
+
+// ── TOAST ──────────────────────────────────────────────
+function toast(msg, type='info') {
+  const w = document.getElementById('toasts'), el = document.createElement('div');
+  el.className = 'toast to' + type[0];
+  const ic = {ok:'✓', info:'◈', warn:'⚠'}, cc = {ok:'var(--green)', info:'var(--cyan)', warn:'var(--amber)'};
+  el.innerHTML = `<span style="color:${cc[type]}">${ic[type]}</span><span>${msg}</span>`;
+  w.appendChild(el);
+  setTimeout(() => { el.style.opacity='0'; el.style.transition='opacity .3s'; }, 3000);
+  setTimeout(() => el.remove(), 3400);
+}
+
+// ── NAVIGATION ──────────────────────────────────────────
+function switchTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('on'));
+  document.getElementById('tab-' + id).classList.add('on');
+  document.getElementById('view-' + id).classList.add('on');
+  document.getElementById('scroll-area').scrollTo(0, 0);
+}
+
+// ── FILE TYPE MAP ───────────────────────────────────────
+const TM = {
+  pdf:{c:'#FF3A5C',bg:'rgba(255,58,92,0.18)',l:'PDF'},
+  docx:{c:'#00C8F0',bg:'rgba(0,200,240,0.18)',l:'DOC'},doc:{c:'#00C8F0',bg:'rgba(0,200,240,0.18)',l:'DOC'},
+  xlsx:{c:'#00D67A',bg:'rgba(0,214,122,0.18)',l:'XLS'},xls:{c:'#00D67A',bg:'rgba(0,214,122,0.18)',l:'XLS'},
+  csv:{c:'#00D67A',bg:'rgba(0,214,122,0.18)',l:'CSV'},
+  pptx:{c:'#F5A800',bg:'rgba(245,168,0,0.18)',l:'PPT'},ppt:{c:'#F5A800',bg:'rgba(245,168,0,0.18)',l:'PPT'},
+  eml:{c:'#9B72FF',bg:'rgba(155,114,255,0.18)',l:'EML'},msg:{c:'#9B72FF',bg:'rgba(155,114,255,0.18)',l:'MSG'},
+  txt:{c:'#7080A0',bg:'rgba(112,128,160,0.18)',l:'TXT'},
+  png:{c:'#E8C200',bg:'rgba(232,194,0,0.18)',l:'IMG'},jpg:{c:'#E8C200',bg:'rgba(232,194,0,0.18)',l:'IMG'},
+  jpeg:{c:'#E8C200',bg:'rgba(232,194,0,0.18)',l:'IMG'},gif:{c:'#E8C200',bg:'rgba(232,194,0,0.18)',l:'IMG'},
+  webp:{c:'#E8C200',bg:'rgba(232,194,0,0.18)',l:'IMG'}
+};
+const gx = n => n.split('.').pop().toLowerCase();
+const ti = e => TM[e] || {c:'#7080A0', bg:'rgba(112,128,160,0.18)', l:e.toUpperCase().slice(0,3)};
+const fmtB = b => b<1024?b+'B':b<1048576?(b/1024).toFixed(1)+'KB':(b/1048576).toFixed(1)+'MB';
+const esc = s => (s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'&quot;').slice(0,180);
+
+// ── FILE PICKER ─────────────────────────────────────────
+function openFilePicker() {
+  const inp = document.getElementById('file-input');
+  inp.value = '';
+  inp.click();
+}
+function openUploadModal() { document.getElementById('upload-modal').style.display = ''; }
+function closeUploadModal() { document.getElementById('upload-modal').style.display = 'none'; }
+
+document.getElementById('file-input').addEventListener('change', function() {
+  if (this.files && this.files.length) addFiles(this.files);
+});
+
+// ── ADD FILES ───────────────────────────────────────────
+function addFiles(list) {
+  let added = 0;
+  Array.from(list).forEach(f => {
+    if (S.files.find(x => x.name===f.name && x.size===f.size)) return;
+    S.files.push({ file:f, name:f.name, size:f.size, ext:gx(f.name), text:'', status:'pending', topics:[] });
+    added++;
+  });
+  if (!added) { toast('Already added', 'warn'); return; }
+  renderFileList();
+  updateTopBar();
+  document.getElementById('analyse-btn').disabled = false;
+  toast(added + ' file' + (added>1?'s':'') + ' added', 'info');
+  // Switch to files tab to show them
+  switchTab('files');
+}
+
+function renderFileList() {
+  const el = document.getElementById('file-list');
+  el.innerHTML = '';
+  if (!S.files.length) return;
+  S.files.forEach((f, i) => {
+    const t = ti(f.ext);
+    const sc = f.status==='done'?'var(--green)':f.status==='processing'?'var(--cyan)':f.status==='error'?'var(--red)':'var(--t3)';
+    const d = document.createElement('div');
+    d.className = 'file-item';
+    d.innerHTML = `
+      <div class="fi-badge" style="background:${t.bg};color:${t.c}">${t.l}</div>
+      <div class="fi-info">
+        <div class="fi-name">${f.name}</div>
+        <div class="fi-meta">${fmtB(f.size)} · ${f.status}</div>
+      </div>
+      <div class="fi-status" style="background:${sc}"></div>`;
+    d.onclick = () => viewFile(i);
+    el.appendChild(d);
+  });
+}
+
+function updateTopBar() {
+  const n = S.files.length;
+  document.getElementById('file-count-top').textContent = n ? n + ' file' + (n>1?'s':'') : '';
+  document.getElementById('analyse-top-btn').style.display = n ? '' : 'none';
+  document.getElementById('files-sub').textContent = n + ' file' + (n>1?'s':'') + ' · ' + S.files.filter(f=>f.status==='done').length + ' indexed';
+}
+
+// ── FILE EXTRACTION ─────────────────────────────────────
+async function extractFile(f) {
+  const { file:fl, ext:e } = f;
+  try {
+    if (['txt','eml','msg','csv'].includes(e)) return await fl.text();
+    if (['docx','doc'].includes(e)) {
+      try { const ab=await fl.arrayBuffer(); const r=await mammoth.extractRawText({arrayBuffer:ab}); return r.value||''; }
+      catch { return await fl.text().catch(()=>''); }
+    }
+    if (['xlsx','xls'].includes(e)) {
+      const ab=await fl.arrayBuffer(); const wb=XLSX.read(ab,{type:'array'});
+      return wb.SheetNames.map(sn=>'=== '+sn+' ===\n'+XLSX.utils.sheet_to_csv(wb.Sheets[sn])).join('\n\n');
+    }
+    if (['png','jpg','jpeg','gif','webp'].includes(e)) return '[IMAGE: '+f.name+' · '+fmtB(f.size)+']';
+    if (e==='pptx') return '[PPTX: '+f.name+' · save as PDF for full extraction]';
+    return await fl.text().catch(()=>'[Binary: '+f.name+']');
+  } catch(err) { return '[Error: '+f.name+': '+err.message+']'; }
+}
+
+function quickTopics(txt) {
+  return ['investment','revenue','client','proposal','risk','deadline','contract','payment','budget','project','funding','KES','USD','million','strategy','investor']
+    .filter(k=>txt.toLowerCase().includes(k)).slice(0,4);
+}
+
+// ── ANALYSE ─────────────────────────────────────────────
+async function analyseAll() {
+  if (!S.files.length) { toast('Add files first', 'warn'); return; }
+  document.getElementById('view-home').classList.remove('on');
+  switchTab('home');
+  document.getElementById('view-home').classList.remove('on');
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+  document.getElementById('view-processing').classList.add('on');
+  document.getElementById('tab-home').classList.add('on');
+  document.getElementById('analyse-btn').disabled = true;
+  document.getElementById('analyse-top-btn').style.display = 'none';
+
+  for (let i=0; i<S.files.length; i++) {
+    const f = S.files[i];
+    f.status = 'processing';
+    document.getElementById('proc-title').textContent = 'Extracting ' + (i+1) + ' of ' + S.files.length;
+    document.getElementById('proc-sub').textContent = f.name;
+    document.getElementById('prog-file').textContent = f.ext.toUpperCase() + ' · ' + fmtB(f.size);
+    document.getElementById('prog-fill').style.width = (i/S.files.length*60) + '%';
+    renderFileList();
+    f.text = await extractFile(f);
+    f.topics = quickTopics(f.text);
+    f.status = 'done';
+    renderFileList();
+  }
+
+  document.getElementById('proc-title').textContent = 'Running AI analysis…';
+  document.getElementById('proc-sub').textContent = 'Building your personal intelligence';
+  document.getElementById('prog-fill').style.width = '75%';
+
+  S.corpus = S.files.map(f=>'\n\n===FILE: '+f.name+' ('+f.ext.toUpperCase()+')===\n'+f.text).join('');
+  await runAIAnalysis();
+
+  document.getElementById('prog-fill').style.width = '100%';
+  S.analysed = true;
+  document.getElementById('analyse-btn').disabled = false;
+  document.getElementById('analyse-btn').textContent = '✦ Re-Analyse';
+  updateTopBar();
+  buildMetrics();
+  renderAll();
+
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+  document.getElementById('view-home').classList.add('on');
+  document.getElementById('home-hero').style.display = 'none';
+  document.getElementById('home-dashboard').style.display = '';
+  toast('Analysis complete', 'ok');
+}
+
+// ── CLAUDE API ──────────────────────────────────────────
+async function claude(sys, usr, tok) {
+  tok = tok || 4000;
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: tok,
+      system: sys,
+      messages: [{ role:'user', content:usr }]
+    })
+  });
+  const d = await res.json();
+  if (d.error) throw new Error(d.error.message);
+  return d.content[0].text;
+}
+
+function extractJSON(raw) {
+  let s = raw.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim();
+  const start = s.indexOf('{'), end = s.lastIndexOf('}');
+  if (start===-1||end===-1||end<=start) throw new Error('No JSON found');
+  s = s.slice(start, end+1);
+  try { return JSON.parse(s); } catch(_) {}
+  let inStr=false, escape=false; const closers=[];
+  for (let i=0; i<s.length; i++) {
+    const c=s[i];
+    if (escape){escape=false;continue;}
+    if (c==='\\'&&inStr){escape=true;continue;}
+    if (c==='"'){inStr=!inStr;continue;}
+    if (inStr) continue;
+    if (c==='{') closers.push('}');
+    else if (c==='[') closers.push(']');
+    else if (c==='}') closers.pop();
+    else if (c===']') closers.pop();
+  }
+  const repaired = s.replace(/,\s*$/,'') + closers.reverse().join('');
+  try { return JSON.parse(repaired); } catch(e2) { throw new Error('JSON repair failed: '+e2.message); }
+}
+
+async function runAIAnalysis() {
+  const corpusForAI = S.files.map(f=>'\n\n===FILE: '+f.name+' ('+f.ext.toUpperCase()+')===\n'+f.text.slice(0,3000)).join('').slice(0,12000);
+  const sys = `You are SCENTS, personal intelligence platform for Edward Karua Njoka (Edd), founder of EKN Consulting International Ltd, Nairobi, Kenya. Analyse his personal files and return ONLY a valid JSON object.
+
+Return exactly this structure (no markdown, no fences, nothing before or after):
+{"summary":{"projects":0,"clients":0,"totalValue":"KES X","urgentItems":0},"insights":[{"type":"opportunity","title":"string","body":"2 sentences","confidence":0.8,"source":"filename"}],"opportunities":[{"title":"string","description":"string","value":"string","source":"filename","priority":"high"}],"risks":[{"title":"string","description":"string","severity":"high","source":"filename","deadline":"unknown"}],"clients":[{"name":"string","status":"string","lastActivity":"string","nextAction":"string","value":"string"}],"financials":[{"label":"string","value":"string","direction":"up","source":"filename"}],"weeklyPriorities":["string","string","string"]}
+
+Rules: type=opportunity|risk|financial|client|deadline · priority=high|medium|low · severity=high|medium|low · direction=up|down|neutral · Max 5 insights, 3 opps, 4 risks, 4 clients, 4 financials · Reference EKN projects if present: Mulika VPP, BIPOLAR, Scents, Safaricom Land, WISMO, MDMC · Return ONLY JSON.`;
+  try {
+    const raw = await claude(sys, 'Analyse:\n' + corpusForAI, 4000);
+    const data = extractJSON(raw);
+    S.summary=data.summary||{}; S.insights=(data.insights||[]).filter(x=>x&&x.title);
+    S.opps=(data.opportunities||[]).filter(x=>x&&x.title); S.risks=(data.risks||[]).filter(x=>x&&x.title);
+    S.clients=(data.clients||[]).filter(x=>x&&x.name); S.financials=(data.financials||[]).filter(x=>x&&x.label);
+    S.weekly=data.weeklyPriorities||[];
+    if (S.risks.filter(r=>r.severity==='high').length>0) {
+      document.getElementById('risk-badge').style.display='';
+      document.getElementById('risk-count').textContent = S.risks.filter(r=>r.severity==='high').length + ' high';
+    }
+  } catch(e) {
+    console.error(e);
+    toast('Parse error — showing summary mode', 'warn');
+    try {
+      const fb = await claude('You are SCENTS. Give a brief intelligence summary for Edd (EKN Consulting) covering top opportunities, risks, and priorities. Be specific to file content.','Files:\n'+corpusForAI.slice(0,8000),1200);
+      S.insights=[{type:'client',title:'Intelligence Summary',body:fb.slice(0,600),confidence:0.85,source:'All files'}];
+    } catch(e2) {
+      S.insights=[{type:'risk',title:'Connection error',body:'Check your internet connection and try again. Error: '+e2.message,confidence:0,source:'system'}];
+    }
+  }
+}
+
+// ── METRICS ────────────────────────────────────────────
+function buildMetrics() {
+  const s = S.summary;
+  document.getElementById('metrics-grid').innerHTML = [
+    {l:'Projects',v:s.projects||S.files.length,d:'In corpus'},
+    {l:'Clients',v:s.clients||'—',d:'Identified',},
+    {l:'Value Signal',v:s.totalValue||'—',d:'Across files',a:true},
+    {l:'Urgent',v:s.urgentItems||S.risks.filter(r=>r.severity==='high').length,d:'Risks & deadlines',w:true}
+  ].map(m=>`<div class="metric ${m.a?'accent':''}${m.w&&m.v>0?' warn':''}">
+    <div class="ml">${m.l}</div>
+    <div class="mv" style="${m.a?'color:var(--cyan)':''}${m.w&&m.v>0?';color:var(--amber)':''}">${m.v}</div>
+    <div class="md">${m.d}</div>
+  </div>`).join('');
+}
+
+// ── RENDER ─────────────────────────────────────────────
+const TCFG = {
+  opportunity:{c:'var(--gold)',tag:'tgo',l:'Opportunity'},
+  risk:{c:'var(--red)',tag:'tr',l:'Risk'},
+  financial:{c:'var(--green)',tag:'tg',l:'Financial'},
+  client:{c:'var(--cyan)',tag:'tc',l:'Client'},
+  deadline:{c:'var(--amber)',tag:'ta',l:'Deadline'}
+};
+
+function iCard(ins, i, delay) {
+  const cfg = TCFG[ins.type]||TCFG.client;
+  return `<div class="insight" style="border-left-color:${cfg.c};animation-delay:${(delay||i)*.07}s">
+    <div class="i-type" style="color:${cfg.c}">✦ ${cfg.l}</div>
+    <div class="i-title">${ins.title}</div>
+    <div class="i-body">${ins.body}</div>
+    <div class="i-foot"><span class="tag ${cfg.tag}">${Math.round((ins.confidence||0)*100)}%</span><span class="i-src">${ins.source}</span></div>
+  </div>`;
+}
+
+function renderAll() {
+  // Home insights + weekly priorities
+  const hi = document.getElementById('home-insights');
+  let html = '';
+  if (S.weekly.length) {
+    html += `<div class="card" style="margin-bottom:12px;border-color:var(--gold)">
+      <div class="sh"><div class="sh-t" style="color:var(--gold)">★ This Week</div><span class="tag tgo">AI</span></div>
+      ${S.weekly.map((p,i)=>`<div class="priority-item"><span class="p-num">#${i+1}</span><span style="font-size:14px">${p}</span></div>`).join('')}
+    </div>`;
+  }
+  html += S.insights.map((ins,i)=>iCard(ins,i)).join('');
+  hi.innerHTML = html || '<div class="empty"><div class="empty-icon">✦</div><div class="empty-text">No insights yet</div></div>';
+
+  // Insights tab
+  document.getElementById('insights-list').innerHTML = S.insights.length
+    ? S.insights.map((ins,i)=>iCard(ins,i)).join('') : '<div class="empty"><div class="empty-icon">✦</div><div class="empty-text">No insights extracted</div></div>';
+
+  // Opps
+  const PC={high:'var(--gold)',medium:'var(--cyan)',low:'var(--t2)'};
+  const PT={high:'tgo',medium:'tc',low:''};
+  document.getElementById('opps-list').innerHTML = S.opps.length
+    ? S.opps.map((o,i)=>`<div class="insight" style="border-left-color:${PC[o.priority]};animation-delay:${i*.07}s">
+        <div class="i-type" style="color:${PC[o.priority]}">⬡ ${(o.priority||'').toUpperCase()}</div>
+        <div class="i-title">${o.title}</div>
+        <div class="i-body">${o.description}</div>
+        <div class="i-foot"><span class="tag ${PT[o.priority]}">${o.value}</span><span class="i-src">${o.source}</span></div>
+      </div>`).join('')
+    : '<div class="empty"><div class="empty-icon">⬡</div><div class="empty-text">No opportunities found</div></div>';
+
+  // Risks
+  const SC={high:'var(--red)',medium:'var(--amber)',low:'var(--t2)'};
+  const ST={high:'tr',medium:'ta',low:''};
+  document.getElementById('risks-list').innerHTML = S.risks.length
+    ? S.risks.map((r,i)=>`<div class="insight" style="border-left-color:${SC[r.severity]};animation-delay:${i*.07}s">
+        <div class="i-type" style="color:${SC[r.severity]}">⚠ ${(r.severity||'').toUpperCase()}</div>
+        <div class="i-title">${r.title}</div>
+        <div class="i-body">${r.description}</div>
+        <div class="i-foot"><span class="tag ${ST[r.severity]}">${r.severity}</span>${r.deadline&&r.deadline!=='unknown'?`<span class="tag ta">⏱ ${r.deadline}</span>`:''}<span class="i-src">${r.source}</span></div>
+      </div>`).join('')
+    : '<div class="empty"><div class="empty-icon">⚠</div><div class="empty-text">No risks flagged</div></div>';
+}
+
+// ── QUERY ──────────────────────────────────────────────
+async function runQ(inId, outId) {
+  const q = document.getElementById(inId).value.trim();
+  if (!q) { toast('Enter a question', 'warn'); return; }
+  if (!S.analysed) { toast('Analyse files first', 'warn'); return; }
+  const out = document.getElementById(outId);
+  out.innerHTML = '<div style="display:flex;align-items:center;gap:8px;padding:12px 0;font-size:13px;color:var(--t3)"><div class="dots"><span></span><span></span><span></span></div> Querying…</div>';
+  try {
+    const ans = await claude(
+      'You are SCENTS, personal intelligence for Edd (EKN Consulting, Nairobi). Be precise and commercially sharp. Ground answers in the file corpus.',
+      'Corpus:\n' + S.corpus.slice(0,9000) + '\n\nQuestion: ' + q, 900
+    );
+    out.innerHTML = `<div class="insight" style="margin-bottom:14px">
+      <div class="i-type">✦ RESPONSE</div>
+      <div class="i-title">${q}</div>
+      <div class="i-body">${ans.replace(/\n\n/g,'</p><p style="margin-top:8px">').replace(/\n/g,'<br>')}</div>
+    </div>`;
+    document.getElementById(inId).value = '';
+  } catch(e) {
+    out.innerHTML = `<div style="color:var(--amber);font-size:13px;padding:12px;background:var(--aD);border-radius:12px">${e.message}</div>`;
+  }
+}
+
+document.getElementById('main-q').addEventListener('keydown', e => {
+  if (e.key==='Enter' && !e.shiftKey) { e.preventDefault(); runQ('main-q','main-result'); }
+});
+document.getElementById('ins-q').addEventListener('keydown', e => {
+  if (e.key==='Enter' && !e.shiftKey) { e.preventDefault(); runQ('ins-q','ins-result'); }
+});
+
+// ── VIEW FILE ───────────────────────────────────────────
+function viewFile(i) {
+  const f = S.files[i];
+  const t = ti(f.ext);
+  const modal = document.createElement('div');
+  modal.className = 'modal-bg';
+  modal.innerHTML = `<div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+      <div class="fi-badge" style="background:${t.bg};color:${t.c};width:40px;height:40px;border-radius:10px">${t.l}</div>
+      <div><div style="font-size:15px;font-weight:600">${f.name}</div><div style="font-size:11px;color:var(--t3);font-family:var(--fm)">${fmtB(f.size)} · ${f.text.length.toLocaleString()} chars</div></div>
+    </div>
+    <div style="background:var(--s2);border-radius:12px;padding:14px;font-size:12px;color:var(--t2);line-height:1.8;max-height:200px;overflow-y:auto;font-family:var(--fm);white-space:pre-wrap;-webkit-overflow-scrolling:touch">${(f.text||'[No text extracted]').slice(0,1500)}${f.text.length>1500?'\n\n[…truncated]':''}</div>
+    <button class="btn btn-p" onclick="this.closest('.modal-bg').remove()" style="width:100%;justify-content:center;margin-top:14px">Close</button>
+  </div>`;
+  modal.onclick = () => modal.remove();
+  document.body.appendChild(modal);
+}
+
+// ── REPORT ─────────────────────────────────────────────
+async function generateReport() {
+  if (!S.analysed) { toast('Analyse files first', 'warn'); return; }
+  const type = document.getElementById('rpt-type').value;
+  const focus = document.getElementById('rpt-focus').value;
+  const ctx = document.getElementById('rpt-ctx').value;
+  const out = document.getElementById('report-out');
+  const cont = document.getElementById('report-content');
+  out.style.display = 'block';
+  cont.innerHTML = '<div style="display:flex;align-items:center;gap:10px;padding:20px 0"><div class="dots"><span></span><span></span><span></span></div><span style="font-size:14px;color:var(--t2)">Generating…</span></div>';
+  const queued = S.rQ.length ? '\n\nFlagged:\n'+S.rQ.map(r=>'- '+r.title+': '+r.body).join('\n') : '';
+  try {
+    const ans = await claude(
+      'You are SCENTS generating a professional consulting report for Edd (EKN Consulting International Ltd, Nairobi). Use ## for sections, ### for subsections, **bold** for key terms, - for bullets. Reference actual names, numbers, and content from the documents.',
+      'Type: '+type+'\nFocus: '+(focus||'All projects')+'\nContext: '+(ctx||'General')+'\n\nCorpus:\n'+S.corpus.slice(0,9500)+queued,
+      2000
+    );
+    const html = ans
+      .replace(/^## (.+)$/gm,'<h2>$1</h2>').replace(/^### (.+)$/gm,'<h3>$1</h3>')
+      .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/^- (.+)$/gm,'<li>$1</li>')
+      .replace(/(<li>[^<]*<\/li>\n?)+/g,s=>'<ul>'+s+'</ul>').replace(/\n\n/g,'<p></p>');
+    cont.innerHTML = `<div style="border-bottom:0.5px solid var(--b1);padding-bottom:14px;margin-bottom:20px">
+      <div style="font-family:var(--fd);font-size:20px;font-weight:800;margin-bottom:3px">${type}${focus?' — '+focus:''}</div>
+      <div style="font-size:10px;color:var(--t3);font-family:var(--fm)">EKN Consulting · SCENTS · ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})} · Nairobi</div>
+    </div>${html}
+    <div style="margin-top:20px;padding-top:12px;border-top:0.5px solid var(--b1);font-size:10px;color:var(--t3);font-family:var(--fm)">SCENTS Personal Intelligence · EKN Consulting International Ltd</div>`;
+    S.rQ = [];
+    toast('Report ready', 'ok');
+    document.getElementById('scroll-area').scrollTo(0, 99999);
+  } catch(e) { cont.innerHTML = '<div style="color:var(--amber);padding:12px">'+e.message+'</div>'; }
+}
+
+async function shareReport() {
+  const text = document.getElementById('report-content').innerText;
+  if (navigator.share) {
+    try { await navigator.share({ title: 'SCENTS Intelligence Report', text }); }
+    catch(e) { if (e.name!=='AbortError') toast('Share failed','warn'); }
+  } else {
+    await navigator.clipboard.writeText(text);
+    toast('Report copied to clipboard', 'ok');
+  }
+}
+
+toast('SCENTS ready — tap + to add files', 'info');
+</script>
+</body>
+</html>
