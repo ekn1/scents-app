@@ -1,30 +1,38 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
 <!-- iOS PWA: makes it launch standalone (no Safari chrome) -->
+
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 
 <!-- iOS status bar style: black-translucent lets app extend behind notch -->
+
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
 <!-- Name shown under the icon on home screen -->
+
 <meta name="apple-mobile-web-app-title" content="SCENTS">
 
 <!-- Theme colour (browser chrome on Android, Safari toolbar) -->
+
 <meta name="theme-color" content="#06080C">
 
 <!-- Web app manifest -->
+
 <link rel="manifest" href="./manifest.json">
 
 <!-- iOS home screen icon (must be PNG, no transparency for iOS) -->
+
 <link rel="apple-touch-icon" href="./icon-512.png">
 <link rel="apple-touch-icon" sizes="192x192" href="./icon-192.png">
 
 <!-- iOS splash screens - these make the launch feel instant and native -->
+
 <meta name="apple-touch-fullscreen" content="yes">
 
 <title>SCENTS</title>
@@ -49,12 +57,12 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-html { height: 100%; background: var(--bg); }
+html { height: 100%; background: var(–bg); }
 body {
-  height: 100%; background: var(--bg); color: var(--t1);
-  font-family: var(--ff); font-size: 15px; line-height: 1.5;
-  -webkit-font-smoothing: antialiased; overflow: hidden;
-  overscroll-behavior: none;
+height: 100%; background: var(–bg); color: var(–t1);
+font-family: var(–ff); font-size: 15px; line-height: 1.5;
+-webkit-font-smoothing: antialiased; overflow: hidden;
+overscroll-behavior: none;
 }
 ::-webkit-scrollbar { display: none; }
 
@@ -62,49 +70,49 @@ body {
 .shell { display: flex; flex-direction: column; height: 100vh; height: 100dvh; }
 
 /* ── STATUS BAR SPACER ── */
-.status-bar { height: var(--safe-top); background: var(--s1); flex-shrink: 0; }
+.status-bar { height: var(–safe-top); background: var(–s1); flex-shrink: 0; }
 
 /* ── TOPBAR ── */
 .topbar {
-  height: 52px; background: var(--s1); border-bottom: 0.5px solid var(--b1);
-  display: flex; align-items: center; padding: 0 18px; gap: 10px; flex-shrink: 0;
+height: 52px; background: var(–s1); border-bottom: 0.5px solid var(–b1);
+display: flex; align-items: center; padding: 0 18px; gap: 10px; flex-shrink: 0;
 }
-.tb-logo { font-family: var(--fd); font-size: 18px; font-weight: 800; color: var(--cyan); letter-spacing: .06em; }
-.tb-sub { font-size: 11px; color: var(--t3); font-family: var(--fm); }
+.tb-logo { font-family: var(–fd); font-size: 18px; font-weight: 800; color: var(–cyan); letter-spacing: .06em; }
+.tb-sub { font-size: 11px; color: var(–t3); font-family: var(–fm); }
 .tb-actions { margin-left: auto; display: flex; gap: 8px; align-items: center; }
 .tb-btn {
-  width: 36px; height: 36px; border-radius: 10px; border: none;
-  background: var(--s2); color: var(--t2); font-size: 16px;
-  display: flex; align-items: center; justify-content: center; cursor: pointer;
-  -webkit-tap-highlight-color: transparent; transition: background .1s;
+width: 36px; height: 36px; border-radius: 10px; border: none;
+background: var(–s2); color: var(–t2); font-size: 16px;
+display: flex; align-items: center; justify-content: center; cursor: pointer;
+-webkit-tap-highlight-color: transparent; transition: background .1s;
 }
-.tb-btn:active { background: var(--s3); }
-.tb-btn.primary { background: var(--cyan); color: #04080F; font-size: 13px; font-weight: 700; width: auto; padding: 0 14px; font-family: var(--fd); }
+.tb-btn:active { background: var(–s3); }
+.tb-btn.primary { background: var(–cyan); color: #04080F; font-size: 13px; font-weight: 700; width: auto; padding: 0 14px; font-family: var(–fd); }
 
 /* ── SCROLL AREA ── */
 .scroll { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
 
 /* ── BOTTOM TAB BAR ── */
 .tabbar {
-  height: var(--tab-h); background: var(--s1); border-top: 0.5px solid var(--b1);
-  display: flex; align-items: flex-start; padding: 8px 0 0;
-  flex-shrink: 0;
-  padding-bottom: var(--safe-bot);
+height: var(–tab-h); background: var(–s1); border-top: 0.5px solid var(–b1);
+display: flex; align-items: flex-start; padding: 8px 0 0;
+flex-shrink: 0;
+padding-bottom: var(–safe-bot);
 }
 .tab {
-  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
-  padding: 6px 0; cursor: pointer; border: none; background: transparent;
-  color: var(--t3); transition: color .15s; -webkit-tap-highlight-color: transparent;
-  -webkit-user-select: none; min-height: 44px; justify-content: center;
+flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
+padding: 6px 0; cursor: pointer; border: none; background: transparent;
+color: var(–t3); transition: color .15s; -webkit-tap-highlight-color: transparent;
+-webkit-user-select: none; min-height: 44px; justify-content: center;
 }
-.tab.on { color: var(--cyan); }
+.tab.on { color: var(–cyan); }
 .tab:active { opacity: .7; }
 .tab-icon { font-size: 20px; line-height: 1; }
-.tab-label { font-size: 10px; font-family: var(--ff); letter-spacing: .01em; }
+.tab-label { font-size: 10px; font-family: var(–ff); letter-spacing: .01em; }
 .tab-badge {
-  position: absolute; top: 4px; right: calc(50% - 18px);
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--red); border: 1.5px solid var(--s1);
+position: absolute; top: 4px; right: calc(50% - 18px);
+width: 8px; height: 8px; border-radius: 50%;
+background: var(–red); border: 1.5px solid var(–s1);
 }
 
 /* ── VIEWS ── */
@@ -114,163 +122,163 @@ body {
 
 /* ── INSTALL PROMPT ── */
 .install-card {
-  background: linear-gradient(135deg, var(--cD), var(--s2));
-  border: 0.5px solid var(--cyan); border-radius: 16px;
-  padding: 18px; margin-bottom: 16px;
+background: linear-gradient(135deg, var(–cD), var(–s2));
+border: 0.5px solid var(–cyan); border-radius: 16px;
+padding: 18px; margin-bottom: 16px;
 }
-.ic-title { font-family: var(--fd); font-size: 16px; font-weight: 700; margin-bottom: 6px; }
-.ic-body { font-size: 13px; color: var(--t2); line-height: 1.65; margin-bottom: 14px; }
+.ic-title { font-family: var(–fd); font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+.ic-body { font-size: 13px; color: var(–t2); line-height: 1.65; margin-bottom: 14px; }
 .ic-steps { display: flex; flex-direction: column; gap: 10px; }
 .ic-step { display: flex; align-items: center; gap: 10px; font-size: 13px; }
 .ic-num {
-  width: 22px; height: 22px; border-radius: 50%; background: var(--cD);
-  border: 0.5px solid var(--cyan); color: var(--cyan);
-  font-size: 11px; font-weight: 700; font-family: var(--fm);
-  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+width: 22px; height: 22px; border-radius: 50%; background: var(–cD);
+border: 0.5px solid var(–cyan); color: var(–cyan);
+font-size: 11px; font-weight: 700; font-family: var(–fm);
+display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
-.ic-share { display: inline-block; background: var(--cD); color: var(--cyan); border-radius: 5px; padding: 1px 6px; font-size: 13px; }
+.ic-share { display: inline-block; background: var(–cD); color: var(–cyan); border-radius: 5px; padding: 1px 6px; font-size: 13px; }
 
 /* ── HERO ── */
 .hero { text-align: center; padding: 32px 16px 24px; }
-.hero-logo { font-family: var(--fd); font-size: 36px; font-weight: 800; color: var(--cyan); letter-spacing: .06em; margin-bottom: 4px; }
-.hero-tag { font-size: 10px; font-family: var(--fm); color: var(--t3); text-transform: uppercase; letter-spacing: .12em; margin-bottom: 14px; }
-.hero-sub { font-size: 14px; color: var(--t2); line-height: 1.7; margin-bottom: 20px; }
-.hero-step { display: flex; align-items: flex-start; gap: 12px; background: var(--s1); border: 0.5px solid var(--b1); border-radius: 14px; padding: 14px; margin-bottom: 8px; text-align: left; }
-.hs-num { width: 22px; height: 22px; border-radius: 50%; background: var(--cD); border: 0.5px solid var(--cyan); color: var(--cyan); font-size: 10px; font-weight: 700; font-family: var(--fm); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.hero-logo { font-family: var(–fd); font-size: 36px; font-weight: 800; color: var(–cyan); letter-spacing: .06em; margin-bottom: 4px; }
+.hero-tag { font-size: 10px; font-family: var(–fm); color: var(–t3); text-transform: uppercase; letter-spacing: .12em; margin-bottom: 14px; }
+.hero-sub { font-size: 14px; color: var(–t2); line-height: 1.7; margin-bottom: 20px; }
+.hero-step { display: flex; align-items: flex-start; gap: 12px; background: var(–s1); border: 0.5px solid var(–b1); border-radius: 14px; padding: 14px; margin-bottom: 8px; text-align: left; }
+.hs-num { width: 22px; height: 22px; border-radius: 50%; background: var(–cD); border: 0.5px solid var(–cyan); color: var(–cyan); font-size: 10px; font-weight: 700; font-family: var(–fm); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
 .hs-t { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
-.hs-s { font-size: 12px; color: var(--t2); }
+.hs-s { font-size: 12px; color: var(–t2); }
 
 /* ── UPLOAD ── */
 .upload-zone {
-  border: 1.5px dashed var(--b2); border-radius: 16px;
-  padding: 28px 20px; text-align: center; cursor: pointer;
-  transition: all .18s; margin-bottom: 12px; background: transparent;
-  width: 100%;
+border: 1.5px dashed var(–b2); border-radius: 16px;
+padding: 28px 20px; text-align: center; cursor: pointer;
+transition: all .18s; margin-bottom: 12px; background: transparent;
+width: 100%;
 }
-.upload-zone:active { background: var(--cD); border-color: var(--cyan); }
-.uz-icon { font-size: 32px; color: var(--t3); margin-bottom: 10px; }
+.upload-zone:active { background: var(–cD); border-color: var(–cyan); }
+.uz-icon { font-size: 32px; color: var(–t3); margin-bottom: 10px; }
 .uz-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
-.uz-sub { font-size: 12px; color: var(--t2); margin-bottom: 6px; }
-.uz-types { font-size: 10px; color: var(--t3); font-family: var(--fm); letter-spacing: .04em; }
+.uz-sub { font-size: 12px; color: var(–t2); margin-bottom: 6px; }
+.uz-types { font-size: 10px; color: var(–t3); font-family: var(–fm); letter-spacing: .04em; }
 #file-input { display: none; }
 
 /* ── FILE LIST ── */
 .file-item {
-  display: flex; align-items: center; gap: 12px;
-  background: var(--s1); border: 0.5px solid var(--b1); border-radius: 12px;
-  padding: 12px; margin-bottom: 8px; cursor: pointer;
-  transition: background .1s; -webkit-tap-highlight-color: transparent;
+display: flex; align-items: center; gap: 12px;
+background: var(–s1); border: 0.5px solid var(–b1); border-radius: 12px;
+padding: 12px; margin-bottom: 8px; cursor: pointer;
+transition: background .1s; -webkit-tap-highlight-color: transparent;
 }
-.file-item:active { background: var(--s2); }
-.fi-badge { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; font-family: var(--fm); flex-shrink: 0; }
+.file-item:active { background: var(–s2); }
+.fi-badge { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; font-family: var(–fm); flex-shrink: 0; }
 .fi-info { flex: 1; min-width: 0; }
 .fi-name { font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
-.fi-meta { font-size: 11px; color: var(--t3); font-family: var(--fm); }
+.fi-meta { font-size: 11px; color: var(–t3); font-family: var(–fm); }
 .fi-status { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 
 /* ── ANALYSE BUTTON ── */
 .analyse-btn {
-  width: 100%; padding: 16px; border-radius: 14px; border: none;
-  background: var(--cyan); color: #04080F; font-family: var(--fd);
-  font-size: 16px; font-weight: 700; cursor: pointer;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  margin-bottom: 12px; transition: all .15s;
-  -webkit-tap-highlight-color: transparent; min-height: 56px;
+width: 100%; padding: 16px; border-radius: 14px; border: none;
+background: var(–cyan); color: #04080F; font-family: var(–fd);
+font-size: 16px; font-weight: 700; cursor: pointer;
+display: flex; align-items: center; justify-content: center; gap: 8px;
+margin-bottom: 12px; transition: all .15s;
+-webkit-tap-highlight-color: transparent; min-height: 56px;
 }
 .analyse-btn:active { background: #00AED4; transform: scale(.98); }
-.analyse-btn:disabled { background: var(--s3); color: var(--t3); }
+.analyse-btn:disabled { background: var(–s3); color: var(–t3); }
 
 /* ── CARDS ── */
-.card { background: var(--s1); border: 0.5px solid var(--b1); border-radius: 16px; padding: 16px; margin-bottom: 12px; }
+.card { background: var(–s1); border: 0.5px solid var(–b1); border-radius: 16px; padding: 16px; margin-bottom: 12px; }
 
 /* ── METRICS ── */
 .metrics-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
-.metric { background: var(--s1); border: 0.5px solid var(--b1); border-radius: 14px; padding: 14px; }
-.metric.accent { border-color: var(--cyan); background: var(--cD); }
-.metric.warn { border-color: var(--amber); }
-.ml { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; font-family: var(--fm); color: var(--t3); margin-bottom: 6px; }
-.mv { font-family: var(--fd); font-size: 24px; font-weight: 700; }
-.md { font-size: 10px; color: var(--t3); margin-top: 3px; font-family: var(--fm); }
+.metric { background: var(–s1); border: 0.5px solid var(–b1); border-radius: 14px; padding: 14px; }
+.metric.accent { border-color: var(–cyan); background: var(–cD); }
+.metric.warn { border-color: var(–amber); }
+.ml { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; font-family: var(–fm); color: var(–t3); margin-bottom: 6px; }
+.mv { font-family: var(–fd); font-size: 24px; font-weight: 700; }
+.md { font-size: 10px; color: var(–t3); margin-top: 3px; font-family: var(–fm); }
 
 /* ── INSIGHT CARDS ── */
 .insight {
-  border-left: 3px solid var(--cyan); background: var(--s1);
-  border: 0.5px solid var(--b1); border-left: 3px solid var(--cyan);
-  border-radius: 14px; padding: 14px; margin-bottom: 10px;
-  animation: up .3s ease both;
+border-left: 3px solid var(–cyan); background: var(–s1);
+border: 0.5px solid var(–b1); border-left: 3px solid var(–cyan);
+border-radius: 14px; padding: 14px; margin-bottom: 10px;
+animation: up .3s ease both;
 }
-.i-type { font-size: 9px; text-transform: uppercase; letter-spacing: .15em; font-family: var(--fm); margin-bottom: 5px; }
+.i-type { font-size: 9px; text-transform: uppercase; letter-spacing: .15em; font-family: var(–fm); margin-bottom: 5px; }
 .i-title { font-size: 14px; font-weight: 600; margin-bottom: 6px; line-height: 1.4; }
-.i-body { font-size: 13px; color: var(--t2); line-height: 1.7; }
+.i-body { font-size: 13px; color: var(–t2); line-height: 1.7; }
 .i-foot { display: flex; align-items: center; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
-.i-src { font-size: 10px; color: var(--t3); font-family: var(--fm); }
+.i-src { font-size: 10px; color: var(–t3); font-family: var(–fm); }
 
 /* ── TAGS ── */
-.tag { display: inline-flex; align-items: center; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-family: var(--fm); font-weight: 500; }
-.tc { background: var(--cD); color: var(--cyan); }
-.tg { background: var(--gD); color: var(--green); }
-.ta { background: var(--aD); color: var(--amber); }
-.tr { background: var(--rD); color: var(--red); }
-.tp { background: var(--pD); color: var(--purple); }
-.tgo { background: var(--goD); color: var(--gold); }
+.tag { display: inline-flex; align-items: center; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-family: var(–fm); font-weight: 500; }
+.tc { background: var(–cD); color: var(–cyan); }
+.tg { background: var(–gD); color: var(–green); }
+.ta { background: var(–aD); color: var(–amber); }
+.tr { background: var(–rD); color: var(–red); }
+.tp { background: var(–pD); color: var(–purple); }
+.tgo { background: var(–goD); color: var(–gold); }
 
 /* ── QUERY BOX ── */
 .qbox {
-  background: var(--s1); border: 0.5px solid var(--b1); border-radius: 16px;
-  padding: 14px; margin-bottom: 14px; display: flex; gap: 10px; align-items: flex-end;
+background: var(–s1); border: 0.5px solid var(–b1); border-radius: 16px;
+padding: 14px; margin-bottom: 14px; display: flex; gap: 10px; align-items: flex-end;
 }
 .qi {
-  flex: 1; background: transparent; border: none; color: var(--t1);
-  font-family: var(--ff); font-size: 15px; outline: none; resize: none;
-  line-height: 1.5; min-height: 40px; max-height: 120px;
+flex: 1; background: transparent; border: none; color: var(–t1);
+font-family: var(–ff); font-size: 15px; outline: none; resize: none;
+line-height: 1.5; min-height: 40px; max-height: 120px;
 }
-.qi::placeholder { color: var(--t3); }
+.qi::placeholder { color: var(–t3); }
 .q-send {
-  width: 40px; height: 40px; border-radius: 12px; border: none;
-  background: var(--cyan); color: #04080F; font-size: 18px;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; flex-shrink: 0; -webkit-tap-highlight-color: transparent;
+width: 40px; height: 40px; border-radius: 12px; border: none;
+background: var(–cyan); color: #04080F; font-size: 18px;
+display: flex; align-items: center; justify-content: center;
+cursor: pointer; flex-shrink: 0; -webkit-tap-highlight-color: transparent;
 }
 .q-send:active { background: #00AED4; }
-.q-send:disabled { background: var(--s3); color: var(--t3); }
+.q-send:disabled { background: var(–s3); color: var(–t3); }
 
 /* ── SECTION HEADER ── */
 .sh { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-.sh-t { font-family: var(--fd); font-size: 16px; font-weight: 700; }
-.sh-s { font-size: 11px; color: var(--t3); font-family: var(--fm); }
+.sh-t { font-family: var(–fd); font-size: 16px; font-weight: 700; }
+.sh-s { font-size: 11px; color: var(–t3); font-family: var(–fm); }
 
 /* ── TABLE ── */
 .tbl { width: 100%; border-collapse: collapse; }
-.tbl th { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(--t3); font-family: var(--fm); padding: 8px 10px; text-align: left; border-bottom: 0.5px solid var(--b1); font-weight: 400; }
-.tbl td { padding: 10px; border-bottom: 0.5px solid var(--b1); font-size: 13px; vertical-align: middle; }
+.tbl th { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(–t3); font-family: var(–fm); padding: 8px 10px; text-align: left; border-bottom: 0.5px solid var(–b1); font-weight: 400; }
+.tbl td { padding: 10px; border-bottom: 0.5px solid var(–b1); font-size: 13px; vertical-align: middle; }
 .tbl tr:last-child td { border-bottom: none; }
 
 /* ── PRIORITIES ── */
-.priority-item { display: flex; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid var(--b1); align-items: flex-start; }
+.priority-item { display: flex; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid var(–b1); align-items: flex-start; }
 .priority-item:last-child { border-bottom: none; }
-.p-num { font-family: var(--fm); font-size: 12px; color: var(--gold); min-width: 24px; margin-top: 1px; }
+.p-num { font-family: var(–fm); font-size: 12px; color: var(–gold); min-width: 24px; margin-top: 1px; }
 
 /* ── BUTTONS ── */
 .btn {
-  padding: 10px 16px; border-radius: 10px; border: 0.5px solid var(--b2);
-  background: transparent; color: var(--t2); font-family: var(--ff);
-  font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
-  -webkit-tap-highlight-color: transparent; min-height: 44px;
+padding: 10px 16px; border-radius: 10px; border: 0.5px solid var(–b2);
+background: transparent; color: var(–t2); font-family: var(–ff);
+font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+-webkit-tap-highlight-color: transparent; min-height: 44px;
 }
-.btn:active { background: var(--s2); }
-.btn-p { background: var(--cyan); border-color: var(--cyan); color: #04080F; font-weight: 600; }
+.btn:active { background: var(–s2); }
+.btn-p { background: var(–cyan); border-color: var(–cyan); color: #04080F; font-weight: 600; }
 .btn-p:active { background: #00AED4; }
 
 /* ── REPORT ── */
-.report-body h2 { font-family: var(--fd); font-size: 18px; font-weight: 700; color: var(--t1); margin: 20px 0 8px; padding-bottom: 8px; border-bottom: 0.5px solid var(--b1); }
-.report-body h3 { font-size: 11px; color: var(--cyan); font-family: var(--fm); text-transform: uppercase; letter-spacing: .12em; margin: 14px 0 6px; }
-.report-body p { font-size: 14px; color: var(--t2); line-height: 1.8; margin-bottom: 10px; }
-.report-body li { font-size: 14px; color: var(--t2); line-height: 1.75; margin-bottom: 4px; }
+.report-body h2 { font-family: var(–fd); font-size: 18px; font-weight: 700; color: var(–t1); margin: 20px 0 8px; padding-bottom: 8px; border-bottom: 0.5px solid var(–b1); }
+.report-body h3 { font-size: 11px; color: var(–cyan); font-family: var(–fm); text-transform: uppercase; letter-spacing: .12em; margin: 14px 0 6px; }
+.report-body p { font-size: 14px; color: var(–t2); line-height: 1.8; margin-bottom: 10px; }
+.report-body li { font-size: 14px; color: var(–t2); line-height: 1.75; margin-bottom: 4px; }
 .report-body ul { padding-left: 18px; margin-bottom: 10px; }
-.report-body strong { color: var(--t1); font-weight: 600; }
+.report-body strong { color: var(–t1); font-weight: 600; }
 
 /* ── LOADING DOTS ── */
-.dots span { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--cyan); margin: 0 2px; animation: bounce .75s ease infinite; }
+.dots span { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(–cyan); margin: 0 2px; animation: bounce .75s ease infinite; }
 .dots span:nth-child(2) { animation-delay: .15s; }
 .dots span:nth-child(3) { animation-delay: .30s; }
 @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
@@ -278,387 +286,415 @@ body {
 
 /* ── PROCESSING ── */
 .processing { text-align: center; padding: 48px 24px; }
-.proc-title { font-family: var(--fd); font-size: 20px; font-weight: 700; margin-bottom: 8px; }
-.proc-sub { font-size: 14px; color: var(--t2); margin-bottom: 24px; }
-.prog-bar { height: 4px; background: var(--s3); border-radius: 4px; overflow: hidden; }
-.prog-fill { height: 100%; background: var(--cyan); border-radius: 4px; transition: width .5s ease; }
-.prog-file { font-size: 11px; color: var(--t3); font-family: var(--fm); margin-top: 8px; }
+.proc-title { font-family: var(–fd); font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+.proc-sub { font-size: 14px; color: var(–t2); margin-bottom: 24px; }
+.prog-bar { height: 4px; background: var(–s3); border-radius: 4px; overflow: hidden; }
+.prog-fill { height: 100%; background: var(–cyan); border-radius: 4px; transition: width .5s ease; }
+.prog-file { font-size: 11px; color: var(–t3); font-family: var(–fm); margin-top: 8px; }
 
 /* ── TOASTS ── */
-.toast-wrap { position: fixed; top: calc(var(--safe-top) + 60px); left: 16px; right: 16px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
-.toast { background: var(--s2); border: 0.5px solid var(--b2); border-radius: 12px; padding: 12px 16px; font-size: 13px; display: flex; gap: 8px; align-items: center; animation: up .25s ease; pointer-events: auto; box-shadow: 0 8px 32px rgba(0,0,0,.4); }
-.tok { border-left: 2px solid var(--green); }
-.toi { border-left: 2px solid var(--cyan); }
-.tow { border-left: 2px solid var(--amber); }
+.toast-wrap { position: fixed; top: calc(var(–safe-top) + 60px); left: 16px; right: 16px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
+.toast { background: var(–s2); border: 0.5px solid var(–b2); border-radius: 12px; padding: 12px 16px; font-size: 13px; display: flex; gap: 8px; align-items: center; animation: up .25s ease; pointer-events: auto; box-shadow: 0 8px 32px rgba(0,0,0,.4); }
+.tok { border-left: 2px solid var(–green); }
+.toi { border-left: 2px solid var(–cyan); }
+.tow { border-left: 2px solid var(–amber); }
 
 /* ── MODAL ── */
 .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 9000; display: flex; align-items: flex-end; justify-content: center; }
-.modal { background: var(--s1); border-radius: 24px 24px 0 0; padding: 20px 20px calc(20px + var(--safe-bot)); width: 100%; max-height: 80vh; overflow-y: auto; -webkit-overflow-scrolling: touch; }
-.modal-handle { width: 36px; height: 4px; background: var(--b2); border-radius: 2px; margin: 0 auto 16px; }
-.modal-title { font-family: var(--fd); font-size: 17px; font-weight: 700; margin-bottom: 14px; }
+.modal { background: var(–s1); border-radius: 24px 24px 0 0; padding: 20px 20px calc(20px + var(–safe-bot)); width: 100%; max-height: 80vh; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+.modal-handle { width: 36px; height: 4px; background: var(–b2); border-radius: 2px; margin: 0 auto 16px; }
+.modal-title { font-family: var(–fd); font-size: 17px; font-weight: 700; margin-bottom: 14px; }
 
 /* ── FORM ── */
 select, textarea, input[type=text] {
-  background: var(--s2); border: 0.5px solid var(--b2); border-radius: 12px;
-  color: var(--t1); font-family: var(--ff); padding: 12px 14px;
-  font-size: 15px; outline: none; width: 100%; appearance: none;
+background: var(–s2); border: 0.5px solid var(–b2); border-radius: 12px;
+color: var(–t1); font-family: var(–ff); padding: 12px 14px;
+font-size: 15px; outline: none; width: 100%; appearance: none;
 }
 select { cursor: pointer; }
 textarea { resize: none; }
-.form-label { font-size: 11px; color: var(--t3); font-family: var(--fm); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 6px; margin-top: 14px; }
+.form-label { font-size: 11px; color: var(–t3); font-family: var(–fm); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 6px; margin-top: 14px; }
 
 /* ── EMPTY STATE ── */
-.empty { text-align: center; padding: 48px 24px; color: var(--t3); }
+.empty { text-align: center; padding: 48px 24px; color: var(–t3); }
 .empty-icon { font-size: 40px; margin-bottom: 12px; opacity: .4; }
 .empty-text { font-size: 14px; line-height: 1.6; }
 
 /* ── BEHAVIOUR ENGINE ── */
 .b-subnav{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px;}
-.b-tab{padding:7px 14px;border-radius:20px;border:0.5px solid var(--b2);background:transparent;color:var(--t2);font-family:var(--ff);font-size:13px;cursor:pointer;white-space:nowrap;transition:all .15s;-webkit-tap-highlight-color:transparent;}
-.b-tab.on{background:var(--cD);border-color:var(--cyan);color:var(--cyan);}
+.b-tab{padding:7px 14px;border-radius:20px;border:0.5px solid var(–b2);background:transparent;color:var(–t2);font-family:var(–ff);font-size:13px;cursor:pointer;white-space:nowrap;transition:all .15s;-webkit-tap-highlight-color:transparent;}
+.b-tab.on{background:var(–cD);border-color:var(–cyan);color:var(–cyan);}
 .b-tab:active{opacity:.7;}
 .b-panel{display:none;}.b-panel.on{display:block;}
-.ev-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--b1);}
+.ev-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:0.5px solid var(–b1);}
 .ev-item:last-child{border-bottom:none;}
-.ev-badge{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;font-family:var(--fm);flex-shrink:0;}
+.ev-badge{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;font-family:var(–fm);flex-shrink:0;}
 .ev-name{font-size:13px;font-weight:500;margin-bottom:2px;}
-.ev-meta{font-size:11px;color:var(--t3);font-family:var(--fm);}
-.ev-fi{font-size:10px;font-family:var(--fm);color:var(--purple);}
-.rw-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--b1);}
+.ev-meta{font-size:11px;color:var(–t3);font-family:var(–fm);}
+.ev-fi{font-size:10px;font-family:var(–fm);color:var(–purple);}
+.rw-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid var(–b1);}
 .rw-row:last-child{border-bottom:none;}
 .rw-label{font-size:13px;font-weight:500;flex:1;}
-.rw-bar-wrap{width:80px;height:4px;background:var(--s3);border-radius:4px;overflow:hidden;}
+.rw-bar-wrap{width:80px;height:4px;background:var(–s3);border-radius:4px;overflow:hidden;}
 .rw-bar{height:100%;border-radius:4px;transition:width .6s ease;}
-.rw-val{font-family:var(--fm);font-size:11px;color:var(--t2);min-width:32px;text-align:right;}
-.ranked-item{background:var(--s1);border:0.5px solid var(--b1);border-radius:14px;padding:13px;margin-bottom:8px;animation:up .3s ease both;cursor:pointer;-webkit-tap-highlight-color:transparent;}
-.ranked-item:active{background:var(--s2);}
-.rank-num{font-family:var(--fm);font-size:11px;color:var(--t3);margin-bottom:4px;}
-.rank-score-bar{height:3px;background:var(--s3);border-radius:3px;margin-top:8px;overflow:hidden;}
-.rank-score-fill{height:100%;border-radius:3px;background:var(--cyan);}
+.rw-val{font-family:var(–fm);font-size:11px;color:var(–t2);min-width:32px;text-align:right;}
+.ranked-item{background:var(–s1);border:0.5px solid var(–b1);border-radius:14px;padding:13px;margin-bottom:8px;animation:up .3s ease both;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.ranked-item:active{background:var(–s2);}
+.rank-num{font-family:var(–fm);font-size:11px;color:var(–t3);margin-bottom:4px;}
+.rank-score-bar{height:3px;background:var(–s3);border-radius:3px;margin-top:8px;overflow:hidden;}
+.rank-score-fill{height:100%;border-radius:3px;background:var(–cyan);}
 
 /* ── DELPHI ── */
-.expert-chip{display:inline-flex;align-items:center;gap:6px;background:var(--pD);border:0.5px solid var(--purple);color:var(--purple);border-radius:20px;padding:5px 12px;font-size:12px;font-family:var(--fm);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.expert-chip{display:inline-flex;align-items:center;gap:6px;background:var(–pD);border:0.5px solid var(–purple);color:var(–purple);border-radius:20px;padding:5px 12px;font-size:12px;font-family:var(–fm);cursor:pointer;-webkit-tap-highlight-color:transparent;}
 .expert-chip:active{opacity:.7;}
-.d-card{background:var(--s1);border:0.5px solid var(--b1);border-radius:14px;padding:14px;margin-bottom:10px;}
+.d-card{background:var(–s1);border:0.5px solid var(–b1);border-radius:14px;padding:14px;margin-bottom:10px;}
 .d-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px;}
 .d-expert{font-size:13px;font-weight:600;}
-.d-domain{font-size:11px;color:var(--t3);font-family:var(--fm);margin-top:2px;}
-.d-est{font-family:var(--fd);font-size:28px;font-weight:700;flex-shrink:0;}
-.d-weight{font-size:10px;color:var(--t3);font-family:var(--fm);text-align:right;margin-top:2px;}
-.d-reasoning{font-size:13px;color:var(--t2);line-height:1.7;border-top:0.5px solid var(--b1);padding-top:8px;margin-top:4px;}
-.d-bar{height:4px;background:var(--s3);border-radius:4px;overflow:hidden;margin-top:8px;}
+.d-domain{font-size:11px;color:var(–t3);font-family:var(–fm);margin-top:2px;}
+.d-est{font-family:var(–fd);font-size:28px;font-weight:700;flex-shrink:0;}
+.d-weight{font-size:10px;color:var(–t3);font-family:var(–fm);text-align:right;margin-top:2px;}
+.d-reasoning{font-size:13px;color:var(–t2);line-height:1.7;border-top:0.5px solid var(–b1);padding-top:8px;margin-top:4px;}
+.d-bar{height:4px;background:var(–s3);border-radius:4px;overflow:hidden;margin-top:8px;}
 .d-bar-fill{height:100%;border-radius:4px;transition:width 1s ease;}
+
+/* ── API KEY SCREEN ── */
+.key-screen{position:fixed;inset:0;background:var(–bg);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;}
+.key-logo{font-family:var(–fd);font-size:42px;font-weight:800;color:var(–cyan);letter-spacing:.06em;margin-bottom:6px;}
+.key-tag{font-size:10px;font-family:var(–fm);color:var(–t3);text-transform:uppercase;letter-spacing:.12em;margin-bottom:32px;}
+.key-card{background:var(–s1);border:0.5px solid var(–b2);border-radius:20px;padding:24px;width:100%;max-width:380px;}
+.key-title{font-family:var(–fd);font-size:18px;font-weight:700;margin-bottom:6px;}
+.key-sub{font-size:13px;color:var(–t2);line-height:1.7;margin-bottom:20px;}
+.key-input{width:100%;background:var(–s2);border:0.5px solid var(–b2);border-radius:12px;color:var(–t1);font-family:var(–fm);padding:13px 14px;font-size:13px;outline:none;letter-spacing:.04em;margin-bottom:8px;}
+.key-input:focus{border-color:var(–cyan);}
+.key-input::placeholder{color:var(–t3);letter-spacing:0;font-family:var(–ff);}
+.key-hint{font-size:11px;color:var(–t3);font-family:var(–fm);margin-bottom:16px;line-height:1.6;}
+.key-btn{width:100%;padding:15px;border-radius:12px;border:none;background:var(–cyan);color:#04080F;font-family:var(–fd);font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px;-webkit-tap-highlight-color:transparent;}
+.key-btn:active{background:#00AED4;}
+.key-link{font-size:12px;color:var(–t3);text-align:center;line-height:1.7;}
+.key-link a{color:var(–cyan);text-decoration:none;}
+.key-stored-bar{display:flex;align-items:center;gap:10px;background:var(–s2);border:0.5px solid var(–b1);border-radius:10px;padding:10px 14px;margin-top:12px;}
+.key-stored-dot{width:8px;height:8px;border-radius:50%;background:var(–green);flex-shrink:0;}
+.key-stored-text{font-size:12px;color:var(–t2);font-family:var(–fm);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.key-change{font-size:12px;color:var(–cyan);cursor:pointer;flex-shrink:0;}
 </style>
+
 </head>
 <body>
 <div class="shell">
 
   <!-- Status bar spacer (fills iPhone notch area) -->
+
   <div class="status-bar"></div>
 
   <!-- Top bar -->
+
   <div class="topbar">
     <div>
       <div class="tb-logo">SCENTS</div>
     </div>
     <div class="tb-actions">
       <div style="font-size:10px;color:var(--t3);font-family:var(--fm)" id="file-count-top"></div>
+      <div id="key-status-bar" class="key-stored-bar" style="display:none;max-width:160px;padding:6px 10px;font-size:11px"></div>
       <button class="tb-btn" onclick="openUploadModal()" title="Add files">+</button>
       <button class="tb-btn primary" onclick="analyseAll()" id="analyse-top-btn" style="display:none">Analyse</button>
     </div>
   </div>
 
   <!-- Scrollable content -->
+
   <div class="scroll" id="scroll-area">
 
-    <!-- HOME -->
-    <div class="view on view-pad" id="view-home">
+```
+<!-- HOME -->
+<div class="view on view-pad" id="view-home">
 
-      <!-- Install prompt (shown if not already installed) -->
-      <div class="install-card" id="install-card" style="display:none">
-        <div class="ic-title">Add to Home Screen</div>
-        <div class="ic-body">Install SCENTS as an app — no App Store needed. Opens full-screen like a native app.</div>
-        <div class="ic-steps">
-          <div class="ic-step"><div class="ic-num">1</div><span>Tap <span class="ic-share">⎙ Share</span> at the bottom of Safari</span></div>
-          <div class="ic-step"><div class="ic-num">2</div><span>Scroll down → tap <strong>Add to Home Screen</strong></span></div>
-          <div class="ic-step"><div class="ic-num">3</div><span>Tap <strong>Add</strong> — done, SCENTS is on your home screen</span></div>
+  <!-- Install prompt (shown if not already installed) -->
+  <div class="install-card" id="install-card" style="display:none">
+    <div class="ic-title">Add to Home Screen</div>
+    <div class="ic-body">Install SCENTS as an app — no App Store needed. Opens full-screen like a native app.</div>
+    <div class="ic-steps">
+      <div class="ic-step"><div class="ic-num">1</div><span>Tap <span class="ic-share">⎙ Share</span> at the bottom of Safari</span></div>
+      <div class="ic-step"><div class="ic-num">2</div><span>Scroll down → tap <strong>Add to Home Screen</strong></span></div>
+      <div class="ic-step"><div class="ic-num">3</div><span>Tap <strong>Add</strong> — done, SCENTS is on your home screen</span></div>
+    </div>
+    <button class="btn btn-p" style="margin-top:14px;width:100%;justify-content:center;font-size:14px" onclick="dismissInstall()">Got it</button>
+  </div>
+
+  <!-- Dashboard (shown after analysis) -->
+  <div id="home-dashboard" style="display:none">
+    <div class="metrics-row" id="metrics-grid"></div>
+    <div class="qbox">
+      <textarea class="qi" id="main-q" placeholder="Ask anything about your files…" rows="2"></textarea>
+      <button class="q-send" id="main-send" onclick="runQ('main-q','main-result')">↑</button>
+    </div>
+    <div id="main-result"></div>
+    <div class="sh"><div class="sh-t">Intelligence</div><span class="tag tc">Live</span></div>
+    <div id="home-insights"></div>
+  </div>
+
+  <!-- Hero (shown before analysis) -->
+  <div id="home-hero">
+    <div class="hero">
+      <div class="hero-logo">SCENTS</div>
+      <div class="hero-tag">Personal Intelligence · EKN Consulting</div>
+      <div class="hero-sub">Your files. Your intelligence. Proposals, spreadsheets, emails — analysed and turned into insights personal to you.</div>
+      <div class="hero-step"><div class="hs-num">1</div><div><div class="hs-t">Tap + to add files</div><div class="hs-s">Pick from iCloud Drive, Files app, or anywhere on your iPhone.</div></div></div>
+      <div class="hero-step"><div class="hs-num">2</div><div><div class="hs-t">Tap Analyse</div><div class="hs-s">SCENTS reads everything and builds your personal intelligence corpus.</div></div></div>
+      <div class="hero-step"><div class="hs-num">3</div><div><div class="hs-t">Get insights</div><div class="hs-s">Opportunities, risks, clients, financials — ask anything.</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PROCESSING -->
+<div class="view view-pad" id="view-processing">
+  <div class="processing">
+    <div class="dots" style="display:flex;justify-content:center;margin-bottom:20px"><span></span><span></span><span></span></div>
+    <div class="proc-title" id="proc-title">Extracting…</div>
+    <div class="proc-sub" id="proc-sub">Reading your files</div>
+    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+    <div class="prog-file" id="prog-file">—</div>
+  </div>
+</div>
+
+<!-- INSIGHTS -->
+<div class="view view-pad" id="view-insights">
+  <div class="qbox">
+    <textarea class="qi" id="ins-q" placeholder="Deep analysis… compare projects, identify gaps, strategic priorities…" rows="2"></textarea>
+    <button class="q-send" onclick="runQ('ins-q','ins-result')">↑</button>
+  </div>
+  <div id="ins-result"></div>
+  <div class="sh"><div class="sh-t">All Insights</div></div>
+  <div id="insights-list"><div class="empty"><div class="empty-icon">✦</div><div class="empty-text">Analyse your files to generate insights</div></div></div>
+</div>
+
+<!-- OPPORTUNITIES -->
+<div class="view view-pad" id="view-opps">
+  <div class="sh"><div class="sh-t">Opportunities</div><span class="tag tgo">From your files</span></div>
+  <div id="opps-list"><div class="empty"><div class="empty-icon">⬡</div><div class="empty-text">Load and analyse files to extract opportunities</div></div></div>
+</div>
+
+<!-- RISKS -->
+<div class="view view-pad" id="view-risks">
+  <div class="sh"><div class="sh-t">Risks & Deadlines</div><span class="tag tr" id="risk-count"></span></div>
+  <div id="risks-list"><div class="empty"><div class="empty-icon">⚠</div><div class="empty-text">Load documents to extract risk flags</div></div></div>
+</div>
+
+<!-- FILES -->
+<div class="view view-pad" id="view-files">
+  <div class="sh"><div class="sh-t">Your Files</div><div class="sh-s" id="files-sub">—</div></div>
+
+  <!-- Upload zone -->
+  <button class="upload-zone" onclick="openFilePicker()">
+    <div class="uz-icon">⊕</div>
+    <div class="uz-title">Add Files</div>
+    <div class="uz-sub">Tap to pick from iCloud Drive or Files app</div>
+    <div class="uz-types">PDF · DOCX · XLSX · CSV · PPTX · EML · TXT · IMG</div>
+  </button>
+  <input type="file" id="file-input" multiple
+    accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.pptx,.eml,.msg,.txt,.png,.jpg,.jpeg,.gif,.webp">
+
+  <button class="analyse-btn" id="analyse-btn" disabled onclick="analyseAll()">✦ Analyse All</button>
+  <div id="file-list"></div>
+</div>
+
+<!-- REPORT -->
+<div class="view view-pad" id="view-report">
+  <div class="sh"><div class="sh-t">Report Builder</div></div>
+  <div class="card">
+    <div class="form-label" style="margin-top:0">Report Type</div>
+    <select id="rpt-type">
+      <option>Personal Intelligence Summary</option>
+      <option>Client Briefing</option>
+      <option>Opportunity Pipeline</option>
+      <option>Risk & Compliance Review</option>
+      <option>Financial Analysis</option>
+      <option>Weekly Consulting Brief</option>
+      <option>Investor Update</option>
+    </select>
+    <div class="form-label">Focus / Client</div>
+    <input type="text" id="rpt-focus" placeholder="e.g. Mulika VPP, BIPOLAR™, Safaricom Land…">
+    <div class="form-label">Additional Context</div>
+    <textarea id="rpt-ctx" rows="3" placeholder="Specific questions, angles, audience…"></textarea>
+    <button class="btn btn-p" onclick="generateReport()" style="width:100%;justify-content:center;margin-top:16px;font-size:15px;min-height:52px">✦ Generate with AI</button>
+  </div>
+  <div id="report-out" style="display:none">
+    <div class="card"><div id="report-content" class="report-body"></div></div>
+    <button class="btn" onclick="shareReport()" style="width:100%;justify-content:center;margin-top:8px">⎙ Share Report</button>
+  </div>
+</div>
+
+
+<!-- BEHAVIOUR ENGINE -->
+<div class="view view-pad" id="view-behaviour">
+
+  <!-- Sub-nav -->
+  <div class="b-subnav" id="b-subnav">
+    <button class="b-tab on" id="btab-sensor"   onclick="bNav(this,'sensor')">47-Event Sensor</button>
+    <button class="b-tab"    id="btab-retention" onclick="bNav(this,'retention')">Attention Engine</button>
+    <button class="b-tab"    id="btab-ranking"   onclick="bNav(this,'ranking')">Engagement Ranking</button>
+  </div>
+
+  <!-- ── SENSOR PANEL ── -->
+  <div class="b-panel on" id="bpanel-sensor">
+    <div class="card" style="margin-bottom:12px">
+      <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Fogg Behavior Model — B = MAP</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px">
+        <div>
+          <div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-bottom:4px">MOTIVATION</div>
+          <div style="font-family:var(--fd);font-size:22px;font-weight:700;color:var(--cyan)" id="map-m">0</div>
+          <div style="height:3px;background:var(--s3);border-radius:3px;margin-top:4px;overflow:hidden"><div id="bar-m" style="height:100%;background:var(--cyan);border-radius:3px;width:0%;transition:width .6s ease"></div></div>
         </div>
-        <button class="btn btn-p" style="margin-top:14px;width:100%;justify-content:center;font-size:14px" onclick="dismissInstall()">Got it</button>
+        <div>
+          <div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-bottom:4px">ABILITY</div>
+          <div style="font-family:var(--fd);font-size:22px;font-weight:700;color:var(--green)" id="map-a">0</div>
+          <div style="height:3px;background:var(--s3);border-radius:3px;margin-top:4px;overflow:hidden"><div id="bar-a" style="height:100%;background:var(--green);border-radius:3px;width:0%;transition:width .6s ease"></div></div>
+        </div>
+        <div>
+          <div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-bottom:4px">PROMPT</div>
+          <div style="font-family:var(--fd);font-size:22px;font-weight:700;color:var(--amber)" id="map-p">0</div>
+          <div style="height:3px;background:var(--s3);border-radius:3px;margin-top:4px;overflow:hidden"><div id="bar-p" style="height:100%;background:var(--amber);border-radius:3px;width:0%;transition:width .6s ease"></div></div>
+        </div>
       </div>
-
-      <!-- Dashboard (shown after analysis) -->
-      <div id="home-dashboard" style="display:none">
-        <div class="metrics-row" id="metrics-grid"></div>
-        <div class="qbox">
-          <textarea class="qi" id="main-q" placeholder="Ask anything about your files…" rows="2"></textarea>
-          <button class="q-send" id="main-send" onclick="runQ('main-q','main-result')">↑</button>
+      <!-- B score -->
+      <div style="background:var(--s2);border-radius:10px;padding:12px;display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-bottom:3px">BEHAVIOR SCORE B=MAP</div>
+          <div style="font-family:var(--fd);font-size:28px;font-weight:800;color:var(--cyan)" id="b-score">0.00</div>
         </div>
-        <div id="main-result"></div>
-        <div class="sh"><div class="sh-t">Intelligence</div><span class="tag tc">Live</span></div>
-        <div id="home-insights"></div>
+        <div style="text-align:right">
+          <div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-bottom:3px">CONVERSION PROB</div>
+          <div style="font-family:var(--fd);font-size:28px;font-weight:800;color:var(--green)" id="conv-prob">0%</div>
+        </div>
       </div>
-
-      <!-- Hero (shown before analysis) -->
-      <div id="home-hero">
-        <div class="hero">
-          <div class="hero-logo">SCENTS</div>
-          <div class="hero-tag">Personal Intelligence · EKN Consulting</div>
-          <div class="hero-sub">Your files. Your intelligence. Proposals, spreadsheets, emails — analysed and turned into insights personal to you.</div>
-          <div class="hero-step"><div class="hs-num">1</div><div><div class="hs-t">Tap + to add files</div><div class="hs-s">Pick from iCloud Drive, Files app, or anywhere on your iPhone.</div></div></div>
-          <div class="hero-step"><div class="hs-num">2</div><div><div class="hs-t">Tap Analyse</div><div class="hs-s">SCENTS reads everything and builds your personal intelligence corpus.</div></div></div>
-          <div class="hero-step"><div class="hs-num">3</div><div><div class="hs-t">Get insights</div><div class="hs-s">Opportunities, risks, clients, financials — ask anything.</div></div></div>
-        </div>
+      <!-- Fisher info -->
+      <div style="margin-top:10px;padding-top:10px;border-top:0.5px solid var(--b1)">
+        <div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-bottom:4px">TOTAL FISHER INFORMATION CAPTURED — trace(J(θ))</div>
+        <div style="font-family:var(--fm);font-size:14px;color:var(--purple)" id="fisher-total">I(X;Y) = 0.000</div>
       </div>
     </div>
 
-    <!-- PROCESSING -->
-    <div class="view view-pad" id="view-processing">
-      <div class="processing">
-        <div class="dots" style="display:flex;justify-content:center;margin-bottom:20px"><span></span><span></span><span></span></div>
-        <div class="proc-title" id="proc-title">Extracting…</div>
-        <div class="proc-sub" id="proc-sub">Reading your files</div>
-        <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
-        <div class="prog-file" id="prog-file">—</div>
+    <!-- Event log button -->
+    <button class="analyse-btn" style="margin-bottom:12px" onclick="openEventModal()">+ Log Behavioral Event</button>
+
+    <!-- Event feed -->
+    <div class="sh"><div class="sh-t">Event Log</div><span class="tag tc" id="event-count-tag">0 events</span></div>
+    <div id="event-feed"><div class="empty"><div class="empty-icon" style="font-size:28px">⬡</div><div class="empty-text" style="font-size:13px">No events logged yet.<br>Tap the button above to record behavioral signals.</div></div></div>
+  </div>
+
+  <!-- ── RETENTION / ATTENTION ENGINE ── -->
+  <div class="b-panel" id="bpanel-retention">
+    <div class="card" style="margin-bottom:12px">
+      <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Rescorla-Wagner RL — Attention Model</div>
+      <div style="font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:12px">The engine learns which insight types you engage with and re-weights your intelligence feed accordingly. Each tap on an insight updates the associative strength V using the Rescorla-Wagner update rule.</div>
+      <!-- RW equation display -->
+      <div style="background:var(--s2);border-radius:10px;padding:12px;font-family:var(--fm);font-size:12px;color:var(--purple);line-height:2">
+        ΔV = α·β·(λ − V)<br>
+        <span style="color:var(--t3)">α = salience · β = learn rate · λ = max value · V = current strength</span>
       </div>
     </div>
 
-    <!-- INSIGHTS -->
-    <div class="view view-pad" id="view-insights">
-      <div class="qbox">
-        <textarea class="qi" id="ins-q" placeholder="Deep analysis… compare projects, identify gaps, strategic priorities…" rows="2"></textarea>
-        <button class="q-send" onclick="runQ('ins-q','ins-result')">↑</button>
-      </div>
-      <div id="ins-result"></div>
-      <div class="sh"><div class="sh-t">All Insights</div></div>
-      <div id="insights-list"><div class="empty"><div class="empty-icon">✦</div><div class="empty-text">Analyse your files to generate insights</div></div></div>
+    <!-- Learned weights per category -->
+    <div class="sh"><div class="sh-t">Learned Category Weights</div><span class="tag tp">Live</span></div>
+    <div id="rw-weights-list" style="margin-bottom:14px"></div>
+
+    <!-- Session stats -->
+    <div class="card">
+      <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Session Attention Stats</div>
+      <div id="rw-stats" style="font-size:13px;color:var(--t2);line-height:1.9;font-family:var(--fm)"></div>
+      <button class="btn" onclick="resetRW()" style="margin-top:10px;font-size:12px">↺ Reset Learning</button>
     </div>
+  </div>
 
-    <!-- OPPORTUNITIES -->
-    <div class="view view-pad" id="view-opps">
-      <div class="sh"><div class="sh-t">Opportunities</div><span class="tag tgo">From your files</span></div>
-      <div id="opps-list"><div class="empty"><div class="empty-icon">⬡</div><div class="empty-text">Load and analyse files to extract opportunities</div></div></div>
-    </div>
-
-    <!-- RISKS -->
-    <div class="view view-pad" id="view-risks">
-      <div class="sh"><div class="sh-t">Risks & Deadlines</div><span class="tag tr" id="risk-count"></span></div>
-      <div id="risks-list"><div class="empty"><div class="empty-icon">⚠</div><div class="empty-text">Load documents to extract risk flags</div></div></div>
-    </div>
-
-    <!-- FILES -->
-    <div class="view view-pad" id="view-files">
-      <div class="sh"><div class="sh-t">Your Files</div><div class="sh-s" id="files-sub">—</div></div>
-
-      <!-- Upload zone -->
-      <button class="upload-zone" onclick="openFilePicker()">
-        <div class="uz-icon">⊕</div>
-        <div class="uz-title">Add Files</div>
-        <div class="uz-sub">Tap to pick from iCloud Drive or Files app</div>
-        <div class="uz-types">PDF · DOCX · XLSX · CSV · PPTX · EML · TXT · IMG</div>
-      </button>
-      <input type="file" id="file-input" multiple
-        accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.pptx,.eml,.msg,.txt,.png,.jpg,.jpeg,.gif,.webp">
-
-      <button class="analyse-btn" id="analyse-btn" disabled onclick="analyseAll()">✦ Analyse All</button>
-      <div id="file-list"></div>
-    </div>
-
-    <!-- REPORT -->
-    <div class="view view-pad" id="view-report">
-      <div class="sh"><div class="sh-t">Report Builder</div></div>
-      <div class="card">
-        <div class="form-label" style="margin-top:0">Report Type</div>
-        <select id="rpt-type">
-          <option>Personal Intelligence Summary</option>
-          <option>Client Briefing</option>
-          <option>Opportunity Pipeline</option>
-          <option>Risk & Compliance Review</option>
-          <option>Financial Analysis</option>
-          <option>Weekly Consulting Brief</option>
-          <option>Investor Update</option>
-        </select>
-        <div class="form-label">Focus / Client</div>
-        <input type="text" id="rpt-focus" placeholder="e.g. Mulika VPP, BIPOLAR™, Safaricom Land…">
-        <div class="form-label">Additional Context</div>
-        <textarea id="rpt-ctx" rows="3" placeholder="Specific questions, angles, audience…"></textarea>
-        <button class="btn btn-p" onclick="generateReport()" style="width:100%;justify-content:center;margin-top:16px;font-size:15px;min-height:52px">✦ Generate with AI</button>
-      </div>
-      <div id="report-out" style="display:none">
-        <div class="card"><div id="report-content" class="report-body"></div></div>
-        <button class="btn" onclick="shareReport()" style="width:100%;justify-content:center;margin-top:8px">⎙ Share Report</button>
+  <!-- ── ENGAGEMENT RANKING ── -->
+  <div class="b-panel" id="bpanel-ranking">
+    <div class="card" style="margin-bottom:12px">
+      <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Instagram-Style Conformal Ranking</div>
+      <div style="font-size:13px;color:var(--t2);line-height:1.7">Every insight is scored by <strong style="color:var(--t1)">relevance × recency × relationship strength</strong>, then ranked with a conformal coverage guarantee — higher-ranked insights are provably more actionable.</div>
+      <div style="background:var(--s2);border-radius:10px;padding:10px;margin-top:10px;font-family:var(--fm);font-size:11px;color:var(--purple);line-height:1.9">
+        score(i) = w₁·P(relevant) + w₂·recency + w₃·V(category)<br>
+        <span style="color:var(--t3)">w₁=0.5 · w₂=0.2 · w₃=0.3 · V from Rescorla-Wagner</span>
       </div>
     </div>
 
+    <div class="sh">
+      <div class="sh-t">Ranked Intelligence Feed</div>
+      <button class="btn" style="font-size:11px;padding:4px 10px" onclick="reRankInsights()">↻ Re-rank</button>
+    </div>
+    <div id="ranked-feed"><div class="empty"><div class="empty-icon" style="font-size:28px">✦</div><div class="empty-text" style="font-size:13px">Analyse files first, then tap Re-rank to see your conformal-ranked intelligence feed.</div></div></div>
+  </div>
 
-    <!-- BEHAVIOUR ENGINE -->
-    <div class="view view-pad" id="view-behaviour">
+</div>
 
-      <!-- Sub-nav -->
-      <div class="b-subnav" id="b-subnav">
-        <button class="b-tab on" id="btab-sensor"   onclick="bNav(this,'sensor')">47-Event Sensor</button>
-        <button class="b-tab"    id="btab-retention" onclick="bNav(this,'retention')">Attention Engine</button>
-        <button class="b-tab"    id="btab-ranking"   onclick="bNav(this,'ranking')">Engagement Ranking</button>
-      </div>
+<!-- DELPHI -->
+<div class="view view-pad" id="view-delphi">
+  <div class="sh"><div class="sh-t">Delphi Engine</div><span class="tag tp">L4 · Crawford-Williams</span></div>
 
-      <!-- ── SENSOR PANEL ── -->
-      <div class="b-panel on" id="bpanel-sensor">
-        <div class="card" style="margin-bottom:12px">
-          <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Fogg Behavior Model — B = MAP</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px">
-            <div>
-              <div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-bottom:4px">MOTIVATION</div>
-              <div style="font-family:var(--fd);font-size:22px;font-weight:700;color:var(--cyan)" id="map-m">0</div>
-              <div style="height:3px;background:var(--s3);border-radius:3px;margin-top:4px;overflow:hidden"><div id="bar-m" style="height:100%;background:var(--cyan);border-radius:3px;width:0%;transition:width .6s ease"></div></div>
-            </div>
-            <div>
-              <div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-bottom:4px">ABILITY</div>
-              <div style="font-family:var(--fd);font-size:22px;font-weight:700;color:var(--green)" id="map-a">0</div>
-              <div style="height:3px;background:var(--s3);border-radius:3px;margin-top:4px;overflow:hidden"><div id="bar-a" style="height:100%;background:var(--green);border-radius:3px;width:0%;transition:width .6s ease"></div></div>
-            </div>
-            <div>
-              <div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-bottom:4px">PROMPT</div>
-              <div style="font-family:var(--fd);font-size:22px;font-weight:700;color:var(--amber)" id="map-p">0</div>
-              <div style="height:3px;background:var(--s3);border-radius:3px;margin-top:4px;overflow:hidden"><div id="bar-p" style="height:100%;background:var(--amber);border-radius:3px;width:0%;transition:width .6s ease"></div></div>
-            </div>
-          </div>
-          <!-- B score -->
-          <div style="background:var(--s2);border-radius:10px;padding:12px;display:flex;align-items:center;justify-content:space-between">
-            <div>
-              <div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-bottom:3px">BEHAVIOR SCORE B=MAP</div>
-              <div style="font-family:var(--fd);font-size:28px;font-weight:800;color:var(--cyan)" id="b-score">0.00</div>
-            </div>
-            <div style="text-align:right">
-              <div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-bottom:3px">CONVERSION PROB</div>
-              <div style="font-family:var(--fd);font-size:28px;font-weight:800;color:var(--green)" id="conv-prob">0%</div>
-            </div>
-          </div>
-          <!-- Fisher info -->
-          <div style="margin-top:10px;padding-top:10px;border-top:0.5px solid var(--b1)">
-            <div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-bottom:4px">TOTAL FISHER INFORMATION CAPTURED — trace(J(θ))</div>
-            <div style="font-family:var(--fm);font-size:14px;color:var(--purple)" id="fisher-total">I(X;Y) = 0.000</div>
-          </div>
-        </div>
+  <!-- Question setup -->
+  <div class="card" id="delphi-setup">
+    <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Forecasting Question</div>
+    <textarea id="delphi-q" rows="3" placeholder="e.g. What is the probability that Mulika VPP secures Series A funding within 12 months?" style="width:100%;background:var(--s2);border:0.5px solid var(--b2);border-radius:10px;color:var(--t1);font-family:var(--ff);padding:10px 12px;font-size:14px;outline:none;resize:none;margin-bottom:12px"></textarea>
 
-        <!-- Event log button -->
-        <button class="analyse-btn" style="margin-bottom:12px" onclick="openEventModal()">+ Log Behavioral Event</button>
-
-        <!-- Event feed -->
-        <div class="sh"><div class="sh-t">Event Log</div><span class="tag tc" id="event-count-tag">0 events</span></div>
-        <div id="event-feed"><div class="empty"><div class="empty-icon" style="font-size:28px">⬡</div><div class="empty-text" style="font-size:13px">No events logged yet.<br>Tap the button above to record behavioral signals.</div></div></div>
-      </div>
-
-      <!-- ── RETENTION / ATTENTION ENGINE ── -->
-      <div class="b-panel" id="bpanel-retention">
-        <div class="card" style="margin-bottom:12px">
-          <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Rescorla-Wagner RL — Attention Model</div>
-          <div style="font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:12px">The engine learns which insight types you engage with and re-weights your intelligence feed accordingly. Each tap on an insight updates the associative strength V using the Rescorla-Wagner update rule.</div>
-          <!-- RW equation display -->
-          <div style="background:var(--s2);border-radius:10px;padding:12px;font-family:var(--fm);font-size:12px;color:var(--purple);line-height:2">
-            ΔV = α·β·(λ − V)<br>
-            <span style="color:var(--t3)">α = salience · β = learn rate · λ = max value · V = current strength</span>
-          </div>
-        </div>
-
-        <!-- Learned weights per category -->
-        <div class="sh"><div class="sh-t">Learned Category Weights</div><span class="tag tp">Live</span></div>
-        <div id="rw-weights-list" style="margin-bottom:14px"></div>
-
-        <!-- Session stats -->
-        <div class="card">
-          <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Session Attention Stats</div>
-          <div id="rw-stats" style="font-size:13px;color:var(--t2);line-height:1.9;font-family:var(--fm)"></div>
-          <button class="btn" onclick="resetRW()" style="margin-top:10px;font-size:12px">↺ Reset Learning</button>
-        </div>
-      </div>
-
-      <!-- ── ENGAGEMENT RANKING ── -->
-      <div class="b-panel" id="bpanel-ranking">
-        <div class="card" style="margin-bottom:12px">
-          <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Instagram-Style Conformal Ranking</div>
-          <div style="font-size:13px;color:var(--t2);line-height:1.7">Every insight is scored by <strong style="color:var(--t1)">relevance × recency × relationship strength</strong>, then ranked with a conformal coverage guarantee — higher-ranked insights are provably more actionable.</div>
-          <div style="background:var(--s2);border-radius:10px;padding:10px;margin-top:10px;font-family:var(--fm);font-size:11px;color:var(--purple);line-height:1.9">
-            score(i) = w₁·P(relevant) + w₂·recency + w₃·V(category)<br>
-            <span style="color:var(--t3)">w₁=0.5 · w₂=0.2 · w₃=0.3 · V from Rescorla-Wagner</span>
-          </div>
-        </div>
-
-        <div class="sh">
-          <div class="sh-t">Ranked Intelligence Feed</div>
-          <button class="btn" style="font-size:11px;padding:4px 10px" onclick="reRankInsights()">↻ Re-rank</button>
-        </div>
-        <div id="ranked-feed"><div class="empty"><div class="empty-icon" style="font-size:28px">✦</div><div class="empty-text" style="font-size:13px">Analyse files first, then tap Re-rank to see your conformal-ranked intelligence feed.</div></div></div>
-      </div>
-
+    <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Expert Panel <span style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">(tap to remove)</span></div>
+    <div id="expert-chips" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px"></div>
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <input type="text" id="expert-input" placeholder="Add expert role e.g. VC fund analyst" style="flex:1;background:var(--s2);border:0.5px solid var(--b2);border-radius:10px;color:var(--t1);font-family:var(--ff);padding:10px 12px;font-size:14px;outline:none">
+      <button class="btn btn-p" onclick="addExpert()" style="flex-shrink:0;padding:10px 16px;font-size:14px;min-height:unset">+</button>
     </div>
 
-    <!-- DELPHI -->
-    <div class="view view-pad" id="view-delphi">
-      <div class="sh"><div class="sh-t">Delphi Engine</div><span class="tag tp">L4 · Crawford-Williams</span></div>
+    <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Context from your files <span style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></div>
+    <textarea id="delphi-ctx" rows="2" placeholder="Any additional context you want experts to consider…" style="width:100%;background:var(--s2);border:0.5px solid var(--b2);border-radius:10px;color:var(--t1);font-family:var(--ff);padding:10px 12px;font-size:14px;outline:none;resize:none;margin-bottom:14px"></textarea>
 
-      <!-- Question setup -->
-      <div class="card" id="delphi-setup">
-        <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Forecasting Question</div>
-        <textarea id="delphi-q" rows="3" placeholder="e.g. What is the probability that Mulika VPP secures Series A funding within 12 months?" style="width:100%;background:var(--s2);border:0.5px solid var(--b2);border-radius:10px;color:var(--t1);font-family:var(--ff);padding:10px 12px;font-size:14px;outline:none;resize:none;margin-bottom:12px"></textarea>
+    <button class="analyse-btn" id="delphi-run-btn" onclick="runDelphi()" style="margin-bottom:0">◬ Run Delphi Round</button>
+  </div>
 
-        <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Expert Panel <span style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">(tap to remove)</span></div>
-        <div id="expert-chips" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px"></div>
-        <div style="display:flex;gap:8px;margin-bottom:12px">
-          <input type="text" id="expert-input" placeholder="Add expert role e.g. VC fund analyst" style="flex:1;background:var(--s2);border:0.5px solid var(--b2);border-radius:10px;color:var(--t1);font-family:var(--ff);padding:10px 12px;font-size:14px;outline:none">
-          <button class="btn btn-p" onclick="addExpert()" style="flex-shrink:0;padding:10px 16px;font-size:14px;min-height:unset">+</button>
-        </div>
+  <!-- Results -->
+  <div id="delphi-results" style="display:none">
 
-        <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Context from your files <span style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></div>
-        <textarea id="delphi-ctx" rows="2" placeholder="Any additional context you want experts to consider…" style="width:100%;background:var(--s2);border:0.5px solid var(--b2);border-radius:10px;color:var(--t1);font-family:var(--ff);padding:10px 12px;font-size:14px;outline:none;resize:none;margin-bottom:14px"></textarea>
+    <!-- Round indicator -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div style="font-family:var(--fd);font-size:16px;font-weight:700">Round <span id="delphi-round-num">1</span> Results</div>
+      <button class="btn" onclick="runDelphiRound2()" id="delphi-r2-btn" style="display:none;font-size:13px">Round 2 ↻</button>
+    </div>
 
-        <button class="analyse-btn" id="delphi-run-btn" onclick="runDelphi()" style="margin-bottom:0">◬ Run Delphi Round</button>
+    <!-- Expert estimates -->
+    <div id="delphi-expert-cards"></div>
+
+    <!-- Consensus -->
+    <div class="card" id="delphi-consensus" style="border-color:var(--cyan);background:var(--cD);margin-top:4px">
+      <div style="font-size:11px;color:var(--cyan);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Weighted Consensus — Crawford-Williams + IQR</div>
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:10px">
+        <div style="font-family:var(--fd);font-size:40px;font-weight:800;color:var(--cyan)" id="consensus-pct">—</div>
+        <div style="font-size:13px;color:var(--t2)">probability</div>
       </div>
-
-      <!-- Results -->
-      <div id="delphi-results" style="display:none">
-
-        <!-- Round indicator -->
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-          <div style="font-family:var(--fd);font-size:16px;font-weight:700">Round <span id="delphi-round-num">1</span> Results</div>
-          <button class="btn" onclick="runDelphiRound2()" id="delphi-r2-btn" style="display:none;font-size:13px">Round 2 ↻</button>
-        </div>
-
-        <!-- Expert estimates -->
-        <div id="delphi-expert-cards"></div>
-
-        <!-- Consensus -->
-        <div class="card" id="delphi-consensus" style="border-color:var(--cyan);background:var(--cD);margin-top:4px">
-          <div style="font-size:11px;color:var(--cyan);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Weighted Consensus — Crawford-Williams + IQR</div>
-          <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:10px">
-            <div style="font-family:var(--fd);font-size:40px;font-weight:800;color:var(--cyan)" id="consensus-pct">—</div>
-            <div style="font-size:13px;color:var(--t2)">probability</div>
-          </div>
-          <div id="consensus-bar-wrap" style="height:6px;background:var(--s3);border-radius:6px;margin-bottom:10px;overflow:hidden">
-            <div id="consensus-bar" style="height:100%;background:var(--cyan);border-radius:6px;width:0%;transition:width 1s ease"></div>
-          </div>
-          <div style="font-size:13px;color:var(--t2);line-height:1.7" id="consensus-interp"></div>
-          <div style="margin-top:10px;padding-top:10px;border-top:0.5px solid var(--b1)">
-            <div style="font-size:11px;color:var(--t3);font-family:var(--fm);margin-bottom:4px">STATISTICAL SUMMARY</div>
-            <div id="delphi-stats" style="font-size:12px;color:var(--t2);font-family:var(--fm);line-height:1.8"></div>
-          </div>
-        </div>
-
-        <!-- Brier / calibration note -->
-        <div class="card" style="margin-top:10px">
-          <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Calibration Tracking</div>
-          <div id="brier-history" style="font-size:13px;color:var(--t2);line-height:1.7"></div>
-          <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
-            <button class="btn btn-p" onclick="recordOutcome()" style="font-size:13px">Record Outcome</button>
-            <button class="btn" onclick="addToReport_delphi()" style="font-size:13px">▤ Add to Report</button>
-            <button class="btn" onclick="resetDelphi()" style="font-size:13px">↺ New Question</button>
-          </div>
-        </div>
-
+      <div id="consensus-bar-wrap" style="height:6px;background:var(--s3);border-radius:6px;margin-bottom:10px;overflow:hidden">
+        <div id="consensus-bar" style="height:100%;background:var(--cyan);border-radius:6px;width:0%;transition:width 1s ease"></div>
+      </div>
+      <div style="font-size:13px;color:var(--t2);line-height:1.7" id="consensus-interp"></div>
+      <div style="margin-top:10px;padding-top:10px;border-top:0.5px solid var(--b1)">
+        <div style="font-size:11px;color:var(--t3);font-family:var(--fm);margin-bottom:4px">STATISTICAL SUMMARY</div>
+        <div id="delphi-stats" style="font-size:12px;color:var(--t2);font-family:var(--fm);line-height:1.8"></div>
       </div>
     </div>
+
+    <!-- Brier / calibration note -->
+    <div class="card" style="margin-top:10px">
+      <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Calibration Tracking</div>
+      <div id="brier-history" style="font-size:13px;color:var(--t2);line-height:1.7"></div>
+      <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+        <button class="btn btn-p" onclick="recordOutcome()" style="font-size:13px">Record Outcome</button>
+        <button class="btn" onclick="addToReport_delphi()" style="font-size:13px">▤ Add to Report</button>
+        <button class="btn" onclick="resetDelphi()" style="font-size:13px">↺ New Question</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+```
 
   </div><!-- /scroll -->
 
   <!-- Bottom tab bar -->
+
   <div class="tabbar">
     <button class="tab on" id="tab-home" onclick="switchTab('home')">
       <span class="tab-icon">◈</span>
@@ -697,7 +733,27 @@ textarea { resize: none; }
 
 </div><!-- /shell -->
 
+<!-- API KEY SCREEN — shown on first launch or when key is missing -->
+
+<div class="key-screen" id="key-screen" style="display:none">
+  <div class="key-logo">SCENTS</div>
+  <div class="key-tag">Personal Intelligence · EKN Consulting</div>
+  <div class="key-card">
+    <div class="key-title">Connect your API key</div>
+    <div class="key-sub">Your key is stored only on this device — it never touches GitHub or any server. You can change it anytime in Settings.</div>
+    <input class="key-input" id="key-input" type="password"
+      placeholder="sk-ant-api03-..."
+      autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+    <div class="key-hint">Get your free key at console.anthropic.com → API Keys → Create Key<br>Add billing credit ($5 covers ~100 analyses)</div>
+    <button class="key-btn" onclick="saveApiKey()">Connect →</button>
+    <div class="key-link">
+      Key stays on your phone only · <a href="https://console.anthropic.com" target="_blank">Open Anthropic Console</a>
+    </div>
+  </div>
+</div>
+
 <!-- Upload modal -->
+
 <div id="upload-modal" style="display:none">
   <div class="modal-bg" onclick="closeUploadModal()">
     <div class="modal" onclick="e=>e.stopPropagation()">
@@ -715,6 +771,7 @@ textarea { resize: none; }
 </div>
 
 <!-- Toast container -->
+
 <div class="toast-wrap" id="toasts"></div>
 
 <script>
@@ -725,6 +782,61 @@ const S = {
 };
 
 // ── SERVICE WORKER ──────────────────────────────────────
+// ── API KEY MANAGEMENT ──────────────────────────────────────
+const KEY_STORAGE = 'scents_api_key';
+
+function getApiKey() {
+  return localStorage.getItem(KEY_STORAGE) || '';
+}
+
+function saveApiKey() {
+  const val = document.getElementById('key-input').value.trim();
+  if (!val) { toast('Paste your API key first', 'warn'); return; }
+  if (!val.startsWith('sk-ant-')) {
+    toast('Key should start with sk-ant-', 'warn'); return;
+  }
+  localStorage.setItem(KEY_STORAGE, val);
+  document.getElementById('key-screen').style.display = 'none';
+  renderKeyStatus();
+  toast('API key saved to this device', 'ok');
+}
+
+function clearApiKey() {
+  if (!confirm('Remove API key from this device?')) return;
+  localStorage.removeItem(KEY_STORAGE);
+  showKeyScreen();
+}
+
+function showKeyScreen() {
+  document.getElementById('key-screen').style.display = 'flex';
+  setTimeout(() => document.getElementById('key-input').focus(), 300);
+}
+
+function renderKeyStatus() {
+  const key = getApiKey();
+  // Show masked key + change option in topbar
+  const bar = document.getElementById('key-status-bar');
+  if (!bar) return;
+  if (key) {
+    const masked = key.slice(0, 14) + '••••••••••••' + key.slice(-4);
+    bar.innerHTML = `<div class="key-stored-dot"></div>
+      <div class="key-stored-text">${masked}</div>
+      <div class="key-change" onclick="showKeyScreen()">Change</div>`;
+    bar.style.display = 'flex';
+  } else {
+    bar.style.display = 'none';
+  }
+}
+
+function checkApiKeyOnLoad() {
+  const key = getApiKey();
+  if (!key) {
+    showKeyScreen();
+  } else {
+    renderKeyStatus();
+  }
+}
+
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
 
 // ── INSTALL PROMPT ──────────────────────────────────────
@@ -913,7 +1025,7 @@ async function claude(sys, usr, tok) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key':'',
+      'x-api-key': getApiKey(),
       'anthropic-version': '2023-06-01',
       'anthropic-dangerous-direct-browser-access': 'true'
     },
@@ -927,7 +1039,14 @@ async function claude(sys, usr, tok) {
     })
   });
   const d = await res.json();
-  if (d.error) throw new Error(d.error.message);
+  if (d.error) {
+    if (d.error.type === 'authentication_error' || (d.error.message||'').toLowerCase().includes('api key') || (d.error.message||'').toLowerCase().includes('auth')) {
+      localStorage.removeItem(KEY_STORAGE);
+      showKeyScreen();
+      throw new Error('API key invalid or expired — please re-enter your key');
+    }
+    throw new Error(d.error.message);
+  }
   return d.content[0].text;
 }
 
@@ -1836,7 +1955,9 @@ function resetDelphi() {
 // Initialise Delphi on load
 initDelphi();
 
+checkApiKeyOnLoad();
 toast('SCENTS ready — tap + to add files', 'info');
 </script>
+
 </body>
 </html>
