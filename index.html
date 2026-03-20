@@ -1233,16 +1233,9 @@ function bNav(el, panel) {
  
 // ── EVENT MODAL ──────────────────────────────────────────
 function openEventModal() {
-  const layerGroups = {};
-  EVENT_SCHEMA.forEach(e => {
-    if (!layerGroups[e.layer]) layerGroups[e.layer] = [];
-    layerGroups[e.layer].push(e);
-  });
- 
-  const options = Object.entries(layerGroups).map(([layer, events]) =>
-    `<optgroup label="${layer}">` +
-    events.map(e => `<option value="${e.id}">${e.id} (FI: ${e.fi.toFixed(2)})</option>`).join('') +
-    `</optgroup>`
+  // Build suggestion list from schema for datalist autocomplete
+  const suggestions = EVENT_SCHEMA.map(e =>
+    `<option value="${e.id}" data-layer="${e.layer}" data-fi="${e.fi}">`
   ).join('');
  
   const modal = document.createElement('div');
@@ -1252,10 +1245,19 @@ function openEventModal() {
     <div class="modal-title">Log Behavioral Event</div>
  
     <div class="form-label" style="margin-top:0">Event Type</div>
-    <select id="ev-type-sel" style="width:100%;margin-bottom:12px">${options}</select>
+    <div style="font-size:12px;color:var(--t3);font-family:var(--fm);margin-bottom:6px">Type your own or pick from the 47-event schema suggestions</div>
+    <datalist id="ev-schema-list">${suggestions}</datalist>
+    <input type="text" id="ev-type-input" list="ev-schema-list"
+      placeholder="e.g. ClientMeeting, CartAbandon, WhatsAppLatency…"
+      style="width:100%;margin-bottom:6px"
+      oninput="updateFIPreview(this.value)">
+    <div id="fi-preview" style="font-size:11px;color:var(--purple);font-family:var(--fm);margin-bottom:12px;min-height:16px"></div>
  
     <div class="form-label">Entity / Subject</div>
     <input type="text" id="ev-entity" placeholder="e.g. Amara Foods, Mulika VPP, User #1042" style="width:100%;margin-bottom:12px">
+ 
+    <div class="form-label">Layer (optional — auto-detected for schema events)</div>
+    <input type="text" id="ev-layer-input" placeholder="e.g. Consideration, Custom, MacroEnv…" style="width:100%;margin-bottom:12px">
  
     <div class="form-label">Fogg MAP — Motivation (0–10)</div>
     <input type="range" id="ev-m" min="0" max="10" value="5" style="width:100%" oninput="document.getElementById('ev-m-val').textContent=this.value">
@@ -1278,27 +1280,51 @@ function openEventModal() {
   document.body.appendChild(modal);
 }
  
+function updateFIPreview(val) {
+  const schema = EVENT_SCHEMA.find(e => e.id === val);
+  const prev = document.getElementById('fi-preview');
+  const layerInp = document.getElementById('ev-layer-input');
+  if (schema) {
+    prev.textContent = '✓ Schema match — Layer: ' + schema.layer + ' · FI weight: ' + schema.fi.toFixed(3) + ' · α: ' + schema.alpha.toFixed(1);
+    prev.style.color = 'var(--green)';
+    layerInp.value = schema.layer;
+  } else if (val.trim().length > 0) {
+    prev.textContent = '◈ Custom event — FI default: 0.400 · assign layer below';
+    prev.style.color = 'var(--cyan)';
+  } else {
+    prev.textContent = '';
+  }
+}
+ 
 function logEvent(btn) {
-  const sel = document.getElementById('ev-type-sel');
-  const evId = sel.value;
+  // Read from free-text input — falls back to schema lookup, then custom defaults
+  const evId = (document.getElementById('ev-type-input').value || '').trim();
+  if (!evId) { toast('Enter an event type', 'warn'); return; }
+ 
   const entity = document.getElementById('ev-entity').value.trim() || 'Unknown';
+  const layerOverride = (document.getElementById('ev-layer-input').value || '').trim();
   const m = parseInt(document.getElementById('ev-m').value);
   const a = parseInt(document.getElementById('ev-a').value);
   const p = parseInt(document.getElementById('ev-p').value);
  
+  // Match against schema — if no match, use custom defaults
   const schema = EVENT_SCHEMA.find(e => e.id === evId);
-  if (!schema) return;
+  const fi     = schema ? schema.fi    : 0.40;
+  const alpha  = schema ? schema.alpha : 0.50;
+  const layer  = layerOverride || (schema ? schema.layer : 'Custom');
+  const color  = schema ? schema.color : '#00C8F0';
+  const bg     = schema ? schema.bg    : 'rgba(0,200,240,0.15)';
  
   // Fogg B = M × A × P (normalised 0–1)
   const bScore = (m / 10) * (a / 10) * (p / 10);
  
   // Fisher Information contribution
-  const fiContrib = schema.fi * bScore * schema.alpha;
+  const fiContrib = fi * bScore * alpha;
  
   const ev = {
-    id: evId, entity, layer: schema.layer,
+    id: evId, entity, layer,
     m, a, p, bScore, fi: fiContrib,
-    color: schema.color, bg: schema.bg,
+    color, bg,
     ts: new Date().toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit', second:'2-digit'})
   };
  
@@ -1807,3 +1833,4 @@ toast('SCENTS ready — tap + to add files', 'info');
 </script>
 </body>
 </html>
+ 
