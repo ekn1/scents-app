@@ -3,12 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+<!-- iOS PWA: makes it launch standalone (no Safari chrome) -->
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+
+<!-- iOS status bar style: black-translucent lets app extend behind notch -->
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<!-- Name shown under the icon on home screen -->
 <meta name="apple-mobile-web-app-title" content="SCENTS">
+
+<!-- Theme colour (browser chrome on Android, Safari toolbar) -->
 <meta name="theme-color" content="#06080C">
+
+<!-- Web app manifest -->
 <link rel="manifest" href="./manifest.json">
+
+<!-- iOS home screen icon (must be PNG, no transparency for iOS) -->
 <link rel="apple-touch-icon" href="./icon-512.png">
+<link rel="apple-touch-icon" sizes="192x192" href="./icon-192.png">
+
+<!-- iOS splash screens - these make the launch feel instant and native -->
+<meta name="apple-touch-fullscreen" content="yes">
+
 <title>SCENTS</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -293,6 +311,19 @@ textarea { resize: none; }
 .empty { text-align: center; padding: 48px 24px; color: var(--t3); }
 .empty-icon { font-size: 40px; margin-bottom: 12px; opacity: .4; }
 .empty-text { font-size: 14px; line-height: 1.6; }
+
+/* ── DELPHI ── */
+.expert-chip{display:inline-flex;align-items:center;gap:6px;background:var(--pD);border:0.5px solid var(--purple);color:var(--purple);border-radius:20px;padding:5px 12px;font-size:12px;font-family:var(--fm);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.expert-chip:active{opacity:.7;}
+.d-card{background:var(--s1);border:0.5px solid var(--b1);border-radius:14px;padding:14px;margin-bottom:10px;}
+.d-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px;}
+.d-expert{font-size:13px;font-weight:600;}
+.d-domain{font-size:11px;color:var(--t3);font-family:var(--fm);margin-top:2px;}
+.d-est{font-family:var(--fd);font-size:28px;font-weight:700;flex-shrink:0;}
+.d-weight{font-size:10px;color:var(--t3);font-family:var(--fm);text-align:right;margin-top:2px;}
+.d-reasoning{font-size:13px;color:var(--t2);line-height:1.7;border-top:0.5px solid var(--b1);padding-top:8px;margin-top:4px;}
+.d-bar{height:4px;background:var(--s3);border-radius:4px;overflow:hidden;margin-top:8px;}
+.d-bar-fill{height:100%;border-radius:4px;transition:width 1s ease;}
 </style>
 </head>
 <body>
@@ -434,6 +465,72 @@ textarea { resize: none; }
       </div>
     </div>
 
+
+    <!-- DELPHI -->
+    <div class="view view-pad" id="view-delphi">
+      <div class="sh"><div class="sh-t">Delphi Engine</div><span class="tag tp">L4 · Crawford-Williams</span></div>
+
+      <!-- Question setup -->
+      <div class="card" id="delphi-setup">
+        <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Forecasting Question</div>
+        <textarea id="delphi-q" rows="3" placeholder="e.g. What is the probability that Mulika VPP secures Series A funding within 12 months?" style="width:100%;background:var(--s2);border:0.5px solid var(--b2);border-radius:10px;color:var(--t1);font-family:var(--ff);padding:10px 12px;font-size:14px;outline:none;resize:none;margin-bottom:12px"></textarea>
+
+        <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Expert Panel <span style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">(tap to remove)</span></div>
+        <div id="expert-chips" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px"></div>
+        <div style="display:flex;gap:8px;margin-bottom:12px">
+          <input type="text" id="expert-input" placeholder="Add expert role e.g. VC fund analyst" style="flex:1;background:var(--s2);border:0.5px solid var(--b2);border-radius:10px;color:var(--t1);font-family:var(--ff);padding:10px 12px;font-size:14px;outline:none">
+          <button class="btn btn-p" onclick="addExpert()" style="flex-shrink:0;padding:10px 16px;font-size:14px;min-height:unset">+</button>
+        </div>
+
+        <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Context from your files <span style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></div>
+        <textarea id="delphi-ctx" rows="2" placeholder="Any additional context you want experts to consider…" style="width:100%;background:var(--s2);border:0.5px solid var(--b2);border-radius:10px;color:var(--t1);font-family:var(--ff);padding:10px 12px;font-size:14px;outline:none;resize:none;margin-bottom:14px"></textarea>
+
+        <button class="analyse-btn" id="delphi-run-btn" onclick="runDelphi()" style="margin-bottom:0">◬ Run Delphi Round</button>
+      </div>
+
+      <!-- Results -->
+      <div id="delphi-results" style="display:none">
+
+        <!-- Round indicator -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div style="font-family:var(--fd);font-size:16px;font-weight:700">Round <span id="delphi-round-num">1</span> Results</div>
+          <button class="btn" onclick="runDelphiRound2()" id="delphi-r2-btn" style="display:none;font-size:13px">Round 2 ↻</button>
+        </div>
+
+        <!-- Expert estimates -->
+        <div id="delphi-expert-cards"></div>
+
+        <!-- Consensus -->
+        <div class="card" id="delphi-consensus" style="border-color:var(--cyan);background:var(--cD);margin-top:4px">
+          <div style="font-size:11px;color:var(--cyan);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Weighted Consensus — Crawford-Williams + IQR</div>
+          <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:10px">
+            <div style="font-family:var(--fd);font-size:40px;font-weight:800;color:var(--cyan)" id="consensus-pct">—</div>
+            <div style="font-size:13px;color:var(--t2)">probability</div>
+          </div>
+          <div id="consensus-bar-wrap" style="height:6px;background:var(--s3);border-radius:6px;margin-bottom:10px;overflow:hidden">
+            <div id="consensus-bar" style="height:100%;background:var(--cyan);border-radius:6px;width:0%;transition:width 1s ease"></div>
+          </div>
+          <div style="font-size:13px;color:var(--t2);line-height:1.7" id="consensus-interp"></div>
+          <div style="margin-top:10px;padding-top:10px;border-top:0.5px solid var(--b1)">
+            <div style="font-size:11px;color:var(--t3);font-family:var(--fm);margin-bottom:4px">STATISTICAL SUMMARY</div>
+            <div id="delphi-stats" style="font-size:12px;color:var(--t2);font-family:var(--fm);line-height:1.8"></div>
+          </div>
+        </div>
+
+        <!-- Brier / calibration note -->
+        <div class="card" style="margin-top:10px">
+          <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Calibration Tracking</div>
+          <div id="brier-history" style="font-size:13px;color:var(--t2);line-height:1.7"></div>
+          <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+            <button class="btn btn-p" onclick="recordOutcome()" style="font-size:13px">Record Outcome</button>
+            <button class="btn" onclick="addToReport_delphi()" style="font-size:13px">▤ Add to Report</button>
+            <button class="btn" onclick="resetDelphi()" style="font-size:13px">↺ New Question</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </div><!-- /scroll -->
 
   <!-- Bottom tab bar -->
@@ -458,6 +555,10 @@ textarea { resize: none; }
     <button class="tab" id="tab-files" onclick="switchTab('files')">
       <span class="tab-icon">▤</span>
       <span class="tab-label">Files</span>
+    </button>
+    <button class="tab" id="tab-delphi" onclick="switchTab('delphi')">
+      <span class="tab-icon">◬</span>
+      <span class="tab-label">Delphi</span>
     </button>
     <button class="tab" id="tab-report" onclick="switchTab('report')">
       <span class="tab-icon">≡</span>
@@ -914,6 +1015,358 @@ async function shareReport() {
     toast('Report copied to clipboard', 'ok');
   }
 }
+
+
+// ── DELPHI ENGINE ────────────────────────────────────────
+const DS = {
+  experts: [],
+  question: '',
+  ctx: '',
+  round: 1,
+  responses: [],     // [{expert, estimate, confidence, reasoning, weight}]
+  history: [],       // [{question, consensus, outcome, brierScore, date}]
+  r1responses: []    // stored for round 2 feedback
+};
+
+const DEFAULT_EXPERTS = [
+  'Kenyan VC / early-stage investor',
+  'East African market analyst',
+  'Political & regulatory risk specialist',
+  'Industry domain expert'
+];
+
+function initDelphi() {
+  DS.experts = [...DEFAULT_EXPERTS];
+  renderExpertChips();
+  loadBrierHistory();
+}
+
+function renderExpertChips() {
+  const el = document.getElementById('expert-chips');
+  el.innerHTML = DS.experts.map((e,i) =>
+    `<div class="expert-chip" onclick="removeExpert(${i})">◉ ${e} ✕</div>`
+  ).join('');
+}
+
+function addExpert() {
+  const inp = document.getElementById('expert-input');
+  const val = inp.value.trim();
+  if (!val) return;
+  DS.experts.push(val);
+  renderExpertChips();
+  inp.value = '';
+}
+
+function removeExpert(i) {
+  DS.experts.splice(i,1);
+  renderExpertChips();
+}
+
+document.getElementById('expert-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') { e.preventDefault(); addExpert(); }
+});
+
+async function runDelphi() {
+  const q = document.getElementById('delphi-q').value.trim();
+  if (!q) { toast('Enter a forecasting question', 'warn'); return; }
+  if (DS.experts.length < 2) { toast('Add at least 2 experts', 'warn'); return; }
+
+  DS.question = q;
+  DS.ctx = document.getElementById('delphi-ctx').value.trim();
+  DS.round = 1;
+  DS.r1responses = [];
+
+  const btn = document.getElementById('delphi-run-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="dots" style="display:flex;justify-content:center"><span></span><span></span><span></span></div>';
+
+  const fileCtx = S.corpus ? '\n\nContext from user files:\n' + S.corpus.slice(0,4000) : '';
+  const userCtx = DS.ctx ? '\n\nAdditional context: ' + DS.ctx : '';
+
+  // Query each expert independently
+  const responses = [];
+  for (let i = 0; i < DS.experts.length; i++) {
+    const expert = DS.experts[i];
+    btn.innerHTML = `<div class="dots" style="display:flex;justify-content:center"><span></span><span></span><span></span></div>&nbsp;Consulting ${expert.split(' ').slice(0,2).join(' ')}…`;
+    try {
+      const raw = await claude(
+        `You are roleplaying as a senior ${expert} based in East Africa. You are participating in a Delphi forecasting panel for EKN Consulting International Ltd, Nairobi.
+
+Your task: provide a calibrated probability estimate for the forecasting question, plus your reasoning.
+
+Return ONLY valid JSON in exactly this format (no markdown, no fences):
+{"estimate": 0.65, "confidence": 0.80, "competence": 0.75, "reasoning": "2-3 sentences of specific reasoning from your domain perspective", "key_factors": ["factor 1", "factor 2", "factor 3"], "upside_scenario": "brief", "downside_scenario": "brief"}
+
+Rules:
+- estimate: probability 0.0 to 1.0 (not a percentage)
+- confidence: your confidence in your own estimate 0.0 to 1.0
+- competence: your self-assessed domain competence for this specific question 0.0 to 1.0
+- Be specific to the East African / Kenyan context
+- Reasoning must reflect your specific domain expertise as a ${expert}
+- Return ONLY the JSON object`,
+        `Forecasting question: ${q}${fileCtx}${userCtx}`,
+        600
+      );
+      const data = extractJSON(raw);
+      responses.push({
+        expert,
+        estimate: Math.min(1, Math.max(0, Number(data.estimate) || 0.5)),
+        confidence: Math.min(1, Math.max(0, Number(data.confidence) || 0.7)),
+        competence: Math.min(1, Math.max(0, Number(data.competence) || 0.7)),
+        reasoning: data.reasoning || '',
+        keyFactors: data.key_factors || [],
+        upside: data.upside_scenario || '',
+        downside: data.downside_scenario || '',
+        weight: 1 // will be set after IQR
+      });
+    } catch(e) {
+      console.error('Expert query failed:', e);
+      // fallback estimate
+      responses.push({ expert, estimate: 0.5, confidence: 0.5, competence: 0.5, reasoning: 'Query failed — using neutral prior.', keyFactors:[], upside:'', downside:'', weight:1 });
+    }
+  }
+
+  DS.r1responses = responses;
+  DS.responses = applyIQRAndWeights(responses);
+  const consensus = computeConsensus(DS.responses);
+
+  btn.disabled = false;
+  btn.textContent = '◬ Run Delphi Round';
+  renderDelphiResults(DS.responses, consensus, 1);
+}
+
+// IQR outlier filter + Crawford-Williams weighting
+function applyIQRAndWeights(responses) {
+  const estimates = responses.map(r => r.estimate).sort((a,b) => a-b);
+  const q1 = estimates[Math.floor(estimates.length * 0.25)];
+  const q3 = estimates[Math.floor(estimates.length * 0.75)];
+  const iqr = q3 - q1;
+  const lo = q1 - 1.5 * iqr;
+  const hi = q3 + 1.5 * iqr;
+
+  return responses.map(r => {
+    const outlier = r.estimate < lo || r.estimate > hi;
+    // Crawford-Williams: blend stated competence × confidence, penalise outliers
+    const cwWeight = outlier ? 0.3 : (r.competence * 0.6 + r.confidence * 0.4);
+    return { ...r, weight: cwWeight, outlier };
+  });
+}
+
+function computeConsensus(responses) {
+  const totalWeight = responses.reduce((s,r) => s + r.weight, 0);
+  const weightedSum = responses.reduce((s,r) => s + r.estimate * r.weight, 0);
+  const consensus = totalWeight > 0 ? weightedSum / totalWeight : 0.5;
+
+  // Kendall's W (rank agreement)
+  const n = responses.length;
+  const k = 1; // single criterion
+  const ranks = responses.map(r => r.estimate);
+  const meanRank = ranks.reduce((a,b)=>a+b,0)/n;
+  const S_stat = ranks.reduce((a,b) => a + Math.pow(b - meanRank, 2), 0);
+  const W = n > 1 ? (12 * S_stat) / (k*k * (n*n*n - n)) : 1;
+
+  return { value: consensus, kendallW: Math.min(1, Math.abs(W)), totalWeight };
+}
+
+function renderDelphiResults(responses, consensus, round) {
+  document.getElementById('delphi-setup').style.display = 'none';
+  document.getElementById('delphi-results').style.display = '';
+  document.getElementById('delphi-round-num').textContent = round;
+
+  // Expert cards
+  const cards = document.getElementById('delphi-expert-cards');
+  cards.innerHTML = responses.map((r, i) => {
+    const pct = Math.round(r.estimate * 100);
+    const col = pct >= 70 ? 'var(--green)' : pct >= 40 ? 'var(--amber)' : 'var(--red)';
+    const outlierNote = r.outlier ? '<span class="tag ta" style="font-size:9px">IQR outlier — down-weighted</span>' : '';
+    const factors = r.keyFactors.length ? `<div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:5px">${r.keyFactors.map(f=>`<span class="tag tp" style="font-size:10px">${f}</span>`).join('')}</div>` : '';
+    return `<div class="d-card" style="animation:up .3s ease ${i*.08}s both">
+      <div class="d-card-head">
+        <div>
+          <div class="d-expert">${r.expert}</div>
+          <div class="d-domain">Competence ${Math.round(r.competence*100)}% · Confidence ${Math.round(r.confidence*100)}%</div>
+          <div style="margin-top:4px">${outlierNote}</div>
+        </div>
+        <div style="text-align:right">
+          <div class="d-est" style="color:${col}">${pct}%</div>
+          <div class="d-weight">weight ${r.weight.toFixed(2)}</div>
+        </div>
+      </div>
+      <div class="d-bar"><div class="d-bar-fill" style="width:${pct}%;background:${col}"></div></div>
+      <div class="d-reasoning">${r.reasoning}</div>
+      ${factors}
+      ${r.upside ? `<div style="margin-top:8px;font-size:12px;color:var(--green)">▲ ${r.upside}</div>` : ''}
+      ${r.downside ? `<div style="font-size:12px;color:var(--red)">▼ ${r.downside}</div>` : ''}
+    </div>`;
+  }).join('');
+
+  // Consensus
+  const cpct = Math.round(consensus.value * 100);
+  const col = cpct >= 70 ? 'var(--green)' : cpct >= 40 ? 'var(--amber)' : 'var(--red)';
+  document.getElementById('consensus-pct').textContent = cpct + '%';
+  document.getElementById('consensus-pct').style.color = col;
+  setTimeout(() => {
+    document.getElementById('consensus-bar').style.width = cpct + '%';
+    document.getElementById('consensus-bar').style.background = col;
+  }, 100);
+
+  // Interpretation
+  let interp = '';
+  if (cpct >= 80) interp = 'Strong consensus — high probability. The panel has strong agreement this outcome is likely.';
+  else if (cpct >= 65) interp = 'Moderately high probability. Most experts lean positive but with meaningful uncertainty.';
+  else if (cpct >= 50) interp = 'Slight lean positive. The panel sees more upside than downside but the outcome is genuinely uncertain.';
+  else if (cpct >= 35) interp = 'Slight lean negative. More experts see this as unlikely than likely.';
+  else interp = 'Low probability. The panel broadly agrees this outcome is unlikely under current conditions.';
+  document.getElementById('consensus-interp').textContent = interp;
+
+  // Stats
+  const estimates = responses.map(r=>r.estimate*100);
+  const mean = (estimates.reduce((a,b)=>a+b,0)/estimates.length).toFixed(1);
+  const sorted = [...estimates].sort((a,b)=>a-b);
+  const median = sorted.length%2===0 ? ((sorted[sorted.length/2-1]+sorted[sorted.length/2])/2).toFixed(1) : sorted[Math.floor(sorted.length/2)].toFixed(1);
+  const spread = (Math.max(...estimates)-Math.min(...estimates)).toFixed(1);
+  const w = consensus.kendallW.toFixed(2);
+  const agreement = consensus.kendallW > 0.7 ? 'Strong' : consensus.kendallW > 0.4 ? 'Moderate' : 'Weak';
+  document.getElementById('delphi-stats').innerHTML =
+    `Mean: ${mean}% · Median: ${median}% · Spread: ${spread}%
+Kendall's W: ${w} (${agreement} agreement)
+Experts: ${responses.length} · Outliers removed: ${responses.filter(r=>r.outlier).length}`;
+
+  // Show round 2 button only in round 1
+  document.getElementById('delphi-r2-btn').style.display = round === 1 ? '' : 'none';
+
+  // Store consensus in DS
+  DS.responses = responses;
+  DS.lastConsensus = consensus;
+  renderBrierHistory();
+  document.getElementById('scroll-area').scrollTo(0, 0);
+}
+
+async function runDelphiRound2() {
+  const btn = document.getElementById('delphi-r2-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="dots" style="display:inline-flex"><span></span><span></span><span></span></div>';
+
+  // Build round 1 summary to feed back to experts
+  const r1Summary = DS.r1responses.map(r =>
+    `${r.expert}: ${Math.round(r.estimate*100)}% — "${r.reasoning}"`
+  ).join('\n');
+  const r1Consensus = Math.round(DS.lastConsensus.value * 100);
+
+  const fileCtx = S.corpus ? '\n\nContext from files:\n' + S.corpus.slice(0,3000) : '';
+
+  const responses = [];
+  for (let i = 0; i < DS.experts.length; i++) {
+    const expert = DS.experts[i];
+    const r1 = DS.r1responses[i];
+    try {
+      const raw = await claude(
+        `You are a senior ${expert}. You are in Round 2 of a Delphi forecasting panel for EKN Consulting, Nairobi.
+
+You have seen Round 1 results. You may revise your estimate or hold firm — but justify your position.
+
+Return ONLY valid JSON (no markdown, no fences):
+{"estimate": 0.65, "confidence": 0.85, "competence": 0.75, "reasoning": "2-3 sentences explaining your Round 2 position given what other experts said", "revised": true}
+
+Rules:
+- estimate: 0.0 to 1.0 probability
+- revised: true if you changed from Round 1, false if you held firm
+- Return ONLY the JSON object`,
+        `Question: ${DS.question}\n\nRound 1 results:\n${r1Summary}\n\nRound 1 consensus: ${r1Consensus}%\n\nYour Round 1 estimate was: ${Math.round(r1.estimate*100)}%${fileCtx}`,
+        500
+      );
+      const data = extractJSON(raw);
+      responses.push({
+        expert,
+        estimate: Math.min(1, Math.max(0, Number(data.estimate) || r1.estimate)),
+        confidence: Math.min(1, Math.max(0, Number(data.confidence) || r1.confidence)),
+        competence: Math.min(1, Math.max(0, Number(data.competence) || r1.competence)),
+        reasoning: data.reasoning || '',
+        revised: !!data.revised,
+        r1estimate: r1.estimate,
+        keyFactors: r1.keyFactors,
+        upside: r1.upside,
+        downside: r1.downside,
+        weight: 1
+      });
+    } catch(e) {
+      responses.push({ ...r1, reasoning: 'Round 2 query failed — holding Round 1 estimate.', revised: false, r1estimate: r1.estimate });
+    }
+  }
+
+  DS.round = 2;
+  DS.responses = applyIQRAndWeights(responses);
+  const consensus = computeConsensus(DS.responses);
+  DS.lastConsensus = consensus;
+
+  btn.disabled = false;
+  btn.textContent = 'Round 2 ↻';
+  renderDelphiResults(DS.responses, consensus, 2);
+}
+
+function recordOutcome() {
+  const outcome = prompt('What was the actual outcome? Enter the probability that occurred:\n\n1.0 = the event definitely happened\n0.0 = the event definitely did not happen\n0.5 = ambiguous/partial');
+  if (outcome === null) return;
+  const y = parseFloat(outcome);
+  if (isNaN(y) || y < 0 || y > 1) { toast('Enter a number between 0 and 1', 'warn'); return; }
+
+  const p = DS.lastConsensus.value;
+  const brierScore = Math.pow(p - y, 2);
+
+  const record = {
+    question: DS.question.slice(0, 80) + (DS.question.length > 80 ? '…' : ''),
+    consensus: Math.round(p * 100),
+    outcome: Math.round(y * 100),
+    brier: brierScore.toFixed(3),
+    date: new Date().toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'})
+  };
+
+  const history = JSON.parse(localStorage.getItem('delphi-history') || '[]');
+  history.unshift(record);
+  localStorage.setItem('delphi-history', JSON.stringify(history.slice(0, 20)));
+  renderBrierHistory();
+  toast('Outcome recorded · Brier score: ' + brierScore.toFixed(3), 'ok');
+}
+
+function renderBrierHistory() {
+  const history = JSON.parse(localStorage.getItem('delphi-history') || '[]');
+  const el = document.getElementById('brier-history');
+
+  if (!history.length) {
+    el.innerHTML = 'No outcomes recorded yet. After an event resolves, tap <strong>Record Outcome</strong> to track calibration. Lower Brier scores = better calibration (0 = perfect).';
+    return;
+  }
+
+  const avgBrier = (history.reduce((s,h)=>s+parseFloat(h.brier),0)/history.length).toFixed(3);
+  const calibLabel = avgBrier < 0.1 ? '🟢 Excellent' : avgBrier < 0.2 ? '🟡 Good' : '🔴 Needs improvement';
+
+  el.innerHTML = `<div style="margin-bottom:10px">Avg Brier score: <strong style="color:var(--cyan)">${avgBrier}</strong> — ${calibLabel}</div>` +
+    history.slice(0,5).map(h => `<div style="padding:6px 0;border-bottom:0.5px solid var(--b1);font-size:12px">
+      <div style="font-weight:500;margin-bottom:2px">${h.question}</div>
+      <div style="color:var(--t3)">Forecast: ${h.consensus}% · Actual: ${h.outcome}% · Brier: ${h.brier} · ${h.date}</div>
+    </div>`).join('');
+}
+
+function loadBrierHistory() { renderBrierHistory(); }
+
+function addToReport_delphi() {
+  if (!DS.lastConsensus) { toast('Run a Delphi round first', 'warn'); return; }
+  const cpct = Math.round(DS.lastConsensus.value * 100);
+  const summary = `Delphi Consensus (${DS.experts.length} experts, Crawford-Williams weighted): ${cpct}% probability\n\nQuestion: ${DS.question}\n\nKey reasoning:\n${DS.responses.slice(0,3).map(r=>r.expert+': '+r.reasoning).join('\n')}`;
+  S.rQ.push({ title: 'Delphi Forecast: ' + DS.question.slice(0,60), body: summary });
+  toast('Delphi forecast added to report queue', 'ok');
+}
+
+function resetDelphi() {
+  DS.question = ''; DS.responses = []; DS.r1responses = []; DS.lastConsensus = null; DS.round = 1;
+  document.getElementById('delphi-setup').style.display = '';
+  document.getElementById('delphi-results').style.display = 'none';
+  document.getElementById('delphi-q').value = '';
+  document.getElementById('delphi-ctx').value = '';
+}
+
+// Initialise Delphi on load
+initDelphi();
 
 toast('SCENTS ready — tap + to add files', 'info');
 </script>
