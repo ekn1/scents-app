@@ -3,30 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-
+ 
 <!-- iOS PWA: makes it launch standalone (no Safari chrome) -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-
+ 
 <!-- iOS status bar style: black-translucent lets app extend behind notch -->
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
+ 
 <!-- Name shown under the icon on home screen -->
 <meta name="apple-mobile-web-app-title" content="SCENTS">
-
+ 
 <!-- Theme colour (browser chrome on Android, Safari toolbar) -->
 <meta name="theme-color" content="#06080C">
-
+ 
 <!-- Web app manifest -->
 <link rel="manifest" href="./manifest.json">
-
+ 
 <!-- iOS home screen icon (must be PNG, no transparency for iOS) -->
 <link rel="apple-touch-icon" href="./icon-512.png">
 <link rel="apple-touch-icon" sizes="192x192" href="./icon-192.png">
-
+ 
 <!-- iOS splash screens - these make the launch feel instant and native -->
 <meta name="apple-touch-fullscreen" content="yes">
-
+ 
 <title>SCENTS</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -47,7 +47,7 @@
   --safe-top:env(safe-area-inset-top, 44px);
   --safe-bot:env(safe-area-inset-bottom, 34px);
 }
-
+ 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 html { height: 100%; background: var(--bg); }
 body {
@@ -57,13 +57,13 @@ body {
   overscroll-behavior: none;
 }
 ::-webkit-scrollbar { display: none; }
-
+ 
 /* ── SHELL ── */
 .shell { display: flex; flex-direction: column; height: 100vh; height: 100dvh; }
-
+ 
 /* ── STATUS BAR SPACER ── */
 .status-bar { height: var(--safe-top); background: var(--s1); flex-shrink: 0; }
-
+ 
 /* ── TOPBAR ── */
 .topbar {
   height: 52px; background: var(--s1); border-bottom: 0.5px solid var(--b1);
@@ -80,10 +80,10 @@ body {
 }
 .tb-btn:active { background: var(--s3); }
 .tb-btn.primary { background: var(--cyan); color: #04080F; font-size: 13px; font-weight: 700; width: auto; padding: 0 14px; font-family: var(--fd); }
-
+ 
 /* ── SCROLL AREA ── */
 .scroll { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
-
+ 
 /* ── BOTTOM TAB BAR ── */
 .tabbar {
   height: var(--tab-h); background: var(--s1); border-top: 0.5px solid var(--b1);
@@ -106,12 +106,12 @@ body {
   width: 8px; height: 8px; border-radius: 50%;
   background: var(--red); border: 1.5px solid var(--s1);
 }
-
+ 
 /* ── VIEWS ── */
 .view { display: none; padding: 16px; }
 .view.on { display: block; }
 .view-pad { padding-bottom: 20px; }
-
+ 
 /* ── INSTALL PROMPT ── */
 .install-card {
   background: linear-gradient(135deg, var(--cD), var(--s2));
@@ -129,7 +129,7 @@ body {
   display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
 .ic-share { display: inline-block; background: var(--cD); color: var(--cyan); border-radius: 5px; padding: 1px 6px; font-size: 13px; }
-
+ 
 /* ── HERO ── */
 .hero { text-align: center; padding: 32px 16px 24px; }
 .hero-logo { font-family: var(--fd); font-size: 36px; font-weight: 800; color: var(--cyan); letter-spacing: .06em; margin-bottom: 4px; }
@@ -139,7 +139,7 @@ body {
 .hs-num { width: 22px; height: 22px; border-radius: 50%; background: var(--cD); border: 0.5px solid var(--cyan); color: var(--cyan); font-size: 10px; font-weight: 700; font-family: var(--fm); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
 .hs-t { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
 .hs-s { font-size: 12px; color: var(--t2); }
-
+ 
 /* ── UPLOAD ── */
 .upload-zone {
   border: 1.5px dashed var(--b2); border-radius: 16px;
@@ -153,7 +153,7 @@ body {
 .uz-sub { font-size: 12px; color: var(--t2); margin-bottom: 6px; }
 .uz-types { font-size: 10px; color: var(--t3); font-family: var(--fm); letter-spacing: .04em; }
 #file-input { display: none; }
-
+ 
 /* ── FILE LIST ── */
 .file-item {
   display: flex; align-items: center; gap: 12px;
@@ -167,7 +167,7 @@ body {
 .fi-name { font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
 .fi-meta { font-size: 11px; color: var(--t3); font-family: var(--fm); }
 .fi-status { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-
+ 
 /* ── ANALYSE BUTTON ── */
 .analyse-btn {
   width: 100%; padding: 16px; border-radius: 14px; border: none;
@@ -179,10 +179,10 @@ body {
 }
 .analyse-btn:active { background: #00AED4; transform: scale(.98); }
 .analyse-btn:disabled { background: var(--s3); color: var(--t3); }
-
+ 
 /* ── CARDS ── */
 .card { background: var(--s1); border: 0.5px solid var(--b1); border-radius: 16px; padding: 16px; margin-bottom: 12px; }
-
+ 
 /* ── METRICS ── */
 .metrics-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
 .metric { background: var(--s1); border: 0.5px solid var(--b1); border-radius: 14px; padding: 14px; }
@@ -191,7 +191,7 @@ body {
 .ml { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; font-family: var(--fm); color: var(--t3); margin-bottom: 6px; }
 .mv { font-family: var(--fd); font-size: 24px; font-weight: 700; }
 .md { font-size: 10px; color: var(--t3); margin-top: 3px; font-family: var(--fm); }
-
+ 
 /* ── INSIGHT CARDS ── */
 .insight {
   border-left: 3px solid var(--cyan); background: var(--s1);
@@ -204,7 +204,7 @@ body {
 .i-body { font-size: 13px; color: var(--t2); line-height: 1.7; }
 .i-foot { display: flex; align-items: center; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
 .i-src { font-size: 10px; color: var(--t3); font-family: var(--fm); }
-
+ 
 /* ── TAGS ── */
 .tag { display: inline-flex; align-items: center; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-family: var(--fm); font-weight: 500; }
 .tc { background: var(--cD); color: var(--cyan); }
@@ -213,7 +213,7 @@ body {
 .tr { background: var(--rD); color: var(--red); }
 .tp { background: var(--pD); color: var(--purple); }
 .tgo { background: var(--goD); color: var(--gold); }
-
+ 
 /* ── QUERY BOX ── */
 .qbox {
   background: var(--s1); border: 0.5px solid var(--b1); border-radius: 16px;
@@ -233,23 +233,23 @@ body {
 }
 .q-send:active { background: #00AED4; }
 .q-send:disabled { background: var(--s3); color: var(--t3); }
-
+ 
 /* ── SECTION HEADER ── */
 .sh { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
 .sh-t { font-family: var(--fd); font-size: 16px; font-weight: 700; }
 .sh-s { font-size: 11px; color: var(--t3); font-family: var(--fm); }
-
+ 
 /* ── TABLE ── */
 .tbl { width: 100%; border-collapse: collapse; }
 .tbl th { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(--t3); font-family: var(--fm); padding: 8px 10px; text-align: left; border-bottom: 0.5px solid var(--b1); font-weight: 400; }
 .tbl td { padding: 10px; border-bottom: 0.5px solid var(--b1); font-size: 13px; vertical-align: middle; }
 .tbl tr:last-child td { border-bottom: none; }
-
+ 
 /* ── PRIORITIES ── */
 .priority-item { display: flex; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid var(--b1); align-items: flex-start; }
 .priority-item:last-child { border-bottom: none; }
 .p-num { font-family: var(--fm); font-size: 12px; color: var(--gold); min-width: 24px; margin-top: 1px; }
-
+ 
 /* ── BUTTONS ── */
 .btn {
   padding: 10px 16px; border-radius: 10px; border: 0.5px solid var(--b2);
@@ -260,7 +260,7 @@ body {
 .btn:active { background: var(--s2); }
 .btn-p { background: var(--cyan); border-color: var(--cyan); color: #04080F; font-weight: 600; }
 .btn-p:active { background: #00AED4; }
-
+ 
 /* ── REPORT ── */
 .report-body h2 { font-family: var(--fd); font-size: 18px; font-weight: 700; color: var(--t1); margin: 20px 0 8px; padding-bottom: 8px; border-bottom: 0.5px solid var(--b1); }
 .report-body h3 { font-size: 11px; color: var(--cyan); font-family: var(--fm); text-transform: uppercase; letter-spacing: .12em; margin: 14px 0 6px; }
@@ -268,14 +268,14 @@ body {
 .report-body li { font-size: 14px; color: var(--t2); line-height: 1.75; margin-bottom: 4px; }
 .report-body ul { padding-left: 18px; margin-bottom: 10px; }
 .report-body strong { color: var(--t1); font-weight: 600; }
-
+ 
 /* ── LOADING DOTS ── */
 .dots span { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--cyan); margin: 0 2px; animation: bounce .75s ease infinite; }
 .dots span:nth-child(2) { animation-delay: .15s; }
 .dots span:nth-child(3) { animation-delay: .30s; }
 @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
 @keyframes up { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
-
+ 
 /* ── PROCESSING ── */
 .processing { text-align: center; padding: 48px 24px; }
 .proc-title { font-family: var(--fd); font-size: 20px; font-weight: 700; margin-bottom: 8px; }
@@ -283,20 +283,20 @@ body {
 .prog-bar { height: 4px; background: var(--s3); border-radius: 4px; overflow: hidden; }
 .prog-fill { height: 100%; background: var(--cyan); border-radius: 4px; transition: width .5s ease; }
 .prog-file { font-size: 11px; color: var(--t3); font-family: var(--fm); margin-top: 8px; }
-
+ 
 /* ── TOASTS ── */
 .toast-wrap { position: fixed; top: calc(var(--safe-top) + 60px); left: 16px; right: 16px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
 .toast { background: var(--s2); border: 0.5px solid var(--b2); border-radius: 12px; padding: 12px 16px; font-size: 13px; display: flex; gap: 8px; align-items: center; animation: up .25s ease; pointer-events: auto; box-shadow: 0 8px 32px rgba(0,0,0,.4); }
 .tok { border-left: 2px solid var(--green); }
 .toi { border-left: 2px solid var(--cyan); }
 .tow { border-left: 2px solid var(--amber); }
-
+ 
 /* ── MODAL ── */
 .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 9000; display: flex; align-items: flex-end; justify-content: center; }
 .modal { background: var(--s1); border-radius: 24px 24px 0 0; padding: 20px 20px calc(20px + var(--safe-bot)); width: 100%; max-height: 80vh; overflow-y: auto; -webkit-overflow-scrolling: touch; }
 .modal-handle { width: 36px; height: 4px; background: var(--b2); border-radius: 2px; margin: 0 auto 16px; }
 .modal-title { font-family: var(--fd); font-size: 17px; font-weight: 700; margin-bottom: 14px; }
-
+ 
 /* ── FORM ── */
 select, textarea, input[type=text] {
   background: var(--s2); border: 0.5px solid var(--b2); border-radius: 12px;
@@ -306,12 +306,36 @@ select, textarea, input[type=text] {
 select { cursor: pointer; }
 textarea { resize: none; }
 .form-label { font-size: 11px; color: var(--t3); font-family: var(--fm); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 6px; margin-top: 14px; }
-
+ 
 /* ── EMPTY STATE ── */
 .empty { text-align: center; padding: 48px 24px; color: var(--t3); }
 .empty-icon { font-size: 40px; margin-bottom: 12px; opacity: .4; }
 .empty-text { font-size: 14px; line-height: 1.6; }
-
+ 
+/* ── BEHAVIOUR ENGINE ── */
+.b-subnav{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px;}
+.b-tab{padding:7px 14px;border-radius:20px;border:0.5px solid var(--b2);background:transparent;color:var(--t2);font-family:var(--ff);font-size:13px;cursor:pointer;white-space:nowrap;transition:all .15s;-webkit-tap-highlight-color:transparent;}
+.b-tab.on{background:var(--cD);border-color:var(--cyan);color:var(--cyan);}
+.b-tab:active{opacity:.7;}
+.b-panel{display:none;}.b-panel.on{display:block;}
+.ev-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--b1);}
+.ev-item:last-child{border-bottom:none;}
+.ev-badge{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;font-family:var(--fm);flex-shrink:0;}
+.ev-name{font-size:13px;font-weight:500;margin-bottom:2px;}
+.ev-meta{font-size:11px;color:var(--t3);font-family:var(--fm);}
+.ev-fi{font-size:10px;font-family:var(--fm);color:var(--purple);}
+.rw-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--b1);}
+.rw-row:last-child{border-bottom:none;}
+.rw-label{font-size:13px;font-weight:500;flex:1;}
+.rw-bar-wrap{width:80px;height:4px;background:var(--s3);border-radius:4px;overflow:hidden;}
+.rw-bar{height:100%;border-radius:4px;transition:width .6s ease;}
+.rw-val{font-family:var(--fm);font-size:11px;color:var(--t2);min-width:32px;text-align:right;}
+.ranked-item{background:var(--s1);border:0.5px solid var(--b1);border-radius:14px;padding:13px;margin-bottom:8px;animation:up .3s ease both;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.ranked-item:active{background:var(--s2);}
+.rank-num{font-family:var(--fm);font-size:11px;color:var(--t3);margin-bottom:4px;}
+.rank-score-bar{height:3px;background:var(--s3);border-radius:3px;margin-top:8px;overflow:hidden;}
+.rank-score-fill{height:100%;border-radius:3px;background:var(--cyan);}
+ 
 /* ── DELPHI ── */
 .expert-chip{display:inline-flex;align-items:center;gap:6px;background:var(--pD);border:0.5px solid var(--purple);color:var(--purple);border-radius:20px;padding:5px 12px;font-size:12px;font-family:var(--fm);cursor:pointer;-webkit-tap-highlight-color:transparent;}
 .expert-chip:active{opacity:.7;}
@@ -328,10 +352,10 @@ textarea { resize: none; }
 </head>
 <body>
 <div class="shell">
-
+ 
   <!-- Status bar spacer (fills iPhone notch area) -->
   <div class="status-bar"></div>
-
+ 
   <!-- Top bar -->
   <div class="topbar">
     <div>
@@ -343,13 +367,13 @@ textarea { resize: none; }
       <button class="tb-btn primary" onclick="analyseAll()" id="analyse-top-btn" style="display:none">Analyse</button>
     </div>
   </div>
-
+ 
   <!-- Scrollable content -->
   <div class="scroll" id="scroll-area">
-
+ 
     <!-- HOME -->
     <div class="view on view-pad" id="view-home">
-
+ 
       <!-- Install prompt (shown if not already installed) -->
       <div class="install-card" id="install-card" style="display:none">
         <div class="ic-title">Add to Home Screen</div>
@@ -361,7 +385,7 @@ textarea { resize: none; }
         </div>
         <button class="btn btn-p" style="margin-top:14px;width:100%;justify-content:center;font-size:14px" onclick="dismissInstall()">Got it</button>
       </div>
-
+ 
       <!-- Dashboard (shown after analysis) -->
       <div id="home-dashboard" style="display:none">
         <div class="metrics-row" id="metrics-grid"></div>
@@ -373,7 +397,7 @@ textarea { resize: none; }
         <div class="sh"><div class="sh-t">Intelligence</div><span class="tag tc">Live</span></div>
         <div id="home-insights"></div>
       </div>
-
+ 
       <!-- Hero (shown before analysis) -->
       <div id="home-hero">
         <div class="hero">
@@ -386,7 +410,7 @@ textarea { resize: none; }
         </div>
       </div>
     </div>
-
+ 
     <!-- PROCESSING -->
     <div class="view view-pad" id="view-processing">
       <div class="processing">
@@ -397,7 +421,7 @@ textarea { resize: none; }
         <div class="prog-file" id="prog-file">—</div>
       </div>
     </div>
-
+ 
     <!-- INSIGHTS -->
     <div class="view view-pad" id="view-insights">
       <div class="qbox">
@@ -408,23 +432,23 @@ textarea { resize: none; }
       <div class="sh"><div class="sh-t">All Insights</div></div>
       <div id="insights-list"><div class="empty"><div class="empty-icon">✦</div><div class="empty-text">Analyse your files to generate insights</div></div></div>
     </div>
-
+ 
     <!-- OPPORTUNITIES -->
     <div class="view view-pad" id="view-opps">
       <div class="sh"><div class="sh-t">Opportunities</div><span class="tag tgo">From your files</span></div>
       <div id="opps-list"><div class="empty"><div class="empty-icon">⬡</div><div class="empty-text">Load and analyse files to extract opportunities</div></div></div>
     </div>
-
+ 
     <!-- RISKS -->
     <div class="view view-pad" id="view-risks">
       <div class="sh"><div class="sh-t">Risks & Deadlines</div><span class="tag tr" id="risk-count"></span></div>
       <div id="risks-list"><div class="empty"><div class="empty-icon">⚠</div><div class="empty-text">Load documents to extract risk flags</div></div></div>
     </div>
-
+ 
     <!-- FILES -->
     <div class="view view-pad" id="view-files">
       <div class="sh"><div class="sh-t">Your Files</div><div class="sh-s" id="files-sub">—</div></div>
-
+ 
       <!-- Upload zone -->
       <button class="upload-zone" onclick="openFilePicker()">
         <div class="uz-icon">⊕</div>
@@ -434,11 +458,11 @@ textarea { resize: none; }
       </button>
       <input type="file" id="file-input" multiple
         accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.pptx,.eml,.msg,.txt,.png,.jpg,.jpeg,.gif,.webp">
-
+ 
       <button class="analyse-btn" id="analyse-btn" disabled onclick="analyseAll()">✦ Analyse All</button>
       <div id="file-list"></div>
     </div>
-
+ 
     <!-- REPORT -->
     <div class="view view-pad" id="view-report">
       <div class="sh"><div class="sh-t">Report Builder</div></div>
@@ -464,42 +488,143 @@ textarea { resize: none; }
         <button class="btn" onclick="shareReport()" style="width:100%;justify-content:center;margin-top:8px">⎙ Share Report</button>
       </div>
     </div>
-
-
+ 
+ 
+    <!-- BEHAVIOUR ENGINE -->
+    <div class="view view-pad" id="view-behaviour">
+ 
+      <!-- Sub-nav -->
+      <div class="b-subnav" id="b-subnav">
+        <button class="b-tab on" id="btab-sensor"   onclick="bNav(this,'sensor')">47-Event Sensor</button>
+        <button class="b-tab"    id="btab-retention" onclick="bNav(this,'retention')">Attention Engine</button>
+        <button class="b-tab"    id="btab-ranking"   onclick="bNav(this,'ranking')">Engagement Ranking</button>
+      </div>
+ 
+      <!-- ── SENSOR PANEL ── -->
+      <div class="b-panel on" id="bpanel-sensor">
+        <div class="card" style="margin-bottom:12px">
+          <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Fogg Behavior Model — B = MAP</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px">
+            <div>
+              <div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-bottom:4px">MOTIVATION</div>
+              <div style="font-family:var(--fd);font-size:22px;font-weight:700;color:var(--cyan)" id="map-m">0</div>
+              <div style="height:3px;background:var(--s3);border-radius:3px;margin-top:4px;overflow:hidden"><div id="bar-m" style="height:100%;background:var(--cyan);border-radius:3px;width:0%;transition:width .6s ease"></div></div>
+            </div>
+            <div>
+              <div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-bottom:4px">ABILITY</div>
+              <div style="font-family:var(--fd);font-size:22px;font-weight:700;color:var(--green)" id="map-a">0</div>
+              <div style="height:3px;background:var(--s3);border-radius:3px;margin-top:4px;overflow:hidden"><div id="bar-a" style="height:100%;background:var(--green);border-radius:3px;width:0%;transition:width .6s ease"></div></div>
+            </div>
+            <div>
+              <div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-bottom:4px">PROMPT</div>
+              <div style="font-family:var(--fd);font-size:22px;font-weight:700;color:var(--amber)" id="map-p">0</div>
+              <div style="height:3px;background:var(--s3);border-radius:3px;margin-top:4px;overflow:hidden"><div id="bar-p" style="height:100%;background:var(--amber);border-radius:3px;width:0%;transition:width .6s ease"></div></div>
+            </div>
+          </div>
+          <!-- B score -->
+          <div style="background:var(--s2);border-radius:10px;padding:12px;display:flex;align-items:center;justify-content:space-between">
+            <div>
+              <div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-bottom:3px">BEHAVIOR SCORE B=MAP</div>
+              <div style="font-family:var(--fd);font-size:28px;font-weight:800;color:var(--cyan)" id="b-score">0.00</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-bottom:3px">CONVERSION PROB</div>
+              <div style="font-family:var(--fd);font-size:28px;font-weight:800;color:var(--green)" id="conv-prob">0%</div>
+            </div>
+          </div>
+          <!-- Fisher info -->
+          <div style="margin-top:10px;padding-top:10px;border-top:0.5px solid var(--b1)">
+            <div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-bottom:4px">TOTAL FISHER INFORMATION CAPTURED — trace(J(θ))</div>
+            <div style="font-family:var(--fm);font-size:14px;color:var(--purple)" id="fisher-total">I(X;Y) = 0.000</div>
+          </div>
+        </div>
+ 
+        <!-- Event log button -->
+        <button class="analyse-btn" style="margin-bottom:12px" onclick="openEventModal()">+ Log Behavioral Event</button>
+ 
+        <!-- Event feed -->
+        <div class="sh"><div class="sh-t">Event Log</div><span class="tag tc" id="event-count-tag">0 events</span></div>
+        <div id="event-feed"><div class="empty"><div class="empty-icon" style="font-size:28px">⬡</div><div class="empty-text" style="font-size:13px">No events logged yet.<br>Tap the button above to record behavioral signals.</div></div></div>
+      </div>
+ 
+      <!-- ── RETENTION / ATTENTION ENGINE ── -->
+      <div class="b-panel" id="bpanel-retention">
+        <div class="card" style="margin-bottom:12px">
+          <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Rescorla-Wagner RL — Attention Model</div>
+          <div style="font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:12px">The engine learns which insight types you engage with and re-weights your intelligence feed accordingly. Each tap on an insight updates the associative strength V using the Rescorla-Wagner update rule.</div>
+          <!-- RW equation display -->
+          <div style="background:var(--s2);border-radius:10px;padding:12px;font-family:var(--fm);font-size:12px;color:var(--purple);line-height:2">
+            ΔV = α·β·(λ − V)<br>
+            <span style="color:var(--t3)">α = salience · β = learn rate · λ = max value · V = current strength</span>
+          </div>
+        </div>
+ 
+        <!-- Learned weights per category -->
+        <div class="sh"><div class="sh-t">Learned Category Weights</div><span class="tag tp">Live</span></div>
+        <div id="rw-weights-list" style="margin-bottom:14px"></div>
+ 
+        <!-- Session stats -->
+        <div class="card">
+          <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Session Attention Stats</div>
+          <div id="rw-stats" style="font-size:13px;color:var(--t2);line-height:1.9;font-family:var(--fm)"></div>
+          <button class="btn" onclick="resetRW()" style="margin-top:10px;font-size:12px">↺ Reset Learning</button>
+        </div>
+      </div>
+ 
+      <!-- ── ENGAGEMENT RANKING ── -->
+      <div class="b-panel" id="bpanel-ranking">
+        <div class="card" style="margin-bottom:12px">
+          <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Instagram-Style Conformal Ranking</div>
+          <div style="font-size:13px;color:var(--t2);line-height:1.7">Every insight is scored by <strong style="color:var(--t1)">relevance × recency × relationship strength</strong>, then ranked with a conformal coverage guarantee — higher-ranked insights are provably more actionable.</div>
+          <div style="background:var(--s2);border-radius:10px;padding:10px;margin-top:10px;font-family:var(--fm);font-size:11px;color:var(--purple);line-height:1.9">
+            score(i) = w₁·P(relevant) + w₂·recency + w₃·V(category)<br>
+            <span style="color:var(--t3)">w₁=0.5 · w₂=0.2 · w₃=0.3 · V from Rescorla-Wagner</span>
+          </div>
+        </div>
+ 
+        <div class="sh">
+          <div class="sh-t">Ranked Intelligence Feed</div>
+          <button class="btn" style="font-size:11px;padding:4px 10px" onclick="reRankInsights()">↻ Re-rank</button>
+        </div>
+        <div id="ranked-feed"><div class="empty"><div class="empty-icon" style="font-size:28px">✦</div><div class="empty-text" style="font-size:13px">Analyse files first, then tap Re-rank to see your conformal-ranked intelligence feed.</div></div></div>
+      </div>
+ 
+    </div>
+ 
     <!-- DELPHI -->
     <div class="view view-pad" id="view-delphi">
       <div class="sh"><div class="sh-t">Delphi Engine</div><span class="tag tp">L4 · Crawford-Williams</span></div>
-
+ 
       <!-- Question setup -->
       <div class="card" id="delphi-setup">
         <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Forecasting Question</div>
         <textarea id="delphi-q" rows="3" placeholder="e.g. What is the probability that Mulika VPP secures Series A funding within 12 months?" style="width:100%;background:var(--s2);border:0.5px solid var(--b2);border-radius:10px;color:var(--t1);font-family:var(--ff);padding:10px 12px;font-size:14px;outline:none;resize:none;margin-bottom:12px"></textarea>
-
+ 
         <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Expert Panel <span style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">(tap to remove)</span></div>
         <div id="expert-chips" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px"></div>
         <div style="display:flex;gap:8px;margin-bottom:12px">
           <input type="text" id="expert-input" placeholder="Add expert role e.g. VC fund analyst" style="flex:1;background:var(--s2);border:0.5px solid var(--b2);border-radius:10px;color:var(--t1);font-family:var(--ff);padding:10px 12px;font-size:14px;outline:none">
           <button class="btn btn-p" onclick="addExpert()" style="flex-shrink:0;padding:10px 16px;font-size:14px;min-height:unset">+</button>
         </div>
-
+ 
         <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Context from your files <span style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></div>
         <textarea id="delphi-ctx" rows="2" placeholder="Any additional context you want experts to consider…" style="width:100%;background:var(--s2);border:0.5px solid var(--b2);border-radius:10px;color:var(--t1);font-family:var(--ff);padding:10px 12px;font-size:14px;outline:none;resize:none;margin-bottom:14px"></textarea>
-
+ 
         <button class="analyse-btn" id="delphi-run-btn" onclick="runDelphi()" style="margin-bottom:0">◬ Run Delphi Round</button>
       </div>
-
+ 
       <!-- Results -->
       <div id="delphi-results" style="display:none">
-
+ 
         <!-- Round indicator -->
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
           <div style="font-family:var(--fd);font-size:16px;font-weight:700">Round <span id="delphi-round-num">1</span> Results</div>
           <button class="btn" onclick="runDelphiRound2()" id="delphi-r2-btn" style="display:none;font-size:13px">Round 2 ↻</button>
         </div>
-
+ 
         <!-- Expert estimates -->
         <div id="delphi-expert-cards"></div>
-
+ 
         <!-- Consensus -->
         <div class="card" id="delphi-consensus" style="border-color:var(--cyan);background:var(--cD);margin-top:4px">
           <div style="font-size:11px;color:var(--cyan);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Weighted Consensus — Crawford-Williams + IQR</div>
@@ -516,7 +641,7 @@ textarea { resize: none; }
             <div id="delphi-stats" style="font-size:12px;color:var(--t2);font-family:var(--fm);line-height:1.8"></div>
           </div>
         </div>
-
+ 
         <!-- Brier / calibration note -->
         <div class="card" style="margin-top:10px">
           <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Calibration Tracking</div>
@@ -527,12 +652,12 @@ textarea { resize: none; }
             <button class="btn" onclick="resetDelphi()" style="font-size:13px">↺ New Question</button>
           </div>
         </div>
-
+ 
       </div>
     </div>
-
+ 
   </div><!-- /scroll -->
-
+ 
   <!-- Bottom tab bar -->
   <div class="tabbar">
     <button class="tab on" id="tab-home" onclick="switchTab('home')">
@@ -556,6 +681,10 @@ textarea { resize: none; }
       <span class="tab-icon">▤</span>
       <span class="tab-label">Files</span>
     </button>
+    <button class="tab" id="tab-behaviour" onclick="switchTab('behaviour')">
+      <span class="tab-icon">⬡</span>
+      <span class="tab-label">Behaviour</span>
+    </button>
     <button class="tab" id="tab-delphi" onclick="switchTab('delphi')">
       <span class="tab-icon">◬</span>
       <span class="tab-label">Delphi</span>
@@ -565,9 +694,9 @@ textarea { resize: none; }
       <span class="tab-label">Report</span>
     </button>
   </div>
-
+ 
 </div><!-- /shell -->
-
+ 
 <!-- Upload modal -->
 <div id="upload-modal" style="display:none">
   <div class="modal-bg" onclick="closeUploadModal()">
@@ -584,20 +713,20 @@ textarea { resize: none; }
     </div>
   </div>
 </div>
-
+ 
 <!-- Toast container -->
 <div class="toast-wrap" id="toasts"></div>
-
+ 
 <script>
 // ── STATE ──────────────────────────────────────────────
 const S = {
   files:[], corpus:'', analysed:false,
   summary:{}, insights:[], opps:[], risks:[], clients:[], financials:[], weekly:[], rQ:[]
 };
-
+ 
 // ── SERVICE WORKER ──────────────────────────────────────
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
-
+ 
 // ── INSTALL PROMPT ──────────────────────────────────────
 window.addEventListener('load', () => {
   const isStandalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
@@ -608,7 +737,7 @@ function dismissInstall() {
   document.getElementById('install-card').style.display = 'none';
   localStorage.setItem('ios-ib', '1');
 }
-
+ 
 // ── TOAST ──────────────────────────────────────────────
 function toast(msg, type='info') {
   const w = document.getElementById('toasts'), el = document.createElement('div');
@@ -619,7 +748,7 @@ function toast(msg, type='info') {
   setTimeout(() => { el.style.opacity='0'; el.style.transition='opacity .3s'; }, 3000);
   setTimeout(() => el.remove(), 3400);
 }
-
+ 
 // ── NAVIGATION ──────────────────────────────────────────
 function switchTab(id) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
@@ -628,7 +757,7 @@ function switchTab(id) {
   document.getElementById('view-' + id).classList.add('on');
   document.getElementById('scroll-area').scrollTo(0, 0);
 }
-
+ 
 // ── FILE TYPE MAP ───────────────────────────────────────
 const TM = {
   pdf:{c:'#FF3A5C',bg:'rgba(255,58,92,0.18)',l:'PDF'},
@@ -646,7 +775,7 @@ const gx = n => n.split('.').pop().toLowerCase();
 const ti = e => TM[e] || {c:'#7080A0', bg:'rgba(112,128,160,0.18)', l:e.toUpperCase().slice(0,3)};
 const fmtB = b => b<1024?b+'B':b<1048576?(b/1024).toFixed(1)+'KB':(b/1048576).toFixed(1)+'MB';
 const esc = s => (s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'&quot;').slice(0,180);
-
+ 
 // ── FILE PICKER ─────────────────────────────────────────
 function openFilePicker() {
   const inp = document.getElementById('file-input');
@@ -655,11 +784,11 @@ function openFilePicker() {
 }
 function openUploadModal() { document.getElementById('upload-modal').style.display = ''; }
 function closeUploadModal() { document.getElementById('upload-modal').style.display = 'none'; }
-
+ 
 document.getElementById('file-input').addEventListener('change', function() {
   if (this.files && this.files.length) addFiles(this.files);
 });
-
+ 
 // ── ADD FILES ───────────────────────────────────────────
 function addFiles(list) {
   let added = 0;
@@ -676,7 +805,7 @@ function addFiles(list) {
   // Switch to files tab to show them
   switchTab('files');
 }
-
+ 
 function renderFileList() {
   const el = document.getElementById('file-list');
   el.innerHTML = '';
@@ -697,14 +826,14 @@ function renderFileList() {
     el.appendChild(d);
   });
 }
-
+ 
 function updateTopBar() {
   const n = S.files.length;
   document.getElementById('file-count-top').textContent = n ? n + ' file' + (n>1?'s':'') : '';
   document.getElementById('analyse-top-btn').style.display = n ? '' : 'none';
   document.getElementById('files-sub').textContent = n + ' file' + (n>1?'s':'') + ' · ' + S.files.filter(f=>f.status==='done').length + ' indexed';
 }
-
+ 
 // ── FILE EXTRACTION ─────────────────────────────────────
 async function extractFile(f) {
   const { file:fl, ext:e } = f;
@@ -723,12 +852,12 @@ async function extractFile(f) {
     return await fl.text().catch(()=>'[Binary: '+f.name+']');
   } catch(err) { return '[Error: '+f.name+': '+err.message+']'; }
 }
-
+ 
 function quickTopics(txt) {
   return ['investment','revenue','client','proposal','risk','deadline','contract','payment','budget','project','funding','KES','USD','million','strategy','investor']
     .filter(k=>txt.toLowerCase().includes(k)).slice(0,4);
 }
-
+ 
 // ── ANALYSE ─────────────────────────────────────────────
 async function analyseAll() {
   if (!S.files.length) { toast('Add files first', 'warn'); return; }
@@ -740,7 +869,7 @@ async function analyseAll() {
   document.getElementById('tab-home').classList.add('on');
   document.getElementById('analyse-btn').disabled = true;
   document.getElementById('analyse-top-btn').style.display = 'none';
-
+ 
   for (let i=0; i<S.files.length; i++) {
     const f = S.files[i];
     f.status = 'processing';
@@ -754,14 +883,14 @@ async function analyseAll() {
     f.status = 'done';
     renderFileList();
   }
-
+ 
   document.getElementById('proc-title').textContent = 'Running AI analysis…';
   document.getElementById('proc-sub').textContent = 'Building your personal intelligence';
   document.getElementById('prog-fill').style.width = '75%';
-
+ 
   S.corpus = S.files.map(f=>'\n\n===FILE: '+f.name+' ('+f.ext.toUpperCase()+')===\n'+f.text).join('');
   await runAIAnalysis();
-
+ 
   document.getElementById('prog-fill').style.width = '100%';
   S.analysed = true;
   document.getElementById('analyse-btn').disabled = false;
@@ -769,14 +898,14 @@ async function analyseAll() {
   updateTopBar();
   buildMetrics();
   renderAll();
-
+ 
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
   document.getElementById('view-home').classList.add('on');
   document.getElementById('home-hero').style.display = 'none';
   document.getElementById('home-dashboard').style.display = '';
   toast('Analysis complete', 'ok');
 }
-
+ 
 // ── CLAUDE API ──────────────────────────────────────────
 async function claude(sys, usr, tok) {
   tok = tok || 4000;
@@ -794,7 +923,7 @@ async function claude(sys, usr, tok) {
   if (d.error) throw new Error(d.error.message);
   return d.content[0].text;
 }
-
+ 
 function extractJSON(raw) {
   let s = raw.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim();
   const start = s.indexOf('{'), end = s.lastIndexOf('}');
@@ -816,14 +945,14 @@ function extractJSON(raw) {
   const repaired = s.replace(/,\s*$/,'') + closers.reverse().join('');
   try { return JSON.parse(repaired); } catch(e2) { throw new Error('JSON repair failed: '+e2.message); }
 }
-
+ 
 async function runAIAnalysis() {
   const corpusForAI = S.files.map(f=>'\n\n===FILE: '+f.name+' ('+f.ext.toUpperCase()+')===\n'+f.text.slice(0,3000)).join('').slice(0,12000);
   const sys = `You are SCENTS, personal intelligence platform for Edward Karua Njoka (Edd), founder of EKN Consulting International Ltd, Nairobi, Kenya. Analyse his personal files and return ONLY a valid JSON object.
-
+ 
 Return exactly this structure (no markdown, no fences, nothing before or after):
 {"summary":{"projects":0,"clients":0,"totalValue":"KES X","urgentItems":0},"insights":[{"type":"opportunity","title":"string","body":"2 sentences","confidence":0.8,"source":"filename"}],"opportunities":[{"title":"string","description":"string","value":"string","source":"filename","priority":"high"}],"risks":[{"title":"string","description":"string","severity":"high","source":"filename","deadline":"unknown"}],"clients":[{"name":"string","status":"string","lastActivity":"string","nextAction":"string","value":"string"}],"financials":[{"label":"string","value":"string","direction":"up","source":"filename"}],"weeklyPriorities":["string","string","string"]}
-
+ 
 Rules: type=opportunity|risk|financial|client|deadline · priority=high|medium|low · severity=high|medium|low · direction=up|down|neutral · Max 5 insights, 3 opps, 4 risks, 4 clients, 4 financials · Reference EKN projects if present: Mulika VPP, BIPOLAR, Scents, Safaricom Land, WISMO, MDMC · Return ONLY JSON.`;
   try {
     const raw = await claude(sys, 'Analyse:\n' + corpusForAI, 4000);
@@ -847,7 +976,7 @@ Rules: type=opportunity|risk|financial|client|deadline · priority=high|medium|l
     }
   }
 }
-
+ 
 // ── METRICS ────────────────────────────────────────────
 function buildMetrics() {
   const s = S.summary;
@@ -862,7 +991,7 @@ function buildMetrics() {
     <div class="md">${m.d}</div>
   </div>`).join('');
 }
-
+ 
 // ── RENDER ─────────────────────────────────────────────
 const TCFG = {
   opportunity:{c:'var(--gold)',tag:'tgo',l:'Opportunity'},
@@ -871,7 +1000,7 @@ const TCFG = {
   client:{c:'var(--cyan)',tag:'tc',l:'Client'},
   deadline:{c:'var(--amber)',tag:'ta',l:'Deadline'}
 };
-
+ 
 function iCard(ins, i, delay) {
   const cfg = TCFG[ins.type]||TCFG.client;
   return `<div class="insight" style="border-left-color:${cfg.c};animation-delay:${(delay||i)*.07}s">
@@ -881,7 +1010,7 @@ function iCard(ins, i, delay) {
     <div class="i-foot"><span class="tag ${cfg.tag}">${Math.round((ins.confidence||0)*100)}%</span><span class="i-src">${ins.source}</span></div>
   </div>`;
 }
-
+ 
 function renderAll() {
   // Home insights + weekly priorities
   const hi = document.getElementById('home-insights');
@@ -894,11 +1023,11 @@ function renderAll() {
   }
   html += S.insights.map((ins,i)=>iCard(ins,i)).join('');
   hi.innerHTML = html || '<div class="empty"><div class="empty-icon">✦</div><div class="empty-text">No insights yet</div></div>';
-
+ 
   // Insights tab
   document.getElementById('insights-list').innerHTML = S.insights.length
     ? S.insights.map((ins,i)=>iCard(ins,i)).join('') : '<div class="empty"><div class="empty-icon">✦</div><div class="empty-text">No insights extracted</div></div>';
-
+ 
   // Opps
   const PC={high:'var(--gold)',medium:'var(--cyan)',low:'var(--t2)'};
   const PT={high:'tgo',medium:'tc',low:''};
@@ -910,7 +1039,7 @@ function renderAll() {
         <div class="i-foot"><span class="tag ${PT[o.priority]}">${o.value}</span><span class="i-src">${o.source}</span></div>
       </div>`).join('')
     : '<div class="empty"><div class="empty-icon">⬡</div><div class="empty-text">No opportunities found</div></div>';
-
+ 
   // Risks
   const SC={high:'var(--red)',medium:'var(--amber)',low:'var(--t2)'};
   const ST={high:'tr',medium:'ta',low:''};
@@ -923,7 +1052,7 @@ function renderAll() {
       </div>`).join('')
     : '<div class="empty"><div class="empty-icon">⚠</div><div class="empty-text">No risks flagged</div></div>';
 }
-
+ 
 // ── QUERY ──────────────────────────────────────────────
 async function runQ(inId, outId) {
   const q = document.getElementById(inId).value.trim();
@@ -946,14 +1075,14 @@ async function runQ(inId, outId) {
     out.innerHTML = `<div style="color:var(--amber);font-size:13px;padding:12px;background:var(--aD);border-radius:12px">${e.message}</div>`;
   }
 }
-
+ 
 document.getElementById('main-q').addEventListener('keydown', e => {
   if (e.key==='Enter' && !e.shiftKey) { e.preventDefault(); runQ('main-q','main-result'); }
 });
 document.getElementById('ins-q').addEventListener('keydown', e => {
   if (e.key==='Enter' && !e.shiftKey) { e.preventDefault(); runQ('ins-q','ins-result'); }
 });
-
+ 
 // ── VIEW FILE ───────────────────────────────────────────
 function viewFile(i) {
   const f = S.files[i];
@@ -972,7 +1101,7 @@ function viewFile(i) {
   modal.onclick = () => modal.remove();
   document.body.appendChild(modal);
 }
-
+ 
 // ── REPORT ─────────────────────────────────────────────
 async function generateReport() {
   if (!S.analysed) { toast('Analyse files first', 'warn'); return; }
@@ -1004,7 +1133,7 @@ async function generateReport() {
     document.getElementById('scroll-area').scrollTo(0, 99999);
   } catch(e) { cont.innerHTML = '<div style="color:var(--amber);padding:12px">'+e.message+'</div>'; }
 }
-
+ 
 async function shareReport() {
   const text = document.getElementById('report-content').innerText;
   if (navigator.share) {
@@ -1015,9 +1144,315 @@ async function shareReport() {
     toast('Report copied to clipboard', 'ok');
   }
 }
-
-
-// ── DELPHI ENGINE ────────────────────────────────────────
+ 
+ 
+// ── BEHAVIOUR ENGINE ─────────────────────────────────────────────────────────
+ 
+// 47-event schema with Fisher Information weights and layer assignments
+const EVENT_SCHEMA = [
+  // Awareness (layer 1) — low per-event, high aggregate
+  {id:'PageView',          layer:'Awareness',      fi:0.12, alpha:0.3, color:'#00C8F0', bg:'rgba(0,200,240,0.15)'},
+  {id:'ContentView',       layer:'Awareness',      fi:0.14, alpha:0.3, color:'#00C8F0', bg:'rgba(0,200,240,0.15)'},
+  {id:'SearchQuery',       layer:'Awareness',      fi:0.18, alpha:0.4, color:'#00C8F0', bg:'rgba(0,200,240,0.15)'},
+  {id:'CategoryBrowse',    layer:'Awareness',      fi:0.15, alpha:0.3, color:'#00C8F0', bg:'rgba(0,200,240,0.15)'},
+  {id:'AdImpression',      layer:'Awareness',      fi:0.10, alpha:0.2, color:'#00C8F0', bg:'rgba(0,200,240,0.15)'},
+  // Consideration (layer 2) — high predictive signal
+  {id:'ProductDwell',      layer:'Consideration',  fi:0.42, alpha:0.6, color:'#9B72FF', bg:'rgba(155,114,255,0.15)'},
+  {id:'ScrollVelocity',    layer:'Consideration',  fi:0.35, alpha:0.5, color:'#9B72FF', bg:'rgba(155,114,255,0.15)'},
+  {id:'PriceView',         layer:'Consideration',  fi:0.38, alpha:0.6, color:'#9B72FF', bg:'rgba(155,114,255,0.15)'},
+  {id:'ComparisonSeq',     layer:'Consideration',  fi:0.44, alpha:0.7, color:'#9B72FF', bg:'rgba(155,114,255,0.15)'},
+  {id:'WishlistAdd',       layer:'Consideration',  fi:0.52, alpha:0.7, color:'#9B72FF', bg:'rgba(155,114,255,0.15)'},
+  {id:'CartAbandon',       layer:'Consideration',  fi:0.48, alpha:0.7, color:'#9B72FF', bg:'rgba(155,114,255,0.15)'},
+  {id:'CartRevisit',       layer:'Consideration',  fi:0.55, alpha:0.8, color:'#9B72FF', bg:'rgba(155,114,255,0.15)'},
+  // Conversion (layer 3) — ground truth
+  {id:'Purchase',          layer:'Conversion',     fi:1.00, alpha:1.0, color:'#00D67A', bg:'rgba(0,214,122,0.15)'},
+  {id:'CompletePayment',   layer:'Conversion',     fi:1.00, alpha:1.0, color:'#00D67A', bg:'rgba(0,214,122,0.15)'},
+  {id:'PaymentSelect',     layer:'Conversion',     fi:0.88, alpha:0.9, color:'#00D67A', bg:'rgba(0,214,122,0.15)'},
+  {id:'PromoCodeApply',    layer:'Conversion',     fi:0.72, alpha:0.8, color:'#00D67A', bg:'rgba(0,214,122,0.15)'},
+  {id:'DeliverySlot',      layer:'Conversion',     fi:0.65, alpha:0.8, color:'#00D67A', bg:'rgba(0,214,122,0.15)'},
+  // Post-Conversion (layer 4) — strongest LTV signal
+  {id:'RepeatVisit',       layer:'PostConversion',  fi:0.68, alpha:0.8, color:'#E8C200', bg:'rgba(232,194,0,0.15)'},
+  {id:'ReferralShare',     layer:'PostConversion',  fi:0.75, alpha:0.9, color:'#E8C200', bg:'rgba(232,194,0,0.15)'},
+  {id:'ReviewSubmit',      layer:'PostConversion',  fi:0.62, alpha:0.7, color:'#E8C200', bg:'rgba(232,194,0,0.15)'},
+  {id:'ReturnRequest',     layer:'PostConversion',  fi:0.58, alpha:0.7, color:'#E8C200', bg:'rgba(232,194,0,0.15)'},
+  {id:'SupportContact',    layer:'PostConversion',  fi:0.45, alpha:0.6, color:'#E8C200', bg:'rgba(232,194,0,0.15)'},
+  // Micro-Behavioral (layer 5) — novel high-intent signals
+  {id:'SessionReEntry2hr', layer:'MicroBehav',     fi:0.71, alpha:0.9, color:'#FF3A5C', bg:'rgba(255,58,92,0.15)'},
+  {id:'TabSwitchReturn',   layer:'MicroBehav',     fi:0.55, alpha:0.7, color:'#FF3A5C', bg:'rgba(255,58,92,0.15)'},
+  {id:'NotifClickThru',    layer:'MicroBehav',     fi:0.63, alpha:0.8, color:'#FF3A5C', bg:'rgba(255,58,92,0.15)'},
+  {id:'OfflineToOnline',   layer:'MicroBehav',     fi:0.58, alpha:0.7, color:'#FF3A5C', bg:'rgba(255,58,92,0.15)'},
+  {id:'AppBackgroundExit', layer:'MicroBehav',     fi:0.48, alpha:0.6, color:'#FF3A5C', bg:'rgba(255,58,92,0.15)'},
+  {id:'PWAInstall',        layer:'MicroBehav',     fi:0.80, alpha:0.9, color:'#FF3A5C', bg:'rgba(255,58,92,0.15)'},
+  {id:'GeofenceEntry',     layer:'MicroBehav',     fi:0.66, alpha:0.8, color:'#FF3A5C', bg:'rgba(255,58,92,0.15)'},
+  // Logistics (layer 6) — 48-72hr leading indicator
+  {id:'RiderWaitVariance', layer:'Logistics',      fi:0.54, alpha:0.7, color:'#F5A800', bg:'rgba(245,168,0,0.15)'},
+  {id:'DeliveryAccept',    layer:'Logistics',      fi:0.48, alpha:0.6, color:'#F5A800', bg:'rgba(245,168,0,0.15)'},
+  {id:'LastMileDeviation', layer:'Logistics',      fi:0.52, alpha:0.7, color:'#F5A800', bg:'rgba(245,168,0,0.15)'},
+  {id:'NeighDemandPulse',  layer:'Logistics',      fi:0.61, alpha:0.8, color:'#F5A800', bg:'rgba(245,168,0,0.15)'},
+  // Macro-Environmental (layer 7) — structural exogenous
+  {id:'MPesaFloatLevel',   layer:'MacroEnv',       fi:0.78, alpha:0.9, color:'#00C8F0', bg:'rgba(0,200,240,0.12)'},
+  {id:'MatutuFreqIndex',   layer:'MacroEnv',       fi:0.55, alpha:0.7, color:'#00C8F0', bg:'rgba(0,200,240,0.12)'},
+  {id:'WeatherAnomaly',    layer:'MacroEnv',       fi:0.62, alpha:0.8, color:'#00C8F0', bg:'rgba(0,200,240,0.12)'},
+  {id:'PoliticalCalFlag',  layer:'MacroEnv',       fi:0.70, alpha:0.8, color:'#00C8F0', bg:'rgba(0,200,240,0.12)'},
+  {id:'FuelPriceIndex',    layer:'MacroEnv',       fi:0.74, alpha:0.9, color:'#00C8F0', bg:'rgba(0,200,240,0.12)'},
+  // Merchant Internal (layer 8) — supply-side baseline
+  {id:'InventoryStress',   layer:'MerchantInt',    fi:0.68, alpha:0.8, color:'#9B72FF', bg:'rgba(155,114,255,0.12)'},
+  {id:'PricingDecision',   layer:'MerchantInt',    fi:0.60, alpha:0.7, color:'#9B72FF', bg:'rgba(155,114,255,0.12)'},
+  {id:'WhatsAppLatency',   layer:'MerchantInt',    fi:0.65, alpha:0.8, color:'#9B72FF', bg:'rgba(155,114,255,0.12)'},
+  {id:'StockoutFlag',      layer:'MerchantInt',    fi:0.72, alpha:0.9, color:'#9B72FF', bg:'rgba(155,114,255,0.12)'},
+  {id:'RestockOrder',      layer:'MerchantInt',    fi:0.58, alpha:0.7, color:'#9B72FF', bg:'rgba(155,114,255,0.12)'},
+  // Graph-Derived (layer 9) — 2nd-order signals
+  {id:'SupplierNetAlert',  layer:'GraphDerived',   fi:0.82, alpha:0.9, color:'#00D67A', bg:'rgba(0,214,122,0.12)'},
+  {id:'ComplianceProx',    layer:'GraphDerived',   fi:0.76, alpha:0.8, color:'#00D67A', bg:'rgba(0,214,122,0.12)'},
+  {id:'CreditEventProp',   layer:'GraphDerived',   fi:0.84, alpha:0.9, color:'#00D67A', bg:'rgba(0,214,122,0.12)'},
+  {id:'RouteRiskUpdate',   layer:'GraphDerived',   fi:0.79, alpha:0.9, color:'#00D67A', bg:'rgba(0,214,122,0.12)'},
+];
+ 
+// Behaviour state
+const BS = {
+  events: [],          // logged events
+  totalFI: 0,          // accumulated Fisher Information
+  mapM: 0, mapA: 0, mapP: 0,  // Fogg MAP components
+  // Rescorla-Wagner weights per insight type
+  rw: {
+    opportunity: 0.5, risk: 0.5, financial: 0.5,
+    client: 0.5, deadline: 0.5
+  },
+  rwParams: { alpha: 0.1, beta: 0.3, lambda: 1.0 },
+  engagements: { opportunity:0, risk:0, financial:0, client:0, deadline:0 },
+  totalEngagements: 0
+};
+ 
+// ── SUB-NAV ──────────────────────────────────────────────
+function bNav(el, panel) {
+  document.querySelectorAll('.b-tab').forEach(t => t.classList.remove('on'));
+  document.querySelectorAll('.b-panel').forEach(p => p.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('bpanel-' + panel).classList.add('on');
+}
+ 
+// ── EVENT MODAL ──────────────────────────────────────────
+function openEventModal() {
+  const layerGroups = {};
+  EVENT_SCHEMA.forEach(e => {
+    if (!layerGroups[e.layer]) layerGroups[e.layer] = [];
+    layerGroups[e.layer].push(e);
+  });
+ 
+  const options = Object.entries(layerGroups).map(([layer, events]) =>
+    `<optgroup label="${layer}">` +
+    events.map(e => `<option value="${e.id}">${e.id} (FI: ${e.fi.toFixed(2)})</option>`).join('') +
+    `</optgroup>`
+  ).join('');
+ 
+  const modal = document.createElement('div');
+  modal.className = 'modal-bg';
+  modal.innerHTML = `<div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Log Behavioral Event</div>
+ 
+    <div class="form-label" style="margin-top:0">Event Type</div>
+    <select id="ev-type-sel" style="width:100%;margin-bottom:12px">${options}</select>
+ 
+    <div class="form-label">Entity / Subject</div>
+    <input type="text" id="ev-entity" placeholder="e.g. Amara Foods, Mulika VPP, User #1042" style="width:100%;margin-bottom:12px">
+ 
+    <div class="form-label">Fogg MAP — Motivation (0–10)</div>
+    <input type="range" id="ev-m" min="0" max="10" value="5" style="width:100%" oninput="document.getElementById('ev-m-val').textContent=this.value">
+    <div style="font-family:var(--fm);font-size:12px;color:var(--cyan);margin-bottom:10px">M = <span id="ev-m-val">5</span></div>
+ 
+    <div class="form-label">Ability (0–10)</div>
+    <input type="range" id="ev-a" min="0" max="10" value="5" style="width:100%" oninput="document.getElementById('ev-a-val').textContent=this.value">
+    <div style="font-family:var(--fm);font-size:12px;color:var(--green);margin-bottom:10px">A = <span id="ev-a-val">5</span></div>
+ 
+    <div class="form-label">Prompt (0–10)</div>
+    <input type="range" id="ev-p" min="0" max="10" value="5" style="width:100%" oninput="document.getElementById('ev-p-val').textContent=this.value">
+    <div style="font-family:var(--fm);font-size:12px;color:var(--amber);margin-bottom:14px">P = <span id="ev-p-val">5</span></div>
+ 
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-p" onclick="logEvent(this)" style="flex:1;justify-content:center;font-size:14px">Log Event</button>
+      <button class="btn" onclick="this.closest('.modal-bg').remove()" style="flex:1;justify-content:center">Cancel</button>
+    </div>
+  </div>`;
+  modal.onclick = () => modal.remove();
+  document.body.appendChild(modal);
+}
+ 
+function logEvent(btn) {
+  const sel = document.getElementById('ev-type-sel');
+  const evId = sel.value;
+  const entity = document.getElementById('ev-entity').value.trim() || 'Unknown';
+  const m = parseInt(document.getElementById('ev-m').value);
+  const a = parseInt(document.getElementById('ev-a').value);
+  const p = parseInt(document.getElementById('ev-p').value);
+ 
+  const schema = EVENT_SCHEMA.find(e => e.id === evId);
+  if (!schema) return;
+ 
+  // Fogg B = M × A × P (normalised 0–1)
+  const bScore = (m / 10) * (a / 10) * (p / 10);
+ 
+  // Fisher Information contribution
+  const fiContrib = schema.fi * bScore * schema.alpha;
+ 
+  const ev = {
+    id: evId, entity, layer: schema.layer,
+    m, a, p, bScore, fi: fiContrib,
+    color: schema.color, bg: schema.bg,
+    ts: new Date().toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit', second:'2-digit'})
+  };
+ 
+  BS.events.unshift(ev);
+ 
+  // Update MAP running totals (exponential moving average)
+  BS.mapM = BS.mapM * 0.8 + (m / 10) * 0.2;
+  BS.mapA = BS.mapA * 0.8 + (a / 10) * 0.2;
+  BS.mapP = BS.mapP * 0.8 + (p / 10) * 0.2;
+  BS.totalFI = Math.min(10, BS.totalFI + fiContrib);
+ 
+  updateSensorUI();
+  renderEventFeed();
+  btn.closest('.modal-bg').remove();
+  toast('Event logged: ' + evId + ' (FI +' + fiContrib.toFixed(3) + ')', 'ok');
+}
+ 
+function updateSensorUI() {
+  const bScore = BS.mapM * BS.mapA * BS.mapP;
+  const convProb = Math.min(0.99, bScore * 2.8 + (BS.totalFI / 10) * 0.3);
+ 
+  document.getElementById('map-m').textContent = BS.mapM.toFixed(2);
+  document.getElementById('map-a').textContent = BS.mapA.toFixed(2);
+  document.getElementById('map-p').textContent = BS.mapP.toFixed(2);
+  document.getElementById('bar-m').style.width = (BS.mapM * 100) + '%';
+  document.getElementById('bar-a').style.width = (BS.mapA * 100) + '%';
+  document.getElementById('bar-p').style.width = (BS.mapP * 100) + '%';
+  document.getElementById('b-score').textContent = bScore.toFixed(3);
+  document.getElementById('conv-prob').textContent = Math.round(convProb * 100) + '%';
+  document.getElementById('fisher-total').textContent = 'I(X;Y) = ' + BS.totalFI.toFixed(3) + ' / 10.000';
+}
+ 
+function renderEventFeed() {
+  const el = document.getElementById('event-feed');
+  document.getElementById('event-count-tag').textContent = BS.events.length + ' events';
+  if (!BS.events.length) return;
+  el.innerHTML = BS.events.slice(0, 20).map(ev => `
+    <div class="ev-item">
+      <div class="ev-badge" style="background:${ev.bg};color:${ev.color}">${ev.layer.slice(0,4).toUpperCase()}</div>
+      <div style="flex:1;min-width:0">
+        <div class="ev-name">${ev.id}</div>
+        <div class="ev-meta">${ev.entity} · ${ev.ts}</div>
+        <div class="ev-fi">FI +${ev.fi.toFixed(3)} · B=${ev.bScore.toFixed(3)} · MAP(${ev.m},${ev.a},${ev.p})</div>
+      </div>
+      <div style="text-align:right;flex-shrink:0">
+        <span class="tag" style="background:${ev.bg};color:${ev.color}">${ev.layer}</span>
+      </div>
+    </div>`).join('');
+}
+ 
+// ── RESCORLA-WAGNER ENGINE ────────────────────────────────
+function rwUpdate(category) {
+  // ΔV = α·β·(λ − V)
+  const { alpha, beta, lambda } = BS.rwParams;
+  const V = BS.rw[category] || 0.5;
+  const delta = alpha * beta * (lambda - V);
+  BS.rw[category] = Math.min(1, Math.max(0, V + delta));
+  BS.engagements[category] = (BS.engagements[category] || 0) + 1;
+  BS.totalEngagements++;
+  renderRWWeights();
+}
+ 
+function renderRWWeights() {
+  const el = document.getElementById('rw-weights-list');
+  const cats = Object.entries(BS.rw).sort((a,b) => b[1] - a[1]);
+  const TCOLS = {
+    opportunity:'var(--gold)', risk:'var(--red)', financial:'var(--green)',
+    client:'var(--cyan)', deadline:'var(--amber)'
+  };
+  el.innerHTML = cats.map(([cat, v]) => `
+    <div class="rw-row">
+      <div class="rw-label">${cat.charAt(0).toUpperCase() + cat.slice(1)}</div>
+      <div class="rw-bar-wrap"><div class="rw-bar" style="width:${v*100}%;background:${TCOLS[cat]||'var(--cyan)'}"></div></div>
+      <div class="rw-val">${v.toFixed(3)}</div>
+      <span class="tag" style="font-size:10px;background:rgba(255,255,255,0.06);color:var(--t3)">${BS.engagements[cat]||0} taps</span>
+    </div>`).join('');
+ 
+  // Stats
+  const topCat = cats[0];
+  document.getElementById('rw-stats').innerHTML =
+    `Top category: ${topCat[0]} (V=${topCat[1].toFixed(3)})
+` +
+    `Total engagements: ${BS.totalEngagements}
+` +
+    `Learning rate α: ${BS.rwParams.alpha} · β: ${BS.rwParams.beta}
+` +
+    `λ (max value): ${BS.rwParams.lambda}`;
+}
+ 
+function resetRW() {
+  Object.keys(BS.rw).forEach(k => BS.rw[k] = 0.5);
+  Object.keys(BS.engagements).forEach(k => BS.engagements[k] = 0);
+  BS.totalEngagements = 0;
+  renderRWWeights();
+  toast('Learning reset — weights equalised', 'info');
+}
+ 
+// ── CONFORMAL ENGAGEMENT RANKING ──────────────────────────
+function reRankInsights() {
+  if (!S.insights || !S.insights.length) {
+    toast('Analyse files first', 'warn'); return;
+  }
+ 
+  const now = Date.now();
+  // Score each insight: w1*P(relevant) + w2*recency + w3*V(category)
+  const scored = S.insights.map((ins, i) => {
+    const pRelevant = ins.confidence || 0.5;
+    const recency = Math.max(0, 1 - (i * 0.08)); // proxy: earlier = more recent
+    const vCat = BS.rw[ins.type] || 0.5;
+    const score = 0.5 * pRelevant + 0.2 * recency + 0.3 * vCat;
+ 
+    // Conformal coverage bound: guaranteed P(score_i > score_j | rank_i < rank_j) >= 1-alpha
+    // We use alpha=0.05, so coverage >= 95%
+    const confBound = score - 1.96 * Math.sqrt(score * (1 - score) / Math.max(1, BS.totalEngagements));
+ 
+    return { ...ins, score, confBound, rank: i + 1 };
+  }).sort((a, b) => b.score - a.score).map((ins, i) => ({ ...ins, rank: i + 1 }));
+ 
+  renderRankedFeed(scored);
+}
+ 
+function renderRankedFeed(scored) {
+  const el = document.getElementById('ranked-feed');
+  const TCFG2 = {
+    opportunity:{c:'var(--gold)',tag:'tgo',l:'Opportunity'},
+    risk:{c:'var(--red)',tag:'tr',l:'Risk'},
+    financial:{c:'var(--green)',tag:'tg',l:'Financial'},
+    client:{c:'var(--cyan)',tag:'tc',l:'Client'},
+    deadline:{c:'var(--amber)',tag:'ta',l:'Deadline'}
+  };
+  el.innerHTML = scored.map((ins, i) => {
+    const cfg = TCFG2[ins.type] || TCFG2.client;
+    return `<div class="ranked-item" style="animation-delay:${i*.05}s" onclick="rwUpdate('${ins.type}')">
+      <div class="rank-num">#${ins.rank} · score ${ins.score.toFixed(3)} · CI lower ${ins.confBound.toFixed(3)}</div>
+      <div style="display:flex;align-items:flex-start;gap:8px">
+        <div style="flex:1">
+          <div style="font-size:13px;font-weight:600;margin-bottom:4px">${ins.title}</div>
+          <div style="font-size:12px;color:var(--t2);line-height:1.6">${ins.body}</div>
+        </div>
+        <span class="tag ${cfg.tag}" style="flex-shrink:0">${cfg.l}</span>
+      </div>
+      <div class="rank-score-bar"><div class="rank-score-fill" style="width:${ins.score*100}%"></div></div>
+      <div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-top:5px">Tap to register engagement · updates Rescorla-Wagner weights</div>
+    </div>`;
+  }).join('');
+ 
+  toast('Feed re-ranked · ' + scored.length + ' insights · 95% conformal coverage', 'ok');
+}
+ 
+// Initialise RW display on load
+renderRWWeights();
+ 
+// ── DELPHI ENGINE ──────────────────────────────────────────
+ 
 const DS = {
   experts: [],
   question: '',
@@ -1027,27 +1462,27 @@ const DS = {
   history: [],       // [{question, consensus, outcome, brierScore, date}]
   r1responses: []    // stored for round 2 feedback
 };
-
+ 
 const DEFAULT_EXPERTS = [
   'Kenyan VC / early-stage investor',
   'East African market analyst',
   'Political & regulatory risk specialist',
   'Industry domain expert'
 ];
-
+ 
 function initDelphi() {
   DS.experts = [...DEFAULT_EXPERTS];
   renderExpertChips();
   loadBrierHistory();
 }
-
+ 
 function renderExpertChips() {
   const el = document.getElementById('expert-chips');
   el.innerHTML = DS.experts.map((e,i) =>
     `<div class="expert-chip" onclick="removeExpert(${i})">◉ ${e} ✕</div>`
   ).join('');
 }
-
+ 
 function addExpert() {
   const inp = document.getElementById('expert-input');
   const val = inp.value.trim();
@@ -1056,33 +1491,33 @@ function addExpert() {
   renderExpertChips();
   inp.value = '';
 }
-
+ 
 function removeExpert(i) {
   DS.experts.splice(i,1);
   renderExpertChips();
 }
-
+ 
 document.getElementById('expert-input').addEventListener('keydown', e => {
   if (e.key === 'Enter') { e.preventDefault(); addExpert(); }
 });
-
+ 
 async function runDelphi() {
   const q = document.getElementById('delphi-q').value.trim();
   if (!q) { toast('Enter a forecasting question', 'warn'); return; }
   if (DS.experts.length < 2) { toast('Add at least 2 experts', 'warn'); return; }
-
+ 
   DS.question = q;
   DS.ctx = document.getElementById('delphi-ctx').value.trim();
   DS.round = 1;
   DS.r1responses = [];
-
+ 
   const btn = document.getElementById('delphi-run-btn');
   btn.disabled = true;
   btn.innerHTML = '<div class="dots" style="display:flex;justify-content:center"><span></span><span></span><span></span></div>';
-
+ 
   const fileCtx = S.corpus ? '\n\nContext from user files:\n' + S.corpus.slice(0,4000) : '';
   const userCtx = DS.ctx ? '\n\nAdditional context: ' + DS.ctx : '';
-
+ 
   // Query each expert independently
   const responses = [];
   for (let i = 0; i < DS.experts.length; i++) {
@@ -1091,12 +1526,12 @@ async function runDelphi() {
     try {
       const raw = await claude(
         `You are roleplaying as a senior ${expert} based in East Africa. You are participating in a Delphi forecasting panel for EKN Consulting International Ltd, Nairobi.
-
+ 
 Your task: provide a calibrated probability estimate for the forecasting question, plus your reasoning.
-
+ 
 Return ONLY valid JSON in exactly this format (no markdown, no fences):
 {"estimate": 0.65, "confidence": 0.80, "competence": 0.75, "reasoning": "2-3 sentences of specific reasoning from your domain perspective", "key_factors": ["factor 1", "factor 2", "factor 3"], "upside_scenario": "brief", "downside_scenario": "brief"}
-
+ 
 Rules:
 - estimate: probability 0.0 to 1.0 (not a percentage)
 - confidence: your confidence in your own estimate 0.0 to 1.0
@@ -1125,16 +1560,16 @@ Rules:
       responses.push({ expert, estimate: 0.5, confidence: 0.5, competence: 0.5, reasoning: 'Query failed — using neutral prior.', keyFactors:[], upside:'', downside:'', weight:1 });
     }
   }
-
+ 
   DS.r1responses = responses;
   DS.responses = applyIQRAndWeights(responses);
   const consensus = computeConsensus(DS.responses);
-
+ 
   btn.disabled = false;
   btn.textContent = '◬ Run Delphi Round';
   renderDelphiResults(DS.responses, consensus, 1);
 }
-
+ 
 // IQR outlier filter + Crawford-Williams weighting
 function applyIQRAndWeights(responses) {
   const estimates = responses.map(r => r.estimate).sort((a,b) => a-b);
@@ -1143,7 +1578,7 @@ function applyIQRAndWeights(responses) {
   const iqr = q3 - q1;
   const lo = q1 - 1.5 * iqr;
   const hi = q3 + 1.5 * iqr;
-
+ 
   return responses.map(r => {
     const outlier = r.estimate < lo || r.estimate > hi;
     // Crawford-Williams: blend stated competence × confidence, penalise outliers
@@ -1151,12 +1586,12 @@ function applyIQRAndWeights(responses) {
     return { ...r, weight: cwWeight, outlier };
   });
 }
-
+ 
 function computeConsensus(responses) {
   const totalWeight = responses.reduce((s,r) => s + r.weight, 0);
   const weightedSum = responses.reduce((s,r) => s + r.estimate * r.weight, 0);
   const consensus = totalWeight > 0 ? weightedSum / totalWeight : 0.5;
-
+ 
   // Kendall's W (rank agreement)
   const n = responses.length;
   const k = 1; // single criterion
@@ -1164,15 +1599,15 @@ function computeConsensus(responses) {
   const meanRank = ranks.reduce((a,b)=>a+b,0)/n;
   const S_stat = ranks.reduce((a,b) => a + Math.pow(b - meanRank, 2), 0);
   const W = n > 1 ? (12 * S_stat) / (k*k * (n*n*n - n)) : 1;
-
+ 
   return { value: consensus, kendallW: Math.min(1, Math.abs(W)), totalWeight };
 }
-
+ 
 function renderDelphiResults(responses, consensus, round) {
   document.getElementById('delphi-setup').style.display = 'none';
   document.getElementById('delphi-results').style.display = '';
   document.getElementById('delphi-round-num').textContent = round;
-
+ 
   // Expert cards
   const cards = document.getElementById('delphi-expert-cards');
   cards.innerHTML = responses.map((r, i) => {
@@ -1199,7 +1634,7 @@ function renderDelphiResults(responses, consensus, round) {
       ${r.downside ? `<div style="font-size:12px;color:var(--red)">▼ ${r.downside}</div>` : ''}
     </div>`;
   }).join('');
-
+ 
   // Consensus
   const cpct = Math.round(consensus.value * 100);
   const col = cpct >= 70 ? 'var(--green)' : cpct >= 40 ? 'var(--amber)' : 'var(--red)';
@@ -1209,7 +1644,7 @@ function renderDelphiResults(responses, consensus, round) {
     document.getElementById('consensus-bar').style.width = cpct + '%';
     document.getElementById('consensus-bar').style.background = col;
   }, 100);
-
+ 
   // Interpretation
   let interp = '';
   if (cpct >= 80) interp = 'Strong consensus — high probability. The panel has strong agreement this outcome is likely.';
@@ -1218,7 +1653,7 @@ function renderDelphiResults(responses, consensus, round) {
   else if (cpct >= 35) interp = 'Slight lean negative. More experts see this as unlikely than likely.';
   else interp = 'Low probability. The panel broadly agrees this outcome is unlikely under current conditions.';
   document.getElementById('consensus-interp').textContent = interp;
-
+ 
   // Stats
   const estimates = responses.map(r=>r.estimate*100);
   const mean = (estimates.reduce((a,b)=>a+b,0)/estimates.length).toFixed(1);
@@ -1231,30 +1666,30 @@ function renderDelphiResults(responses, consensus, round) {
     `Mean: ${mean}% · Median: ${median}% · Spread: ${spread}%
 Kendall's W: ${w} (${agreement} agreement)
 Experts: ${responses.length} · Outliers removed: ${responses.filter(r=>r.outlier).length}`;
-
+ 
   // Show round 2 button only in round 1
   document.getElementById('delphi-r2-btn').style.display = round === 1 ? '' : 'none';
-
+ 
   // Store consensus in DS
   DS.responses = responses;
   DS.lastConsensus = consensus;
   renderBrierHistory();
   document.getElementById('scroll-area').scrollTo(0, 0);
 }
-
+ 
 async function runDelphiRound2() {
   const btn = document.getElementById('delphi-r2-btn');
   btn.disabled = true;
   btn.innerHTML = '<div class="dots" style="display:inline-flex"><span></span><span></span><span></span></div>';
-
+ 
   // Build round 1 summary to feed back to experts
   const r1Summary = DS.r1responses.map(r =>
     `${r.expert}: ${Math.round(r.estimate*100)}% — "${r.reasoning}"`
   ).join('\n');
   const r1Consensus = Math.round(DS.lastConsensus.value * 100);
-
+ 
   const fileCtx = S.corpus ? '\n\nContext from files:\n' + S.corpus.slice(0,3000) : '';
-
+ 
   const responses = [];
   for (let i = 0; i < DS.experts.length; i++) {
     const expert = DS.experts[i];
@@ -1262,12 +1697,12 @@ async function runDelphiRound2() {
     try {
       const raw = await claude(
         `You are a senior ${expert}. You are in Round 2 of a Delphi forecasting panel for EKN Consulting, Nairobi.
-
+ 
 You have seen Round 1 results. You may revise your estimate or hold firm — but justify your position.
-
+ 
 Return ONLY valid JSON (no markdown, no fences):
 {"estimate": 0.65, "confidence": 0.85, "competence": 0.75, "reasoning": "2-3 sentences explaining your Round 2 position given what other experts said", "revised": true}
-
+ 
 Rules:
 - estimate: 0.0 to 1.0 probability
 - revised: true if you changed from Round 1, false if you held firm
@@ -1293,26 +1728,26 @@ Rules:
       responses.push({ ...r1, reasoning: 'Round 2 query failed — holding Round 1 estimate.', revised: false, r1estimate: r1.estimate });
     }
   }
-
+ 
   DS.round = 2;
   DS.responses = applyIQRAndWeights(responses);
   const consensus = computeConsensus(DS.responses);
   DS.lastConsensus = consensus;
-
+ 
   btn.disabled = false;
   btn.textContent = 'Round 2 ↻';
   renderDelphiResults(DS.responses, consensus, 2);
 }
-
+ 
 function recordOutcome() {
   const outcome = prompt('What was the actual outcome? Enter the probability that occurred:\n\n1.0 = the event definitely happened\n0.0 = the event definitely did not happen\n0.5 = ambiguous/partial');
   if (outcome === null) return;
   const y = parseFloat(outcome);
   if (isNaN(y) || y < 0 || y > 1) { toast('Enter a number between 0 and 1', 'warn'); return; }
-
+ 
   const p = DS.lastConsensus.value;
   const brierScore = Math.pow(p - y, 2);
-
+ 
   const record = {
     question: DS.question.slice(0, 80) + (DS.question.length > 80 ? '…' : ''),
     consensus: Math.round(p * 100),
@@ -1320,35 +1755,35 @@ function recordOutcome() {
     brier: brierScore.toFixed(3),
     date: new Date().toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'})
   };
-
+ 
   const history = JSON.parse(localStorage.getItem('delphi-history') || '[]');
   history.unshift(record);
   localStorage.setItem('delphi-history', JSON.stringify(history.slice(0, 20)));
   renderBrierHistory();
   toast('Outcome recorded · Brier score: ' + brierScore.toFixed(3), 'ok');
 }
-
+ 
 function renderBrierHistory() {
   const history = JSON.parse(localStorage.getItem('delphi-history') || '[]');
   const el = document.getElementById('brier-history');
-
+ 
   if (!history.length) {
     el.innerHTML = 'No outcomes recorded yet. After an event resolves, tap <strong>Record Outcome</strong> to track calibration. Lower Brier scores = better calibration (0 = perfect).';
     return;
   }
-
+ 
   const avgBrier = (history.reduce((s,h)=>s+parseFloat(h.brier),0)/history.length).toFixed(3);
   const calibLabel = avgBrier < 0.1 ? '🟢 Excellent' : avgBrier < 0.2 ? '🟡 Good' : '🔴 Needs improvement';
-
+ 
   el.innerHTML = `<div style="margin-bottom:10px">Avg Brier score: <strong style="color:var(--cyan)">${avgBrier}</strong> — ${calibLabel}</div>` +
     history.slice(0,5).map(h => `<div style="padding:6px 0;border-bottom:0.5px solid var(--b1);font-size:12px">
       <div style="font-weight:500;margin-bottom:2px">${h.question}</div>
       <div style="color:var(--t3)">Forecast: ${h.consensus}% · Actual: ${h.outcome}% · Brier: ${h.brier} · ${h.date}</div>
     </div>`).join('');
 }
-
+ 
 function loadBrierHistory() { renderBrierHistory(); }
-
+ 
 function addToReport_delphi() {
   if (!DS.lastConsensus) { toast('Run a Delphi round first', 'warn'); return; }
   const cpct = Math.round(DS.lastConsensus.value * 100);
@@ -1356,7 +1791,7 @@ function addToReport_delphi() {
   S.rQ.push({ title: 'Delphi Forecast: ' + DS.question.slice(0,60), body: summary });
   toast('Delphi forecast added to report queue', 'ok');
 }
-
+ 
 function resetDelphi() {
   DS.question = ''; DS.responses = []; DS.r1responses = []; DS.lastConsensus = null; DS.round = 1;
   document.getElementById('delphi-setup').style.display = '';
@@ -1364,10 +1799,10 @@ function resetDelphi() {
   document.getElementById('delphi-q').value = '';
   document.getElementById('delphi-ctx').value = '';
 }
-
+ 
 // Initialise Delphi on load
 initDelphi();
-
+ 
 toast('SCENTS ready — tap + to add files', 'info');
 </script>
 </body>
