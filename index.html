@@ -911,12 +911,7 @@ async function claude(sys, usr, tok) {
   tok = tok || 4000;
   const res = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
-    headers: headers: {
-  'Content-Type': 'application/json',
-  'x-api-key': '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',
-  'anthropic-version': '2023-06-01',
-  'anthropic-dangerous-direct-browser-access': 'true'
-},
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       model: 'claude-sonnet-4-20250514',
       max_tokens: tok,
