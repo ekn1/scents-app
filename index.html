@@ -4,600 +4,1549 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<title>SCENTS — EKN Consulting Intelligence Platform</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SCENTS">
+<meta name="theme-color" content="#06080C">
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icon-512.png">
+<link rel="apple-touch-icon" sizes="192x192" href="./icon-192.png">
+<title>SCENTS</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 :root{
-  --bg:#06080C;--s1:#0D1219;--s2:#141C28;--s3:#1B2536;
+  --bg:#06080C;--s1:#0D1219;--s2:#141C28;--s3:#1B2536;--s4:#222F42;
   --b1:rgba(255,255,255,0.07);--b2:rgba(255,255,255,0.13);
   --t1:#E4ECF8;--t2:#7080A0;--t3:#364558;
-  --cy:#00C8F0;--cyd:rgba(0,200,240,0.12);
-  --gn:#00D67A;--gnd:rgba(0,214,122,0.12);
-  --am:#F5A800;--amd:rgba(245,168,0,0.12);
-  --rd:#FF3A5C;--rdd:rgba(255,58,92,0.12);
-  --go:#E8C200;--god:rgba(232,194,0,0.12);
-  --pu:#9B72FF;--pud:rgba(155,114,255,0.12);
+  --cyan:#00C8F0;--cD:rgba(0,200,240,0.12);
+  --green:#00D67A;--gD:rgba(0,214,122,0.12);
+  --amber:#F5A800;--aD:rgba(245,168,0,0.12);
+  --red:#FF3A5C;--rD:rgba(255,58,92,0.12);
+  --gold:#E8C200;--goD:rgba(232,194,0,0.12);
+  --purple:#9B72FF;--pD:rgba(155,114,255,0.12);
   --ff:'DM Sans',sans-serif;--fd:'Syne',sans-serif;--fm:'JetBrains Mono',monospace;
+  --tab-h:82px;
+  --safe-top:env(safe-area-inset-top,44px);
+  --safe-bot:env(safe-area-inset-bottom,34px);
 }
-html,body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--ff);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow:hidden;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html{height:100%;background:var(--bg);}
+body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--ff);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow:hidden;overscroll-behavior:none;}
 ::-webkit-scrollbar{display:none;}
-@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-#app{display:flex;flex-direction:column;height:100vh;height:100dvh;max-width:430px;margin:0 auto;position:relative;overflow:hidden;}
+.shell{display:flex;flex-direction:column;height:100vh;height:100dvh;}
+.status-bar{height:var(--safe-top);background:var(--s1);flex-shrink:0;}
 .topbar{height:52px;background:var(--s1);border-bottom:0.5px solid var(--b1);display:flex;align-items:center;padding:0 16px;gap:10px;flex-shrink:0;}
-.tb-logo{font-family:var(--fd);font-size:18px;font-weight:800;color:var(--cy);letter-spacing:.06em;}
+.tb-logo{font-family:var(--fd);font-size:18px;font-weight:800;color:var(--cyan);letter-spacing:.06em;}
 .tb-actions{margin-left:auto;display:flex;gap:8px;align-items:center;}
-.tb-btn{height:36px;border-radius:10px;border:none;background:var(--s2);color:var(--t2);font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0 12px;}
-.tb-btn.primary{background:var(--cy);color:#04080F;font-size:13px;font-weight:700;font-family:var(--fd);}
-.key-bar{display:flex;align-items:center;gap:6px;background:var(--s2);border:0.5px solid var(--b1);border-radius:8px;padding:5px 10px;}
-.key-dot{width:7px;height:7px;border-radius:50%;background:var(--gn);}
-.key-masked{font-size:11px;color:var(--t2);font-family:var(--fm);max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.tb-btn{width:36px;height:36px;border-radius:10px;border:none;background:var(--s2);color:var(--t2);font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .1s;}
+.tb-btn:active{background:var(--s3);}
+.tb-btn.primary{background:var(--cyan);color:#04080F;font-size:13px;font-weight:700;width:auto;padding:0 14px;font-family:var(--fd);}
 .scroll{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;}
-.tabbar{height:72px;background:var(--s1);border-top:0.5px solid var(--b1);display:flex;align-items:flex-start;padding:8px 0 0;flex-shrink:0;}
-.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 0;cursor:pointer;border:none;background:transparent;color:var(--t3);transition:color .15s;min-height:44px;justify-content:center;position:relative;}
-.tab.on{color:var(--cy);}
-.tab:active{opacity:.6;}
-.tab-icon{font-size:17px;line-height:1;}
-.tab-label{font-size:9px;font-family:var(--ff);}
-.tab-badge{position:absolute;top:2px;right:calc(50% - 14px);width:7px;height:7px;border-radius:50%;background:var(--rd);border:1.5px solid var(--s1);}
-.view{display:none;padding:16px 16px 24px;}
+.tabbar{height:var(--tab-h);background:var(--s1);border-top:0.5px solid var(--b1);display:flex;align-items:flex-start;padding:8px 0 0;flex-shrink:0;padding-bottom:var(--safe-bot);}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 0;cursor:pointer;border:none;background:transparent;color:var(--t3);transition:color .15s;min-height:44px;justify-content:center;-webkit-user-select:none;}
+.tab.on{color:var(--cyan);}
+.tab:active{opacity:.7;}
+.tab-icon{font-size:19px;line-height:1;}
+.tab-label{font-size:10px;font-family:var(--ff);}
+.tab-badge{position:absolute;top:4px;right:calc(50% - 18px);width:8px;height:8px;border-radius:50%;background:var(--red);border:1.5px solid var(--s1);}
+.view{display:none;padding:16px;}
 .view.on{display:block;}
-.key-screen{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px;max-width:430px;margin:0 auto;}
-.ks-grid{position:absolute;inset:0;background-image:linear-gradient(var(--b1) 1px,transparent 1px),linear-gradient(90deg,var(--b1) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;}
-.ks-logo{font-family:var(--fd);font-size:48px;font-weight:800;color:var(--cy);letter-spacing:.06em;margin-bottom:4px;position:relative;}
-.ks-tag{font-size:10px;font-family:var(--fm);color:var(--t3);text-transform:uppercase;letter-spacing:.12em;margin-bottom:36px;position:relative;}
-.ks-card{background:var(--s1);border:0.5px solid var(--b2);border-radius:20px;padding:24px;width:100%;max-width:380px;position:relative;}
-.ks-title{font-family:var(--fd);font-size:18px;font-weight:700;margin-bottom:6px;}
-.ks-sub{font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:20px;}
-.ks-inp{width:100%;background:var(--s2);border:0.5px solid var(--b2);border-radius:12px;color:var(--t1);font-family:var(--fm);padding:13px;font-size:13px;outline:none;margin-bottom:8px;box-sizing:border-box;}
-.ks-inp:focus{border-color:var(--cy);}
-.ks-inp::placeholder{color:var(--t3);font-family:var(--ff);}
-.ks-hint{font-size:11px;color:var(--t3);font-family:var(--fm);margin-bottom:6px;line-height:1.6;}
-.ks-status{font-size:12px;min-height:18px;margin-bottom:10px;font-family:var(--fm);color:var(--t3);}
-.ks-btn{width:100%;padding:15px;border-radius:12px;border:none;background:var(--cy);color:#04080F;font-family:var(--fd);font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px;}
-.ks-btn:active{background:#00AED4;}
-.ks-link{font-size:12px;color:var(--t3);text-align:center;}
-.ks-link a{color:var(--cy);text-decoration:none;}
-.ks-demo{margin-top:16px;padding-top:14px;border-top:0.5px solid var(--b1);text-align:center;}
-.ks-demo-btn{background:transparent;border:0.5px solid var(--b2);border-radius:8px;color:var(--t2);font-size:12px;padding:8px 16px;cursor:pointer;font-family:var(--ff);}
+.view-pad{padding-bottom:20px;}
+/* KEY SCREEN */
+.key-screen{position:fixed;inset:0;background:var(--bg);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;}
+.key-logo{font-family:var(--fd);font-size:42px;font-weight:800;color:var(--cyan);letter-spacing:.06em;margin-bottom:6px;}
+.key-tag{font-size:10px;font-family:var(--fm);color:var(--t3);text-transform:uppercase;letter-spacing:.12em;margin-bottom:32px;}
+.key-card{background:var(--s1);border:0.5px solid var(--b2);border-radius:20px;padding:24px;width:100%;max-width:380px;}
+.key-title{font-family:var(--fd);font-size:18px;font-weight:700;margin-bottom:6px;}
+.key-sub{font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:20px;}
+.key-input{width:100%;background:var(--s2);border:0.5px solid var(--b2);border-radius:12px;color:var(--t1);font-family:var(--fm);padding:13px;font-size:13px;outline:none;margin-bottom:8px;}
+.key-input:focus{border-color:var(--cyan);}
+.key-input::placeholder{color:var(--t3);font-family:var(--ff);}
+.key-hint{font-size:11px;color:var(--t3);font-family:var(--fm);margin-bottom:16px;line-height:1.6;}
+.key-status{font-size:12px;min-height:18px;margin-bottom:10px;font-family:var(--fm);color:var(--t3);}
+.key-btn{width:100%;padding:15px;border-radius:12px;border:none;background:var(--cyan);color:#04080F;font-family:var(--fd);font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px;}
+.key-btn:active{background:#00AED4;}
+.key-btn:disabled{background:var(--s3);color:var(--t3);}
+.key-link{font-size:12px;color:var(--t3);text-align:center;}
+.key-link a{color:var(--cyan);text-decoration:none;}
+.key-bar{display:flex;align-items:center;gap:8px;background:var(--s2);border:0.5px solid var(--b1);border-radius:8px;padding:6px 10px;}
+.key-dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0;}
+.key-masked{font-size:11px;color:var(--t2);font-family:var(--fm);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.key-change{font-size:11px;color:var(--cyan);cursor:pointer;flex-shrink:0;}
+/* INSTALL */
+.install-card{background:var(--cD);border:0.5px solid var(--cyan);border-radius:16px;padding:18px;margin-bottom:16px;}
+.ic-title{font-family:var(--fd);font-size:16px;font-weight:700;margin-bottom:6px;}
+.ic-body{font-size:13px;color:var(--t2);line-height:1.65;margin-bottom:14px;}
+.ic-step{display:flex;align-items:center;gap:10px;font-size:13px;margin-bottom:8px;}
+.ic-num{width:22px;height:22px;border-radius:50%;background:var(--cD);border:0.5px solid var(--cyan);color:var(--cyan);font-size:11px;font-weight:700;font-family:var(--fm);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+/* HERO */
+.hero{text-align:center;padding:32px 16px 24px;}
+.hero-logo{font-family:var(--fd);font-size:36px;font-weight:800;color:var(--cyan);letter-spacing:.06em;margin-bottom:4px;}
+.hero-tag{font-size:10px;font-family:var(--fm);color:var(--t3);text-transform:uppercase;letter-spacing:.12em;margin-bottom:14px;}
+.hero-sub{font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:20px;}
+.hero-step{display:flex;align-items:flex-start;gap:12px;background:var(--s1);border:0.5px solid var(--b1);border-radius:14px;padding:14px;margin-bottom:8px;text-align:left;}
+.hs-num{width:22px;height:22px;border-radius:50%;background:var(--cD);border:0.5px solid var(--cyan);color:var(--cyan);font-size:10px;font-weight:700;font-family:var(--fm);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.hs-t{font-size:13px;font-weight:600;margin-bottom:2px;}
+.hs-s{font-size:12px;color:var(--t2);}
+/* UPLOAD */
+.upload-zone{border:1.5px dashed var(--b2);border-radius:16px;padding:28px 20px;text-align:center;cursor:pointer;transition:all .18s;margin-bottom:12px;background:transparent;width:100%;}
+.upload-zone:active{background:var(--cD);border-color:var(--cyan);}
+.uz-icon{font-size:32px;color:var(--t3);margin-bottom:10px;}
+.uz-title{font-size:16px;font-weight:600;margin-bottom:4px;}
+.uz-sub{font-size:12px;color:var(--t2);margin-bottom:6px;}
+.uz-types{font-size:10px;color:var(--t3);font-family:var(--fm);letter-spacing:.04em;}
+#file-input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer;z-index:10;}
+/* FILES */
+.file-item{display:flex;align-items:center;gap:12px;background:var(--s1);border:0.5px solid var(--b1);border-radius:12px;padding:12px;margin-bottom:8px;cursor:pointer;transition:background .1s;}
+.file-item:active{background:var(--s2);}
+.fi-badge{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;font-family:var(--fm);flex-shrink:0;}
+.fi-info{flex:1;min-width:0;}
+.fi-name{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px;}
+.fi-meta{font-size:11px;color:var(--t3);font-family:var(--fm);}
+.fi-status{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+/* ANALYSE BTN */
+.analyse-btn{width:100%;padding:16px;border-radius:14px;border:none;background:var(--cyan);color:#04080F;font-family:var(--fd);font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px;transition:all .15s;min-height:56px;}
+.analyse-btn:active{background:#00AED4;transform:scale(.98);}
+.analyse-btn:disabled{background:var(--s3);color:var(--t3);}
+/* CARDS */
 .card{background:var(--s1);border:0.5px solid var(--b1);border-radius:16px;padding:16px;margin-bottom:12px;}
-.card-cy{background:var(--cyd);border:0.5px solid var(--cy);}
-.card-go{border:0.5px solid var(--go);}
-.card-am{border:0.5px solid var(--am);}
-.metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+/* METRICS */
+.metrics-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
 .metric{background:var(--s1);border:0.5px solid var(--b1);border-radius:14px;padding:14px;}
+.metric.accent{border-color:var(--cyan);background:var(--cD);}
+.metric.warn{border-color:var(--amber);}
 .ml{font-size:10px;text-transform:uppercase;letter-spacing:.1em;font-family:var(--fm);color:var(--t3);margin-bottom:6px;}
 .mv{font-family:var(--fd);font-size:24px;font-weight:700;}
 .md{font-size:10px;color:var(--t3);margin-top:3px;font-family:var(--fm);}
-.insight{border-radius:14px;padding:14px;margin-bottom:10px;background:var(--s1);border:0.5px solid var(--b1);animation:up .3s ease both;}
+/* INSIGHTS */
+.insight{border-left:3px solid var(--cyan);background:var(--s1);border:0.5px solid var(--b1);border-left:3px solid var(--cyan);border-radius:14px;padding:14px;margin-bottom:10px;animation:up .3s ease both;}
 .i-type{font-size:9px;text-transform:uppercase;letter-spacing:.15em;font-family:var(--fm);margin-bottom:5px;}
 .i-title{font-size:14px;font-weight:600;margin-bottom:6px;line-height:1.4;}
 .i-body{font-size:13px;color:var(--t2);line-height:1.7;}
 .i-foot{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap;}
 .i-src{font-size:10px;color:var(--t3);font-family:var(--fm);}
+/* TAGS */
 .tag{display:inline-flex;align-items:center;padding:3px 8px;border-radius:6px;font-size:11px;font-family:var(--fm);font-weight:500;}
-.tc{background:var(--cyd);color:var(--cy);}
-.tg{background:var(--gnd);color:var(--gn);}
-.ta{background:var(--amd);color:var(--am);}
-.tr{background:var(--rdd);color:var(--rd);}
-.tp{background:var(--pud);color:var(--pu);}
-.tgo{background:var(--god);color:var(--go);}
-.tweb{background:rgba(0,200,240,0.12);border:0.5px solid rgba(0,200,240,0.3);color:var(--cy);border-radius:4px;padding:1px 5px;font-size:11px;font-family:var(--fm);display:inline;}
+.tc{background:var(--cD);color:var(--cyan);}
+.tg{background:var(--gD);color:var(--green);}
+.ta{background:var(--aD);color:var(--amber);}
+.tr{background:var(--rD);color:var(--red);}
+.tp{background:var(--pD);color:var(--purple);}
+.tgo{background:var(--goD);color:var(--gold);}
+/* QUERY */
 .qbox{background:var(--s1);border:0.5px solid var(--b1);border-radius:16px;padding:14px;margin-bottom:14px;display:flex;gap:10px;align-items:flex-end;}
-.qi{flex:1;background:transparent;border:none;color:var(--t1);font-family:var(--ff);font-size:15px;outline:none;resize:none;line-height:1.5;min-height:40px;}
+.qi{flex:1;background:transparent;border:none;color:var(--t1);font-family:var(--ff);font-size:15px;outline:none;resize:none;line-height:1.5;min-height:40px;max-height:120px;}
 .qi::placeholder{color:var(--t3);}
-.q-send{width:40px;height:40px;border-radius:12px;border:none;background:var(--cy);color:#04080F;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;}
+.q-send{width:40px;height:40px;border-radius:12px;border:none;background:var(--cyan);color:#04080F;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;}
+.q-send:active{background:#00AED4;}
+.q-send:disabled{background:var(--s3);color:var(--t3);}
+/* SH */
 .sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
 .sh-t{font-family:var(--fd);font-size:16px;font-weight:700;}
-.pri-item{display:flex;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--b1);align-items:flex-start;}
-.pri-item:last-child{border-bottom:none;}
-.pri-num{font-family:var(--fm);font-size:12px;color:var(--go);min-width:24px;margin-top:1px;}
+.sh-s{font-size:11px;color:var(--t3);font-family:var(--fm);}
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;}
+.tbl th{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);font-family:var(--fm);padding:8px 10px;text-align:left;border-bottom:0.5px solid var(--b1);font-weight:400;}
+.tbl td{padding:10px;border-bottom:0.5px solid var(--b1);font-size:13px;vertical-align:middle;}
+.tbl tr:last-child td{border-bottom:none;}
+/* PRIORITY */
+.priority-item{display:flex;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--b1);align-items:flex-start;}
+.priority-item:last-child{border-bottom:none;}
+.p-num{font-family:var(--fm);font-size:12px;color:var(--gold);min-width:24px;margin-top:1px;}
+/* BTNS */
 .btn{padding:10px 16px;border-radius:10px;border:0.5px solid var(--b2);background:transparent;color:var(--t2);font-family:var(--ff);font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;min-height:44px;}
 .btn:active{background:var(--s2);}
-.btn-p{background:var(--cy);border-color:var(--cy);color:#04080F;font-weight:600;}
+.btn-p{background:var(--cyan);border-color:var(--cyan);color:#04080F;font-weight:600;}
 .btn-p:active{background:#00AED4;}
-.abtn{width:100%;padding:16px;border-radius:14px;border:none;background:var(--cy);color:#04080F;font-family:var(--fd);font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px;min-height:56px;}
-.abtn:active{background:#00AED4;}
-.file-item{display:flex;align-items:center;gap:12px;background:var(--s1);border:0.5px solid var(--b1);border-radius:12px;padding:12px;margin-bottom:8px;cursor:pointer;}
-.fi-badge{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;font-family:var(--fm);flex-shrink:0;}
-.pills{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;flex-wrap:wrap;}
-.pill{padding:7px 14px;border-radius:20px;border:0.5px solid var(--b2);background:transparent;color:var(--t2);font-family:var(--ff);font-size:12px;cursor:pointer;white-space:nowrap;transition:all .15s;}
-.pill.on{background:var(--cyd);border-color:var(--cy);color:var(--cy);}
+/* REPORT */
+.report-body h2{font-family:var(--fd);font-size:18px;font-weight:700;color:var(--t1);margin:20px 0 8px;padding-bottom:8px;border-bottom:0.5px solid var(--b1);}
+.report-body h3{font-size:11px;color:var(--cyan);font-family:var(--fm);text-transform:uppercase;letter-spacing:.12em;margin:14px 0 6px;}
+.report-body p{font-size:14px;color:var(--t2);line-height:1.8;margin-bottom:10px;}
+.report-body li{font-size:14px;color:var(--t2);line-height:1.75;margin-bottom:4px;}
+.report-body ul{padding-left:18px;margin-bottom:10px;}
+.report-body strong{color:var(--t1);font-weight:600;}
+/* DOTS */
+.dots span{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--cyan);margin:0 2px;animation:bounce .75s ease infinite;}
+.dots span:nth-child(2){animation-delay:.15s;}
+.dots span:nth-child(3){animation-delay:.30s;}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+/* PROCESSING */
+.processing{text-align:center;padding:48px 24px;}
+.proc-title{font-family:var(--fd);font-size:20px;font-weight:700;margin-bottom:8px;}
+.proc-sub{font-size:14px;color:var(--t2);margin-bottom:24px;}
+.prog-bar{height:4px;background:var(--s3);border-radius:4px;overflow:hidden;}
+.prog-fill{height:100%;background:var(--cyan);border-radius:4px;transition:width .5s ease;}
+.prog-file{font-size:11px;color:var(--t3);font-family:var(--fm);margin-top:8px;}
+/* TOASTS */
+.toast-wrap{position:fixed;top:calc(var(--safe-top) + 60px);left:16px;right:16px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none;}
+.toast{background:var(--s2);border:0.5px solid var(--b2);border-radius:12px;padding:12px 16px;font-size:13px;display:flex;gap:8px;align-items:center;animation:up .25s ease;pointer-events:auto;box-shadow:0 8px 32px rgba(0,0,0,.4);}
+.tok{border-left:2px solid var(--green);}
+.toi{border-left:2px solid var(--cyan);}
+.tow{border-left:2px solid var(--amber);}
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9000;display:flex;align-items:flex-end;justify-content:center;}
+.modal{background:var(--s1);border-radius:24px 24px 0 0;padding:20px 20px calc(20px + var(--safe-bot));width:100%;max-height:80vh;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.modal-handle{width:36px;height:4px;background:var(--b2);border-radius:2px;margin:0 auto 16px;}
+.modal-title{font-family:var(--fd);font-size:17px;font-weight:700;margin-bottom:14px;}
+/* FORM */
+select,textarea,input[type=text]{background:var(--s2);border:0.5px solid var(--b2);border-radius:12px;color:var(--t1);font-family:var(--ff);padding:12px 14px;font-size:15px;outline:none;width:100%;appearance:none;}
+select{cursor:pointer;}textarea{resize:none;}
+.form-label{font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;margin-top:14px;}
+/* EMPTY */
+.empty{text-align:center;padding:48px 24px;color:var(--t3);}
+.empty-icon{font-size:40px;margin-bottom:12px;opacity:.4;}
+.empty-text{font-size:14px;line-height:1.6;}
+/* BEHAVIOUR */
+.b-subnav{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px;}
+.b-tab{padding:7px 14px;border-radius:20px;border:0.5px solid var(--b2);background:transparent;color:var(--t2);font-family:var(--ff);font-size:13px;cursor:pointer;white-space:nowrap;transition:all .15s;}
+.b-tab.on{background:var(--cD);border-color:var(--cyan);color:var(--cyan);}
+.b-tab:active{opacity:.7;}
+.b-panel{display:none;}.b-panel.on{display:block;}
+.ev-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--b1);}
+.ev-item:last-child{border-bottom:none;}
+.ev-badge{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;font-family:var(--fm);flex-shrink:0;}
+.ev-name{font-size:13px;font-weight:500;margin-bottom:2px;}
+.ev-meta{font-size:11px;color:var(--t3);font-family:var(--fm);}
+.ev-fi{font-size:10px;font-family:var(--fm);color:var(--purple);}
+.rw-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--b1);}
+.rw-row:last-child{border-bottom:none;}
+.rw-label{font-size:13px;font-weight:500;flex:1;}
+.rw-bar-wrap{width:80px;height:4px;background:var(--s3);border-radius:4px;overflow:hidden;}
+.rw-bar{height:100%;border-radius:4px;transition:width .6s ease;}
+.rw-val{font-family:var(--fm);font-size:11px;color:var(--t2);min-width:32px;text-align:right;}
+.ranked-item{background:var(--s1);border:0.5px solid var(--b1);border-radius:14px;padding:13px;margin-bottom:8px;animation:up .3s ease both;cursor:pointer;}
+.ranked-item:active{background:var(--s2);}
+.rank-num{font-family:var(--fm);font-size:11px;color:var(--t3);margin-bottom:4px;}
+.rank-score-bar{height:3px;background:var(--s3);border-radius:3px;margin-top:8px;overflow:hidden;}
+.rank-score-fill{height:100%;border-radius:3px;background:var(--cyan);}
+/* DELPHI */
+.expert-chip{display:inline-flex;align-items:center;gap:6px;background:var(--pD);border:0.5px solid var(--purple);color:var(--purple);border-radius:20px;padding:5px 12px;font-size:12px;font-family:var(--fm);cursor:pointer;}
+.expert-chip:active{opacity:.7;}
 .d-card{background:var(--s1);border:0.5px solid var(--b1);border-radius:14px;padding:14px;margin-bottom:10px;}
-.d-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px;}
+.d-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px;}
 .d-expert{font-size:13px;font-weight:600;}
 .d-domain{font-size:11px;color:var(--t3);font-family:var(--fm);margin-top:2px;}
 .d-est{font-family:var(--fd);font-size:28px;font-weight:700;flex-shrink:0;}
-.d-wt{font-size:10px;color:var(--t3);font-family:var(--fm);text-align:right;margin-top:2px;}
-.d-bar{height:4px;background:var(--s3);border-radius:4px;overflow:hidden;margin:8px 0;}
-.d-reasoning{font-size:13px;color:var(--t2);line-height:1.7;border-top:0.5px solid var(--b1);padding-top:8px;}
-.rw-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--b1);}
-.rw-row:last-child{border-bottom:none;}
-.chip{display:inline-flex;align-items:center;gap:6px;background:var(--pud);border:0.5px solid var(--pu);color:var(--pu);border-radius:20px;padding:5px 12px;font-size:12px;font-family:var(--fm);cursor:pointer;margin:3px;}
-.form-lbl{font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;margin-top:12px;}
-select,textarea,input[type=text],input[type=url],input[type=password]{background:var(--s2);border:0.5px solid var(--b2);border-radius:12px;color:var(--t1);font-family:var(--ff);padding:12px 14px;font-size:14px;outline:none;width:100%;appearance:none;box-sizing:border-box;}
-select{cursor:pointer;}textarea{resize:none;}
-.report-body h2{font-family:var(--fd);font-size:17px;font-weight:700;color:var(--t1);margin:18px 0 8px;padding-bottom:8px;border-bottom:0.5px solid var(--b1);}
-.report-body h3{font-size:10px;color:var(--cy);font-family:var(--fm);text-transform:uppercase;letter-spacing:.12em;margin:12px 0 5px;}
-.report-body p{font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:10px;}
-.report-body li{font-size:13px;color:var(--t2);line-height:1.75;margin-bottom:4px;}
-.report-body ul{padding-left:18px;margin-bottom:10px;}
-.report-body strong{color:var(--t1);font-weight:600;}
-.upload-zone{border:1.5px dashed var(--b2);border-radius:16px;padding:28px 20px;text-align:center;cursor:pointer;margin-bottom:12px;background:transparent;width:100%;}
-.upload-zone:active{background:var(--cyd);border-color:var(--cy);}
-.empty{text-align:center;padding:40px 20px;color:var(--t3);}
-.toast-wrap{position:fixed;top:70px;left:0;right:0;max-width:430px;margin:0 auto;padding:0 16px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none;}
-.toast{background:var(--s2);border:0.5px solid var(--b2);border-radius:12px;padding:12px 16px;font-size:13px;display:flex;gap:8px;align-items:center;animation:up .25s ease;pointer-events:auto;box-shadow:0 8px 32px rgba(0,0,0,.4);}
-.tok{border-left:2px solid var(--gn);}
-.toi{border-left:2px solid var(--cy);}
-.tow{border-left:2px solid var(--am);}
-.prog-bar{height:4px;background:var(--s3);border-radius:4px;overflow:hidden;}
-.prog-fill{height:100%;background:var(--cy);border-radius:4px;transition:width .5s ease;}
+.d-weight{font-size:10px;color:var(--t3);font-family:var(--fm);text-align:right;margin-top:2px;}
+.d-reasoning{font-size:13px;color:var(--t2);line-height:1.7;border-top:0.5px solid var(--b1);padding-top:8px;margin-top:4px;}
+.d-bar{height:4px;background:var(--s3);border-radius:4px;overflow:hidden;margin-top:8px;}
+.d-bar-fill{height:100%;border-radius:4px;transition:width 1s ease;}
+
+/* ── KNOWLEDGE BASE & INTEL ── */
+.kb-item{display:flex;align-items:flex-start;gap:10px;padding:11px 0;border-bottom:0.5px solid var(–b1);}
+.kb-item:last-child{border-bottom:none;}
+.kb-badge{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;font-family:var(–fm);flex-shrink:0;}
+.kb-title{font-size:13px;font-weight:500;margin-bottom:2px;line-height:1.4;}
+.kb-meta{font-size:11px;color:var(–t3);font-family:var(–fm);}
+.kb-del{font-size:14px;color:var(–t3);cursor:pointer;padding:4px;flex-shrink:0;}
+.kb-del:active{color:var(–red);}
+.web-cite{display:inline;background:rgba(0,200,240,0.12);border:0.5px solid rgba(0,200,240,0.3);border-radius:4px;padding:1px 5px;font-size:11px;font-family:var(–fm);color:var(–cyan);cursor:pointer;}
+.web-cite:active{background:var(–cD);}
+.news-card{background:var(–s1);border:0.5px solid var(–b1);border-left:3px solid var(–cyan);border-radius:12px;padding:12px;margin-bottom:8px;animation:up .3s ease both;}
+.news-src{font-size:10px;font-family:var(–fm);color:var(–cyan);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;}
+.news-title{font-size:13px;font-weight:600;margin-bottom:4px;line-height:1.4;}
+.news-body{font-size:12px;color:var(–t2);line-height:1.65;}
+.news-badge{display:inline-flex;align-items:center;gap:4px;background:var(–cD);border:0.5px solid var(–cyan);border-radius:4px;padding:2px 6px;font-size:9px;font-family:var(–fm);color:var(–cyan);margin-right:4px;}
+.mode-pills{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
+.mode-pill{padding:6px 14px;border-radius:20px;border:0.5px solid var(–b2);background:transparent;color:var(–t2);font-family:var(–ff);font-size:13px;cursor:pointer;transition:all .15s;}
+.mode-pill.on{background:var(–cD);border-color:var(–cyan);color:var(–cyan);}
+.mode-pill:active{opacity:.7;}
+.url-input{width:100%;background:var(–s2);border:0.5px solid var(–b2);border-radius:12px;color:var(–t1);font-family:var(–fm);padding:11px 14px;font-size:13px;outline:none;margin-bottom:8px;}
+.url-input:focus{border-color:var(–cyan);}
+.url-input::placeholder{color:var(–t3);font-family:var(–ff);}
+.transcript-area{width:100%;background:var(–s2);border:0.5px solid var(–b2);border-radius:12px;color:var(–t1);font-family:var(–ff);padding:11px 14px;font-size:13px;outline:none;resize:none;line-height:1.6;}
+
 </style>
 </head>
 <body>
-<div id="app">
-
-<!-- KEY SCREEN -->
-
-<div class="key-screen" id="key-screen">
-  <div class="ks-grid"></div>
-  <div class="ks-logo">SCENTS</div>
-  <div class="ks-tag">Personal Intelligence · EKN Consulting</div>
-  <div class="ks-card">
-    <div class="ks-title">Connect your API key</div>
-    <div class="ks-sub">Your key is stored only on this device — it never touches GitHub or any server. Paste your Anthropic API key to activate AI features.</div>
-    <input class="ks-inp" id="ks-input" type="password" placeholder="sk-ant-api03-..." autocomplete="off" autocorrect="off" autocapitalize="off">
-    <div class="ks-hint">Get your key at console.anthropic.com → API Keys → Create Key<br>Add $5 billing credit (~100 analyses)</div>
-    <div class="ks-status" id="ks-status"></div>
-    <button class="ks-btn" onclick="connectKey()">Connect &amp; Test →</button>
-    <div class="ks-link">Key stays on your phone only · <a href="https://console.anthropic.com" target="_blank">Open Anthropic Console</a></div>
-    <div class="ks-demo">
-      <button class="ks-demo-btn" onclick="previewMode()">👁 Preview without API key</button>
+<div class="shell">
+  <div class="status-bar"></div>
+  <div class="topbar">
+    <div class="tb-logo">SCENTS</div>
+    <div class="tb-actions">
+      <div style="font-size:10px;color:var(--t3);font-family:var(--fm)" id="file-count-top"></div>
+      <div id="key-status-bar" style="display:none" class="key-bar"></div>
+      <label for="file-input" class="tb-btn" style="cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:300;line-height:1;padding-bottom:1px">+</label>
+      <button class="tb-btn primary" onclick="analyseAll()" id="analyse-top-btn" style="display:none">Analyse</button>
     </div>
   </div>
-</div>
 
-<!-- TOPBAR -->
+  <div class="scroll" id="scroll-area">
 
-<div class="topbar" id="topbar" style="display:none">
-  <div class="tb-logo">SCENTS</div>
-  <div class="tb-actions">
-    <div class="key-bar">
-      <div class="key-dot"></div>
-      <div class="key-masked" id="key-masked">Preview</div>
-    </div>
-    <button class="tb-btn" onclick="toast('File picker opens on your device','info')">+</button>
-    <button class="tb-btn primary" onclick="toast('Analysis complete — intelligence updated','ok')">Analyse</button>
-  </div>
-</div>
-
-<!-- SCROLL AREA -->
-
-<div class="scroll" id="scroll-area" style="display:none">
-
+```
 <!-- HOME -->
+<div class="view on view-pad" id="view-home">
+  <div class="install-card" id="install-card" style="display:none">
+    <div class="ic-title">Add to Home Screen</div>
+    <div class="ic-body">Install SCENTS as an app — opens full-screen like a native app.</div>
+    <div class="ic-step"><div class="ic-num">1</div><span>Tap <strong>Share ⎙</strong> at the bottom of Safari</span></div>
+    <div class="ic-step"><div class="ic-num">2</div><span>Scroll down → tap <strong>Add to Home Screen</strong></span></div>
+    <div class="ic-step"><div class="ic-num">3</div><span>Tap <strong>Add</strong></span></div>
+    <button class="btn btn-p" style="margin-top:14px;width:100%;justify-content:center" onclick="dismissInstall()">Got it</button>
+  </div>
+  <div id="home-dashboard" style="display:none">
+    <div class="metrics-row" id="metrics-grid"></div>
+    <div class="qbox">
+      <textarea class="qi" id="main-q" placeholder="Ask anything about your files..." rows="2"></textarea>
+      <button class="q-send" onclick="runQ('main-q','main-result')">↑</button>
+    </div>
+    <div id="main-result"></div>
+    <div class="sh"><div class="sh-t">Intelligence</div><span class="tag tc">Live</span></div>
+    <div id="home-insights"></div>
+  </div>
+  <div id="home-hero">
+    <div class="hero">
+      <div class="hero-logo">SCENTS</div>
+      <div class="hero-tag">Personal Intelligence · EKN Consulting</div>
+      <div class="hero-sub">Your files. Your intelligence. Proposals, spreadsheets, emails — analysed and turned into insights personal to you.</div>
+      <div class="hero-step"><div class="hs-num">1</div><div><div class="hs-t">Tap + to add files</div><div class="hs-s">Pick from iCloud Drive, Files app, or anywhere on your iPhone.</div></div></div>
+      <div class="hero-step"><div class="hs-num">2</div><div><div class="hs-t">Tap Analyse</div><div class="hs-s">SCENTS reads everything and builds your personal intelligence corpus.</div></div></div>
+      <div class="hero-step"><div class="hs-num">3</div><div><div class="hs-t">Get insights</div><div class="hs-s">Opportunities, risks, clients, financials — ask anything.</div></div></div>
+    </div>
+  </div>
+</div>
 
-<div class="view on" id="view-home">
-  <div class="metrics">
-    <div class="metric" style="border-color:var(--cy);background:var(--cyd)"><div class="ml">Value Signal</div><div class="mv" style="color:var(--cy)">KES 2.4B</div><div class="md">Across files</div></div>
-    <div class="metric"><div class="ml">Projects</div><div class="mv">6</div><div class="md">Active ventures</div></div>
-    <div class="metric" style="border-color:var(--am)"><div class="ml">Urgent</div><div class="mv" style="color:var(--am)">2</div><div class="md">High-priority risks</div></div>
-    <div class="metric"><div class="ml">Pipeline</div><div class="mv">4</div><div class="md">Active clients</div></div>
+<!-- PROCESSING -->
+<div class="view view-pad" id="view-processing">
+  <div class="processing">
+    <div class="dots" style="display:flex;justify-content:center;margin-bottom:20px"><span></span><span></span><span></span></div>
+    <div class="proc-title" id="proc-title">Extracting...</div>
+    <div class="proc-sub" id="proc-sub">Reading your files</div>
+    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+    <div class="prog-file" id="prog-file">—</div>
   </div>
-  <div class="qbox">
-    <textarea class="qi" placeholder="Ask anything about your files… e.g. What is the status of Mulika VPP?" rows="2"></textarea>
-    <button class="q-send" onclick="toast('Requires API key connected','info')">↑</button>
-  </div>
-  <!-- Signal card -->
-  <div class="insight" style="border-left:3px solid var(--pu)">
-    <div class="i-type" style="color:var(--pu)">◈ CONSULTING SIGNAL SENSOR</div>
-    <div class="i-title">Behavioral Intelligence Active — 4 signals logged</div>
-    <div class="i-body">Conversion probability: <strong style="color:var(--cy)">67%</strong> · Fisher Information: <strong style="color:var(--pu)">3.14/10</strong> · Dominant layer: <strong>Consideration</strong><br>Active ventures: MulikaVPP, Scents, WISMO</div>
-    <div class="i-foot"><span class="tag tgo">1 conversion event</span><span class="i-src">Signals tab → log more events</span></div>
-  </div>
-  <div class="sh"><div class="sh-t">Intelligence</div><span class="tag tc">Live</span></div>
-  <!-- Weekly priorities -->
-  <div class="card card-go">
-    <div class="sh"><div class="sh-t" style="color:var(--go)">★ This Week</div><span class="tag tgo">AI</span></div>
-    <div class="pri-item"><span class="pri-num">#1</span><span style="font-size:14px">Finalise Mulika VPP Series A investor deck — DFI window is open now</span></div>
-    <div class="pri-item"><span class="pri-num">#2</span><span style="font-size:14px">Confirm BIPOLAR™ production partner — 6-week deadline approaching</span></div>
-    <div class="pri-item"><span class="pri-num">#3</span><span style="font-size:14px">Close Scents enterprise pilot negotiation — budget discussion active</span></div>
-  </div>
-  <div class="insight" style="border-left:3px solid var(--go)"><div class="i-type" style="color:var(--go)">✦ OPPORTUNITY</div><div class="i-title">Mulika VPP Series A Window — DFI Capital Deploying</div><div class="i-body">Kenyan renewable energy sector attracting DFI capital in Q1 2025. KPLC curtailment data supports Mulika's absorption case — Series A timing is optimal.</div><div class="i-foot"><span class="tag tgo">88%</span><span class="i-src">MulikaVPP_deck.pdf</span></div></div>
-  <div class="insight" style="border-left:3px solid var(--rd);animation-delay:.07s"><div class="i-type" style="color:var(--rd)">✦ RISK</div><div class="i-title">BIPOLAR™ Manufacturing Lead Time — No Partner Confirmed</div><div class="i-body">No confirmed manufacturer in the corpus. Collection launch timeline may slip without a production partner secured within 6 weeks.</div><div class="i-foot"><span class="tag tr">75%</span><span class="i-src">BIPOLAR_plan.docx</span></div></div>
-  <div class="insight" style="border-left:3px solid var(--gn);animation-delay:.14s"><div class="i-type" style="color:var(--gn)">✦ FINANCIAL</div><div class="i-title">Scents Platform ARR — $120K Year 1 Projection</div><div class="i-body">Three enterprise pilots at $5K–$25K/month implied. If two convert, ARR hits $120K — a fundable milestone for the next raise.</div><div class="i-foot"><span class="tag tg">72%</span><span class="i-src">SCENTS_ExecSummary.docx</span></div></div>
-  <div class="insight" style="border-left:3px solid var(--cy);animation-delay:.21s"><div class="i-type" style="color:var(--cy)">✦ CLIENT</div><div class="i-title">EKN Advisory Pipeline — 3 Active Projects Need Decks</div><div class="i-body">Mulika, BIPOLAR, and Scents all require active investor-facing documentation. Prioritise Mulika given energy sector timing.</div><div class="i-foot"><span class="tag tc">90%</span><span class="i-src">All files</span></div></div>
 </div>
 
 <!-- INSIGHTS -->
-
-<div class="view" id="view-insights">
-  <div class="qbox"><textarea class="qi" placeholder="Deep analysis… compare projects, identify gaps…" rows="2"></textarea><button class="q-send" onclick="toast('Deep query requires API key','info')">↑</button></div>
+<div class="view view-pad" id="view-insights">
+  <div class="qbox">
+    <textarea class="qi" id="ins-q" placeholder="Deep analysis... compare projects, identify gaps..." rows="2"></textarea>
+    <button class="q-send" onclick="runQ('ins-q','ins-result')">↑</button>
+  </div>
+  <div id="ins-result"></div>
   <div class="sh"><div class="sh-t">All Insights</div></div>
-  <div class="insight" style="border-left:3px solid var(--go)"><div class="i-type" style="color:var(--go)">✦ OPPORTUNITY</div><div class="i-title">Mulika VPP Series A Window</div><div class="i-body">DFI capital actively deploying in East African renewable energy. KPLC grid data validates the VPP absorption thesis.</div><div class="i-foot"><span class="tag tgo">88%</span><span class="i-src">MulikaVPP_deck.pdf</span></div></div>
-  <div class="insight" style="border-left:3px solid var(--rd);animation-delay:.07s"><div class="i-type" style="color:var(--rd)">✦ RISK</div><div class="i-title">BIPOLAR™ Production Partner Gap</div><div class="i-body">No manufacturer confirmed. 6-week deadline to launch approaching with no production agreement in the corpus.</div><div class="i-foot"><span class="tag tr">75%</span><span class="i-src">BIPOLAR_plan.docx</span></div></div>
-  <div class="insight" style="border-left:3px solid var(--gn);animation-delay:.14s"><div class="i-type" style="color:var(--gn)">✦ FINANCIAL</div><div class="i-title">Scents ARR — $120K Year 1</div><div class="i-body">Two enterprise pilot conversions yield $120K ARR — a credible fundraising milestone for the next raise.</div><div class="i-foot"><span class="tag tg">72%</span><span class="i-src">SCENTS_ExecSummary.docx</span></div></div>
-  <div class="insight" style="border-left:3px solid var(--cy);animation-delay:.21s"><div class="i-type" style="color:var(--cy)">✦ CLIENT</div><div class="i-title">EKN Advisory Pipeline — 3 Active</div><div class="i-body">Mulika, BIPOLAR, and Scents all require investor-facing deliverables this quarter. Mulika is highest priority.</div><div class="i-foot"><span class="tag tc">90%</span><span class="i-src">All files</span></div></div>
+  <div id="insights-list"><div class="empty"><div class="empty-icon">✦</div><div class="empty-text">Analyse your files to generate insights</div></div></div>
 </div>
 
-<!-- OPPS -->
-
-<div class="view" id="view-opps">
+<!-- OPPORTUNITIES -->
+<div class="view view-pad" id="view-opps">
   <div class="sh"><div class="sh-t">Opportunities</div><span class="tag tgo">From your files</span></div>
-  <div class="insight" style="border-left:3px solid var(--go)"><div class="i-type" style="color:var(--go)">⬡ HIGH</div><div class="i-title">DFI Clean Energy Facility — Mulika VPP</div><div class="i-body">IFC and PROPARCO actively seeking East African VPP projects. Mulika's curtailment model aligns directly with their 2025 deployment mandate.</div><div class="i-foot"><span class="tag tgo">$2M–$8M</span><span class="i-src">MulikaVPP_deck.pdf</span></div></div>
-  <div class="insight" style="border-left:3px solid var(--go);animation-delay:.07s"><div class="i-type" style="color:var(--go)">⬡ HIGH</div><div class="i-title">Scents Enterprise Pilot — 3 Qualified Leads</div><div class="i-body">Due diligence requests from two financial institutions and one logistics company. Budget discussions confirm $5K–$25K/month.</div><div class="i-foot"><span class="tag tgo">$180K ARR</span><span class="i-src">Scents_exec.docx</span></div></div>
-  <div class="insight" style="border-left:3px solid var(--cy);animation-delay:.14s"><div class="i-type" style="color:var(--cy)">⬡ MEDIUM</div><div class="i-title">BIPOLAR™ Mental Health NGO Partnership</div><div class="i-body">50% net profit donation model creates a unique partnership angle. Several Kenya-based NGOs actively seeking brand partners.</div><div class="i-foot"><span class="tag tc">Brand equity + reach</span><span class="i-src">BIPOLAR_plan.docx</span></div></div>
+  <div id="opps-list"><div class="empty"><div class="empty-icon">⬡</div><div class="empty-text">Load and analyse files to extract opportunities</div></div></div>
 </div>
 
 <!-- RISKS -->
-
-<div class="view" id="view-risks">
-  <div class="sh"><div class="sh-t">Risks &amp; Deadlines</div><span class="tag tr">2 high</span></div>
-  <div class="insight" style="border-left:3px solid var(--rd)"><div class="i-type" style="color:var(--rd)">⚠ HIGH</div><div class="i-title">BIPOLAR™ Production Partner — No Agreement</div><div class="i-body">Without a manufacturer confirmed within 6 weeks, the planned collection drop cannot proceed on schedule.</div><div class="i-foot"><span class="tag tr">high</span><span class="tag ta">⏱ 6 weeks</span><span class="i-src">BIPOLAR_plan.docx</span></div></div>
-  <div class="insight" style="border-left:3px solid var(--rd);animation-delay:.07s"><div class="i-type" style="color:var(--rd)">⚠ HIGH</div><div class="i-title">Mulika VPP Regulatory Pathway Undefined</div><div class="i-body">EPRA approval timeline for VPP operations not documented. Creates investor due diligence risk and could extend Series A by 6–12 months.</div><div class="i-foot"><span class="tag tr">high</span><span class="tag ta">⏱ Pre-fundraise</span><span class="i-src">MulikaVPP_deck.pdf</span></div></div>
-  <div class="insight" style="border-left:3px solid var(--am);animation-delay:.14s"><div class="i-type" style="color:var(--am)">⚠ MEDIUM</div><div class="i-title">Scents Platform — No Live Revenue</div><div class="i-body">Positioned as going concern but no signed contracts in corpus. Investor scrutiny on revenue claims is likely.</div><div class="i-foot"><span class="tag ta">medium</span><span class="i-src">SCENTS_ExecSummary.docx</span></div></div>
-  <div class="insight" style="border-left:3px solid var(--t2);animation-delay:.21s"><div class="i-type" style="color:var(--t2)">⚠ LOW</div><div class="i-title">MDMC Insurance Integration Scope</div><div class="i-body">SHA, AAR, and Jubilee integrations referenced but no technical scoping document found.</div><div class="i-foot"><span class="i-src">MDMC_notes.txt</span></div></div>
+<div class="view view-pad" id="view-risks">
+  <div class="sh"><div class="sh-t">Risks &amp; Deadlines</div><span class="tag tr" id="risk-count"></span></div>
+  <div id="risks-list"><div class="empty"><div class="empty-icon">⚠</div><div class="empty-text">Load documents to extract risk flags</div></div></div>
 </div>
 
 <!-- FILES -->
-
-<div class="view" id="view-files">
-  <div class="sh"><div class="sh-t">Your Files</div><span style="font-size:11px;color:var(--t3);font-family:var(--fm)">5 files · 5 indexed</span></div>
-  <button class="upload-zone" onclick="toast('File picker opens on your device','info')">
-    <div style="font-size:32px;color:var(--t3);margin-bottom:10px">⊕</div>
-    <div style="font-size:16px;font-weight:600;margin-bottom:4px">Add Files</div>
-    <div style="font-size:12px;color:var(--t2);margin-bottom:6px">PDF, Excel, Word, email, images</div>
-    <div style="font-size:10px;color:var(--t3);font-family:var(--fm)">PDF · DOCX · XLSX · CSV · PPTX · EML · TXT · IMG</div>
-  </button>
-  <div id="file-list-demo"></div>
+<div class="view view-pad" id="view-files">
+  <div class="sh"><div class="sh-t">Your Files</div><div class="sh-s" id="files-sub">—</div></div>
+  <label class="upload-zone" for="file-input" style="position:relative;display:block;cursor:pointer;">
+    <div class="uz-icon">⊕</div>
+    <div class="uz-title">Add Files</div>
+    <div class="uz-sub">Tap to pick from iCloud Drive or Files app</div>
+    <div class="uz-types">PDF · DOCX · XLSX · CSV · PPTX · EML · TXT · IMG</div>
+    <input type="file" id="file-input" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.pptx,.eml,.msg,.txt,.png,.jpg,.jpeg,.gif,.webp">
+  </label>
+  <button class="analyse-btn" id="analyse-btn" disabled onclick="analyseAll()">✦ Analyse All</button>
+  <div id="file-list"></div>
 </div>
 
-<!-- INTEL -->
-
-<div class="view" id="view-intel">
-  <div class="pills" id="intel-pills">
-    <button class="pill on" onclick="iNav(this,'kb')">📚 Knowledge Base</button>
-    <button class="pill" onclick="iNav(this,'url')">🔗 Add URL</button>
-    <button class="pill" onclick="iNav(this,'tr')">🎥 Transcribe</button>
-    <button class="pill" onclick="iNav(this,'news')">🌍 Current Affairs</button>
+<!-- BEHAVIOUR -->
+<div class="view view-pad" id="view-behaviour">
+  <div class="b-subnav">
+    <button class="b-tab on" onclick="bNav(this,'sensor')">47-Event Sensor</button>
+    <button class="b-tab" onclick="bNav(this,'retention')">Attention Engine</button>
+    <button class="b-tab" onclick="bNav(this,'ranking')">Engagement Ranking</button>
   </div>
-  <div id="ip-kb">
-    <div class="sh"><div><div class="sh-t">Persistent Knowledge Base</div><div style="font-size:11px;color:var(--t3);font-family:var(--fm);margin-top:2px">3 items · 12,847 chars · Auto-loaded into every analysis</div></div><span class="tag tc">3 items</span></div>
-    <div style="font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:14px">Items saved here are automatically included in every analysis — even between sessions. Add your CIM notes, key articles, and research.</div>
-    <button class="abtn" onclick="toast('KB add modal would open here','info')">+ Add to Knowledge Base</button>
-    <div class="file-item"><div class="fi-badge" style="background:rgba(155,114,255,0.18);color:var(--pu)">TRA</div><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">CIM Module 3 — Consumer Behaviour</div><div style="font-size:11px;color:var(--t3);font-family:var(--fm)">4,280 chars · Added 14 Jan 2025</div></div><div onclick="toast('Removed from KB','info')" style="color:var(--t3);cursor:pointer;padding:4px;font-size:14px">✕</div></div>
-    <div class="file-item"><div class="fi-badge" style="background:rgba(0,200,240,0.18);color:var(--cy)">URL</div><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Kenya Finance Bill 2024 — Business Daily</div><div style="font-size:11px;color:var(--t3);font-family:var(--fm)">3,140 chars · Added 12 Jan 2025</div></div><div onclick="toast('Removed from KB','info')" style="color:var(--t3);cursor:pointer;padding:4px;font-size:14px">✕</div></div>
-    <div class="file-item"><div class="fi-badge" style="background:rgba(245,168,0,0.18);color:var(--am)">NEW</div><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Current Affairs — 14 Jan 2025</div><div style="font-size:11px;color:var(--t3);font-family:var(--fm)">5,427 chars · Added 14 Jan 2025</div></div><div onclick="toast('Removed from KB','info')" style="color:var(--t3);cursor:pointer;padding:4px;font-size:14px">✕</div></div>
-  </div>
-  <div id="ip-url" style="display:none">
-    <div class="sh-t" style="margin-bottom:12px;font-family:var(--fd);font-size:16px;font-weight:700">Fetch Article / URL</div>
-    <div style="font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:14px">Paste any URL — news article, research paper, regulatory document. SCENTS reads it and saves to your Knowledge Base.</div>
-    <input type="url" placeholder="https://example.com/article…" style="margin-bottom:8px">
-    <div style="display:flex;gap:8px;margin-bottom:16px"><button class="btn btn-p" style="flex:1;justify-content:center" onclick="toast('Fetching requires API key','info')">↓ Fetch &amp; Read</button></div>
-    <div class="empty"><div style="font-size:36px;margin-bottom:12px;opacity:.4">🔗</div><div style="font-size:14px">Paste a URL above and tap Fetch</div></div>
-  </div>
-  <div id="ip-tr" style="display:none">
-    <div class="sh-t" style="margin-bottom:12px;font-family:var(--fd);font-size:16px;font-weight:700">Transcribe Video / Audio</div>
-    <div style="font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:14px">For your CIM lectures — paste a transcript. SCENTS cleans it up and saves to your Knowledge Base.</div>
-    <input type="text" placeholder="e.g. CIM Module 3 — Consumer Behaviour" style="margin-bottom:10px">
-    <textarea placeholder="Paste transcript here…" rows="5" style="margin-bottom:10px"></textarea>
-    <button class="abtn" onclick="toast('Processing requires API key','info')">✦ Clean &amp; Extract</button>
-    <div class="card card-am" style="margin-top:14px">
-      <div style="font-size:11px;color:var(--am);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Getting transcripts from your CIM videos</div>
-      <div style="font-size:13px;color:var(--t2);line-height:1.7"><strong style="color:var(--t1)">YouTube/Zoom:</strong> Open video → turn on Captions → copy transcript.<br><br><strong style="color:var(--t1)">iPhone voice memo:</strong> Share recording to Notes → copy text.</div>
-    </div>
-  </div>
-  <div id="ip-news" style="display:none">
-    <div class="sh-t" style="margin-bottom:12px;font-family:var(--fd);font-size:16px;font-weight:700">Current Affairs</div>
-    <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Freshness Mode</div>
-    <label style="display:flex;align-items:flex-start;gap:10px;background:var(--s2);border:0.5px solid var(--cy);border-radius:12px;padding:12px;cursor:pointer;margin-bottom:8px"><input type="radio" name="nm" checked style="margin-top:2px;accent-color:var(--cy)"><div><div style="font-size:13px;font-weight:600">Daily Brief</div><div style="font-size:12px;color:var(--t2);margin-top:2px">Top Kenya &amp; Africa news. Fresh every time you tap Fetch.</div></div></label>
-    <label style="display:flex;align-items:flex-start;gap:10px;background:var(--s2);border:0.5px solid var(--b2);border-radius:12px;padding:12px;cursor:pointer;margin-bottom:8px"><input type="radio" name="nm" style="margin-top:2px;accent-color:var(--cy)"><div><div style="font-size:13px;font-weight:600">On-Demand Search</div><div style="font-size:12px;color:var(--t2);margin-top:2px">Type a topic and search for current information.</div></div></label>
-    <label style="display:flex;align-items:flex-start;gap:10px;background:var(--s2);border:0.5px solid var(--b2);border-radius:12px;padding:12px;cursor:pointer;margin-bottom:16px"><input type="radio" name="nm" style="margin-top:2px;accent-color:var(--cy)"><div><div style="font-size:13px;font-weight:600">Auto-Enriched Analysis</div><div style="font-size:12px;color:var(--t2);margin-top:2px">Every analysis enriched with current affairs. <span class="tweb">🌐 WEB</span> citations shown inline.</div></div></label>
-    <button class="abtn" onclick="toast('Fetching current affairs requires API key','info')">🌍 Fetch Current Affairs</button>
-    <div class="card">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><span class="tag tc">🌍 Live Intelligence</span><span style="font-size:11px;color:var(--t3);font-family:var(--fm)">daily mode</span><span class="tweb" style="margin-left:auto">🌐 WEB</span><span style="font-size:11px;color:var(--t3)"> = web-sourced</span></div>
-      <div style="font-size:13px;color:var(--t2);line-height:1.8"><strong style="color:var(--t1)">1. Kenya Energy Sector</strong><br>KPLC announced expanded renewable energy procurement targets for 2025 <span class="tweb">🌐 WEB</span>. Directly strengthens Mulika VPP's absorption case.<br><br><strong style="color:var(--t1)">2. East Africa VC Activity</strong><br>Three climate-tech funds announced new East Africa mandates in Q4 2024 <span class="tweb">🌐 WEB</span>. Series A window is active.</div>
-      <div style="margin-top:14px;display:flex;gap:8px">
-        <button class="btn btn-p" style="flex:1;justify-content:center;font-size:13px" onclick="toast('Saved to Knowledge Base','ok')">📚 Save to KB</button>
-        <button class="btn" style="flex:1;justify-content:center;font-size:13px" onclick="toast('Cross-reference requires API key','info')">✦ Cross-Reference</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- SIGNALS -->
-
-<div class="view" id="view-signals">
-  <div class="pills" id="sig-pills">
-    <button class="pill on" onclick="sNav(this,'sensor')">47-Event Sensor</button>
-    <button class="pill" onclick="sNav(this,'attention')">Attention Engine</button>
-    <button class="pill" onclick="sNav(this,'ranking')">Engagement Ranking</button>
-  </div>
-  <div id="sp-sensor">
-    <div class="card">
+  <div class="b-panel on" id="bpanel-sensor">
+    <div class="card" style="margin-bottom:12px">
       <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">EKN Consulting — Behavioral Signal Sensor</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px">
-        <div><div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-bottom:4px">MOTIVATION</div><div style="font-family:var(--fd);font-size:22px;font-weight:700;color:var(--cy)">0.72</div><div style="height:3px;background:var(--s3);border-radius:3px;margin-top:4px;overflow:hidden"><div style="height:100%;background:var(--cy);border-radius:3px;width:72%"></div></div></div>
-        <div><div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-bottom:4px">ABILITY</div><div style="font-family:var(--fd);font-size:22px;font-weight:700;color:var(--gn)">0.65</div><div style="height:3px;background:var(--s3);border-radius:3px;margin-top:4px;overflow:hidden"><div style="height:100%;background:var(--gn);border-radius:3px;width:65%"></div></div></div>
-        <div><div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-bottom:4px">PROMPT</div><div style="font-family:var(--fd);font-size:22px;font-weight:700;color:var(--am)">0.80</div><div style="height:3px;background:var(--s3);border-radius:3px;margin-top:4px;overflow:hidden"><div style="height:100%;background:var(--am);border-radius:3px;width:80%"></div></div></div>
+        <div><div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-bottom:4px">MOTIVATION</div><div style="font-family:var(--fd);font-size:22px;font-weight:700;color:var(--cyan)" id="map-m">0</div><div style="height:3px;background:var(--s3);border-radius:3px;margin-top:4px;overflow:hidden"><div id="bar-m" style="height:100%;background:var(--cyan);border-radius:3px;width:0%;transition:width .6s ease"></div></div></div>
+        <div><div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-bottom:4px">ABILITY</div><div style="font-family:var(--fd);font-size:22px;font-weight:700;color:var(--green)" id="map-a">0</div><div style="height:3px;background:var(--s3);border-radius:3px;margin-top:4px;overflow:hidden"><div id="bar-a" style="height:100%;background:var(--green);border-radius:3px;width:0%;transition:width .6s ease"></div></div></div>
+        <div><div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-bottom:4px">PROMPT</div><div style="font-family:var(--fd);font-size:22px;font-weight:700;color:var(--amber)" id="map-p">0</div><div style="height:3px;background:var(--s3);border-radius:3px;margin-top:4px;overflow:hidden"><div id="bar-p" style="height:100%;background:var(--amber);border-radius:3px;width:0%;transition:width .6s ease"></div></div></div>
       </div>
       <div style="background:var(--s2);border-radius:10px;padding:12px;display:flex;align-items:center;justify-content:space-between">
-        <div><div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-bottom:3px">BEHAVIOR SCORE B=MAP</div><div style="font-family:var(--fd);font-size:28px;font-weight:800;color:var(--cy)">0.374</div></div>
-        <div style="text-align:right"><div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-bottom:3px">CONVERSION PROB</div><div style="font-family:var(--fd);font-size:28px;font-weight:800;color:var(--gn)">67%</div></div>
+        <div><div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-bottom:3px">BEHAVIOR SCORE B=MAP</div><div style="font-family:var(--fd);font-size:28px;font-weight:800;color:var(--cyan)" id="b-score">0.00</div></div>
+        <div style="text-align:right"><div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-bottom:3px">CONVERSION PROB</div><div style="font-family:var(--fd);font-size:28px;font-weight:800;color:var(--green)" id="conv-prob">0%</div></div>
       </div>
-      <div style="margin-top:10px;padding-top:10px;border-top:0.5px solid var(--b1)"><div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-bottom:4px">TOTAL FISHER INFORMATION — trace(J(θ))</div><div style="font-family:var(--fm);font-size:14px;color:var(--pu)">I(X;Y) = 3.140 / 10.000</div></div>
+      <div style="margin-top:10px;padding-top:10px;border-top:0.5px solid var(--b1)">
+        <div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-bottom:4px">TOTAL FISHER INFORMATION — trace(J(θ))</div>
+        <div style="font-family:var(--fm);font-size:14px;color:var(--purple)" id="fisher-total">I(X;Y) = 0.000</div>
+      </div>
     </div>
-    <button class="abtn" onclick="toast('Event logger would open — log your consulting signals','info')">+ Log Consulting Signal</button>
-    <div class="sh"><div class="sh-t">Signal Log</div><span class="tag tc">4 signals</span></div>
-    <div id="sig-log"></div>
+    <button class="analyse-btn" style="margin-bottom:12px" onclick="openEventModal()">+ Log Behavioral Event</button>
+    <div class="sh"><div class="sh-t">Event Log</div><span class="tag tc" id="event-count-tag">0 events</span></div>
+    <div id="event-feed"><div class="empty"><div class="empty-icon" style="font-size:28px">⬡</div><div class="empty-text" style="font-size:13px">No consulting signals logged yet.</div></div></div>
   </div>
-  <div id="sp-attention" style="display:none">
-    <div class="card">
+  <div class="b-panel" id="bpanel-retention">
+    <div class="card" style="margin-bottom:12px">
       <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Rescorla-Wagner RL — Attention Model</div>
-      <div style="font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:12px">Learns which consulting insight categories matter most — deals you engage rise, noise falls.</div>
-      <div style="background:var(--s2);border-radius:10px;padding:12px;font-family:var(--fm);font-size:12px;color:var(--pu);line-height:2">ΔV = α·β·(λ − V)<br><span style="color:var(--t3)">α = salience · β = learn rate · λ = max value · V = current strength</span></div>
+      <div style="font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:12px">Learns which consulting insight categories matter most — client deals, risks, financials, opportunities. Each tap updates associative strength V.</div>
+      <div style="background:var(--s2);border-radius:10px;padding:12px;font-family:var(--fm);font-size:12px;color:var(--purple);line-height:2">ΔV = α·β·(λ − V)<br><span style="color:var(--t3)">α = salience · β = learn rate · λ = max value · V = current strength</span></div>
     </div>
     <div class="sh"><div class="sh-t">Learned Category Weights</div><span class="tag tp">Live</span></div>
-    <div id="rw-list"></div>
-    <div class="card" style="margin-top:14px">
-      <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Session Stats</div>
-      <div style="font-size:13px;color:var(--t2);line-height:1.9;font-family:var(--fm)">Top: Opportunity (V=0.720)<br>Engagements: 8 · α: 0.1 · β: 0.3 · λ: 1.0</div>
-      <button class="btn" style="margin-top:10px;font-size:12px" onclick="toast('Learning reset — weights equalised','info')">↺ Reset Learning</button>
+    <div id="rw-weights-list" style="margin-bottom:14px"></div>
+    <div class="card">
+      <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Session Stats</div>
+      <div id="rw-stats" style="font-size:13px;color:var(--t2);line-height:1.9;font-family:var(--fm)"></div>
+      <button class="btn" onclick="resetRW()" style="margin-top:10px;font-size:12px">↺ Reset Learning</button>
     </div>
   </div>
-  <div id="sp-ranking" style="display:none">
-    <div class="card">
+  <div class="b-panel" id="bpanel-ranking">
+    <div class="card" style="margin-bottom:12px">
       <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Instagram-Style Conformal Ranking</div>
-      <div style="font-size:13px;color:var(--t2);line-height:1.7">Every consulting insight scored by <strong style="color:var(--t1)">relevance × recency × your engagement pattern</strong> — 95% conformal coverage guarantee.</div>
-      <div style="background:var(--s2);border-radius:10px;padding:10px;margin-top:10px;font-family:var(--fm);font-size:11px;color:var(--pu);line-height:1.9">score(i) = 0.5·P(relevant) + 0.2·recency + 0.3·V(category)</div>
+      <div style="font-size:13px;color:var(--t2);line-height:1.7">Every insight scored by <strong style="color:var(--t1)">relevance × recency × relationship strength</strong> with a conformal coverage guarantee.</div>
+      <div style="background:var(--s2);border-radius:10px;padding:10px;margin-top:10px;font-family:var(--fm);font-size:11px;color:var(--purple);line-height:1.9">score(i) = w₁·P(relevant) + w₂·recency + w₃·V(category)<br><span style="color:var(--t3)">w₁=0.5 · w₂=0.2 · w₃=0.3 · V from Rescorla-Wagner</span></div>
     </div>
-    <div class="sh"><div class="sh-t">Ranked Feed</div><button class="btn" style="font-size:11px;padding:4px 10px" onclick="toast('Feed re-ranked · 4 insights · 95% conformal coverage','ok')">↻ Re-rank</button></div>
-    <div id="ranked-list"></div>
+    <div class="sh"><div class="sh-t">Ranked Feed</div><button class="btn" style="font-size:11px;padding:4px 10px" onclick="reRankInsights()">↻ Re-rank</button></div>
+    <div id="ranked-feed"><div class="empty"><div class="empty-icon" style="font-size:28px">✦</div><div class="empty-text" style="font-size:13px">Analyse files first, then tap Re-rank.</div></div></div>
   </div>
 </div>
 
 <!-- DELPHI -->
-
-<div class="view" id="view-delphi">
+<div class="view view-pad" id="view-delphi">
   <div class="sh"><div class="sh-t">Delphi Engine</div><span class="tag tp">L4 · Crawford-Williams</span></div>
-  <div id="delphi-setup">
-    <div class="card">
-      <div class="form-lbl" style="margin-top:0">Forecasting Question</div>
-      <textarea rows="3" style="margin-bottom:12px">What is the probability that Mulika VPP secures Series A funding within 12 months?</textarea>
-      <div class="form-lbl">Expert Panel</div>
-      <div style="display:flex;flex-wrap:wrap;margin-bottom:12px">
-        <div class="chip">◉ Kenyan VC ✕</div>
-        <div class="chip">◉ EA market analyst ✕</div>
-        <div class="chip">◉ Political risk specialist ✕</div>
-        <div class="chip">◉ Domain expert ✕</div>
-      </div>
-      <button class="abtn" onclick="showResults()" style="margin-bottom:0">◬ Run Delphi Round</button>
+  <div class="card" id="delphi-setup">
+    <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Forecasting Question</div>
+    <textarea id="delphi-q" rows="3" placeholder="e.g. What is the probability that Mulika VPP secures Series A funding within 12 months?" style="width:100%;background:var(--s2);border:0.5px solid var(--b2);border-radius:10px;color:var(--t1);font-family:var(--ff);padding:10px 12px;font-size:14px;outline:none;resize:none;margin-bottom:12px"></textarea>
+    <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Expert Panel</div>
+    <div id="expert-chips" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px"></div>
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <input type="text" id="expert-input" placeholder="Add expert role e.g. VC fund analyst" style="flex:1;background:var(--s2);border:0.5px solid var(--b2);border-radius:10px;color:var(--t1);font-family:var(--ff);padding:10px 12px;font-size:14px;outline:none">
+      <button class="btn btn-p" onclick="addExpert()" style="flex-shrink:0;padding:10px 16px;min-height:unset">+</button>
     </div>
+    <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Context (optional)</div>
+    <textarea id="delphi-ctx" rows="2" placeholder="Additional context..." style="width:100%;background:var(--s2);border:0.5px solid var(--b2);border-radius:10px;color:var(--t1);font-family:var(--ff);padding:10px 12px;font-size:14px;outline:none;resize:none;margin-bottom:14px"></textarea>
+    <button class="analyse-btn" id="delphi-run-btn" onclick="runDelphi()" style="margin-bottom:0">◬ Run Delphi Round</button>
   </div>
   <div id="delphi-results" style="display:none">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-      <div style="font-family:var(--fd);font-size:16px;font-weight:700">Round 1 Results</div>
-      <button class="btn" onclick="toast('Round 2 requires API key','info')" style="font-size:13px">Round 2 ↻</button>
+      <div style="font-family:var(--fd);font-size:16px;font-weight:700">Round <span id="delphi-round-num">1</span> Results</div>
+      <button class="btn" onclick="runDelphiRound2()" id="delphi-r2-btn" style="display:none;font-size:13px">Round 2 ↻</button>
     </div>
-    <div id="expert-cards"></div>
-    <div class="card card-cy" style="margin-top:4px">
-      <div style="font-size:11px;color:var(--cy);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Weighted Consensus — Crawford-Williams + IQR</div>
+    <div id="delphi-expert-cards"></div>
+    <div class="card" style="border-color:var(--cyan);background:var(--cD);margin-top:4px">
+      <div style="font-size:11px;color:var(--cyan);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Weighted Consensus — Crawford-Williams + IQR</div>
       <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:10px">
-        <div style="font-family:var(--fd);font-size:40px;font-weight:800;color:var(--am)">60%</div>
+        <div style="font-family:var(--fd);font-size:40px;font-weight:800;color:var(--cyan)" id="consensus-pct">—</div>
         <div style="font-size:13px;color:var(--t2)">probability</div>
       </div>
-      <div style="height:6px;background:var(--s3);border-radius:6px;margin-bottom:10px;overflow:hidden"><div style="height:100%;background:var(--am);border-radius:6px;width:60%"></div></div>
-      <div style="font-size:13px;color:var(--t2);line-height:1.7">Slight lean positive. The panel sees more upside than downside but the outcome is genuinely uncertain — regulatory pathway and investor appetite are the key swing variables.</div>
+      <div style="height:6px;background:var(--s3);border-radius:6px;margin-bottom:10px;overflow:hidden"><div id="consensus-bar" style="height:100%;background:var(--cyan);border-radius:6px;width:0%;transition:width 1s ease"></div></div>
+      <div style="font-size:13px;color:var(--t2);line-height:1.7" id="consensus-interp"></div>
       <div style="margin-top:10px;padding-top:10px;border-top:0.5px solid var(--b1)">
         <div style="font-size:11px;color:var(--t3);font-family:var(--fm);margin-bottom:4px">STATISTICAL SUMMARY</div>
-        <div style="font-size:12px;color:var(--t2);font-family:var(--fm);line-height:1.8">Mean: 60.0% · Median: 61.5% · Spread: 27.0%<br>Kendall's W: 0.64 (Moderate agreement)<br>Experts: 4 · Outliers down-weighted: 0</div>
+        <div id="delphi-stats" style="font-size:12px;color:var(--t2);font-family:var(--fm);line-height:1.8"></div>
       </div>
     </div>
     <div class="card" style="margin-top:10px">
       <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Calibration Tracking</div>
-      <div style="font-size:13px;color:var(--t2);line-height:1.7">No outcomes recorded yet. After an event resolves, tap <strong>Record Outcome</strong> to track calibration. Lower Brier scores = better (0 = perfect).</div>
+      <div id="brier-history" style="font-size:13px;color:var(--t2);line-height:1.7"></div>
       <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
-        <button class="btn btn-p" onclick="toast('Outcome recorded','ok')" style="font-size:13px">Record Outcome</button>
-        <button class="btn" onclick="toast('Forecast added to report queue','ok')" style="font-size:13px">▤ Add to Report</button>
-        <button class="btn" onclick="document.getElementById('delphi-setup').style.display='';document.getElementById('delphi-results').style.display='none'" style="font-size:13px">↺ New Question</button>
+        <button class="btn btn-p" onclick="recordOutcome()" style="font-size:13px">Record Outcome</button>
+        <button class="btn" onclick="addToReport_delphi()" style="font-size:13px">▤ Add to Report</button>
+        <button class="btn" onclick="resetDelphi()" style="font-size:13px">↺ New Question</button>
       </div>
     </div>
   </div>
 </div>
 
 <!-- REPORT -->
-
-<div class="view" id="view-report">
+<div class="view view-pad" id="view-report">
   <div class="sh"><div class="sh-t">Report Builder</div></div>
   <div class="card">
-    <div class="form-lbl" style="margin-top:0">Report Type</div>
-    <select><option>Personal Intelligence Summary</option><option>Client Briefing</option><option>Opportunity Pipeline</option><option>Risk &amp; Compliance Review</option><option>Investor Update</option></select>
-    <div class="form-lbl">Focus / Client</div>
-    <input type="text" placeholder="e.g. Mulika VPP, BIPOLAR™, Scents Platform…">
-    <div class="form-lbl">Additional Context</div>
-    <textarea rows="3" placeholder="Specific questions, angles, audience…"></textarea>
-    <button class="btn btn-p" onclick="toast('Report generating — requires API key','info')" style="width:100%;justify-content:center;margin-top:16px;font-size:15px;min-height:52px">✦ Generate with AI</button>
+    <div class="form-label" style="margin-top:0">Report Type</div>
+    <select id="rpt-type"><option>Personal Intelligence Summary</option><option>Client Briefing</option><option>Opportunity Pipeline</option><option>Risk &amp; Compliance Review</option><option>Financial Analysis</option><option>Weekly Consulting Brief</option><option>Investor Update</option></select>
+    <div class="form-label">Focus / Client</div>
+    <input type="text" id="rpt-focus" placeholder="e.g. Mulika VPP, BIPOLAR™, Safaricom Land...">
+    <div class="form-label">Additional Context</div>
+    <textarea id="rpt-ctx" rows="3" placeholder="Specific questions, angles, audience..."></textarea>
+    <button class="btn btn-p" onclick="generateReport()" style="width:100%;justify-content:center;margin-top:16px;font-size:15px;min-height:52px">✦ Generate with AI</button>
   </div>
-  <div class="card">
-    <div style="border-bottom:0.5px solid var(--b1);padding-bottom:14px;margin-bottom:20px">
-      <div style="font-family:var(--fd);font-size:20px;font-weight:800;margin-bottom:3px">Personal Intelligence Summary — Mulika VPP</div>
-      <div style="font-size:10px;color:var(--t3);font-family:var(--fm)">EKN Consulting · SCENTS · 14 January 2025 · Nairobi</div>
-    </div>
-    <div class="report-body">
-      <h2>Executive Summary</h2>
-      <p>Mulika VPP is positioned to raise Series A funding within the 2025 DFI climate-tech deployment window. The technical thesis — curtailment absorption through a virtual power plant — is validated by KPLC grid data. The Delphi panel assigns <strong>60% probability</strong> to successful fundraising within 12 months.</p>
-      <h3>Key Risks</h3>
-      <ul><li>EPRA regulatory approval timeline undefined — requires legal counsel engagement</li><li>Series A data room incomplete — no signed offtake or pilot agreement on file</li></ul>
-      <h3>Recommended Actions</h3>
-      <ul><li>Engage EPRA specialist counsel within 2 weeks</li><li>Initiate pilot agreement negotiation with one anchor client</li><li>Update investor deck with Delphi consensus data</li></ul>
-    </div>
-    <div style="margin-top:20px;padding-top:12px;border-top:0.5px solid var(--b1);font-size:10px;color:var(--t3);font-family:var(--fm)">SCENTS Personal Intelligence · EKN Consulting International Ltd</div>
+  <div id="report-out" style="display:none">
+    <div class="card"><div id="report-content" class="report-body"></div></div>
+    <button class="btn" onclick="shareReport()" style="width:100%;justify-content:center;margin-top:8px">⎙ Share Report</button>
   </div>
-  <button class="btn" onclick="toast('Report shared','ok')" style="width:100%;justify-content:center;margin-top:8px">⎙ Share Report</button>
 </div>
 
-</div><!-- /scroll -->
 
-<!-- TABBAR -->
+<!-- INTEL HUB -->
+<div class="view view-pad" id="view-intel">
 
-<div class="tabbar" id="tabbar" style="display:none">
-  <button class="tab on" id="tab-home" onclick="go('home')"><span class="tab-icon">◈</span><span class="tab-label">Home</span></button>
-  <button class="tab" id="tab-insights" onclick="go('insights')"><span class="tab-icon">✦</span><span class="tab-label">Insights</span></button>
-  <button class="tab" id="tab-opps" onclick="go('opps')"><span class="tab-icon">⬡</span><span class="tab-label">Opps</span></button>
-  <button class="tab" id="tab-risks" onclick="go('risks')" style="position:relative"><span class="tab-icon">⚠</span><span class="tab-label">Risks</span><span class="tab-badge"></span></button>
-  <button class="tab" id="tab-files" onclick="go('files')"><span class="tab-icon">▤</span><span class="tab-label">Files</span></button>
-  <button class="tab" id="tab-intel" onclick="go('intel')"><span class="tab-icon">◎</span><span class="tab-label">Intel</span></button>
-  <button class="tab" id="tab-signals" onclick="go('signals')"><span class="tab-icon">◈</span><span class="tab-label">Signals</span></button>
-  <button class="tab" id="tab-delphi" onclick="go('delphi')"><span class="tab-icon">◬</span><span class="tab-label">Delphi</span></button>
-  <button class="tab" id="tab-report" onclick="go('report')"><span class="tab-icon">≡</span><span class="tab-label">Report</span></button>
+  <!-- Sub-nav -->
+  <div class="mode-pills" id="intel-pills">
+    <button class="mode-pill on" onclick="intelNav(this,'kb')">📚 Knowledge Base</button>
+    <button class="mode-pill" onclick="intelNav(this,'url')">🔗 Add URL</button>
+    <button class="mode-pill" onclick="intelNav(this,'transcribe')">🎥 Transcribe</button>
+    <button class="mode-pill" onclick="intelNav(this,'news')">🌍 Current Affairs</button>
+  </div>
+
+  <!-- KNOWLEDGE BASE -->
+  <div class="b-panel on" id="ipanel-kb">
+    <div class="sh">
+      <div>
+        <div class="sh-t">Persistent Knowledge Base</div>
+        <div class="sh-s" id="kb-count-label">Always loaded into every analysis</div>
+      </div>
+      <span class="tag tc" id="kb-count-tag">0 items</span>
+    </div>
+    <div style="font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:14px">Items saved here are automatically included in every analysis and query — even between sessions. Add your CIM notes, key articles, reference documents, and research you always want SCENTS to know about.</div>
+    <button class="analyse-btn" style="margin-bottom:12px" onclick="openKBAddModal()">+ Add to Knowledge Base</button>
+    <div id="kb-list"><div class="empty"><div class="empty-icon" style="font-size:28px">📚</div><div class="empty-text" style="font-size:13px">No saved knowledge yet.<br>Add URLs, paste text, or save key documents.</div></div></div>
+  </div>
+
+  <!-- URL FETCHER -->
+  <div class="b-panel" id="ipanel-url">
+    <div class="sh"><div class="sh-t">Fetch Article / URL</div></div>
+    <div style="font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:14px">Paste any URL — news article, research paper, LinkedIn post, regulatory document. SCENTS fetches and reads it, then you can save it to your Knowledge Base or analyse it immediately.</div>
+    <input class="url-input" id="url-fetch-input" type="url" placeholder="https://example.com/article...">
+    <div style="display:flex;gap:8px;margin-bottom:16px">
+      <button class="btn btn-p" onclick="fetchURL()" style="flex:1;justify-content:center">↓ Fetch &amp; Read</button>
+      <button class="btn" onclick="saveURLToKB()" id="save-url-btn" style="flex:1;justify-content:center;display:none">📚 Save to KB</button>
+    </div>
+    <div id="url-result"><div class="empty"><div class="empty-icon" style="font-size:28px">🔗</div><div class="empty-text" style="font-size:13px">Paste a URL above and tap Fetch.</div></div></div>
+  </div>
+
+  <!-- TRANSCRIBE -->
+  <div class="b-panel" id="ipanel-transcribe">
+    <div class="sh"><div class="sh-t">Transcribe Video / Audio</div></div>
+    <div style="font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:14px">For your CIM lectures and recorded classes — paste or type a transcript below, or record/dictate directly. SCENTS will clean it up, extract key concepts, and save it to your Knowledge Base.</div>
+
+    <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Source Label</div>
+    <input type="text" id="transcript-label" placeholder="e.g. CIM Module 3 — Consumer Behaviour" style="width:100%;background:var(--s2);border:0.5px solid var(--b2);border-radius:12px;color:var(--t1);font-family:var(--ff);padding:11px 14px;font-size:14px;outline:none;margin-bottom:10px">
+
+    <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Transcript / Notes</div>
+    <textarea class="transcript-area" id="transcript-text" rows="7" placeholder="Paste transcript here, or type your notes from the lecture...&#10;&#10;SCENTS will clean it up, extract key insights, and index it into your Knowledge Base."></textarea>
+
+    <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+      <button class="btn btn-p" onclick="processTranscript()" style="flex:1;justify-content:center;min-height:48px">✦ Clean &amp; Extract</button>
+      <button class="btn" onclick="saveTranscriptToKB()" id="save-transcript-btn" style="flex:1;justify-content:center;display:none;min-height:48px">📚 Save to KB</button>
+    </div>
+
+    <div id="transcript-result" style="margin-top:14px"></div>
+
+    <div class="card" style="margin-top:14px;border-color:var(--amber)">
+      <div style="font-size:11px;color:var(--amber);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Getting transcripts from your CIM videos</div>
+      <div style="font-size:13px;color:var(--t2);line-height:1.7">
+        <strong style="color:var(--t1)">YouTube/Zoom recordings:</strong> Open the video → turn on Captions → copy the transcript text.<br><br>
+        <strong style="color:var(--t1)">iPhone voice memo method:</strong> Play your lecture recording → go to Files app → share to Notes → copy text.<br><br>
+        <strong style="color:var(--t1)">Quick notes method:</strong> Type your key takeaways from the lecture here — SCENTS will expand and structure them.
+      </div>
+    </div>
+  </div>
+
+  <!-- CURRENT AFFAIRS -->
+  <div class="b-panel" id="ipanel-news">
+    <div class="sh"><div class="sh-t">Current Affairs</div></div>
+
+    <!-- Mode selection -->
+    <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Freshness Mode</div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
+      <label style="display:flex;align-items:flex-start;gap:10px;background:var(--s2);border:0.5px solid var(--b2);border-radius:12px;padding:12px;cursor:pointer" id="news-mode-daily-lbl">
+        <input type="radio" name="news-mode" value="daily" id="nm-daily" checked style="margin-top:2px;accent-color:var(--cyan)">
+        <div><div style="font-size:13px;font-weight:600">Daily Brief</div><div style="font-size:12px;color:var(--t2);margin-top:2px">Top Kenya &amp; Africa business, tech and policy news. Loads fresh every time you tap Fetch.</div></div>
+      </label>
+      <label style="display:flex;align-items:flex-start;gap:10px;background:var(--s2);border:0.5px solid var(--b2);border-radius:12px;padding:12px;cursor:pointer" id="news-mode-demand-lbl">
+        <input type="radio" name="news-mode" value="demand" id="nm-demand" style="margin-top:2px;accent-color:var(--cyan)">
+        <div><div style="font-size:13px;font-weight:600">On-Demand Search</div><div style="font-size:12px;color:var(--t2);margin-top:2px">Type a topic and search for current information about it right now.</div></div>
+      </label>
+      <label style="display:flex;align-items:flex-start;gap:10px;background:var(--s2);border:0.5px solid var(--b2);border-radius:12px;padding:12px;cursor:pointer" id="news-mode-auto-lbl">
+        <input type="radio" name="news-mode" value="auto" id="nm-auto" style="margin-top:2px;accent-color:var(--cyan)">
+        <div><div style="font-size:13px;font-weight:600">Auto-Enriched Analysis</div><div style="font-size:12px;color:var(--t2);margin-top:2px">Every analysis of your files is automatically enriched with current affairs context. Web citations shown inline.</div></div>
+      </label>
+    </div>
+
+    <!-- On-demand search input (shown when demand mode selected) -->
+    <div id="news-search-wrap" style="display:none;margin-bottom:12px">
+      <input class="url-input" id="news-search-input" type="text" placeholder="e.g. Kenya fuel price 2025, East Africa startup funding...">
+    </div>
+
+    <button class="analyse-btn" style="margin-bottom:14px" onclick="fetchCurrentAffairs()">🌍 Fetch Current Affairs</button>
+
+    <div id="news-result"><div class="empty"><div class="empty-icon" style="font-size:28px">🌍</div><div class="empty-text" style="font-size:13px">Tap Fetch to load current affairs.<br>Web sources are cited inline so you always know what came from the web.</div></div></div>
+  </div>
+
+</div>
+```
+
+  </div><!-- /scroll -->
+
+  <div class="tabbar">
+    <button class="tab on" id="tab-home" onclick="switchTab('home')"><span class="tab-icon">◈</span><span class="tab-label">Home</span></button>
+    <button class="tab" id="tab-insights" onclick="switchTab('insights')"><span class="tab-icon">✦</span><span class="tab-label">Insights</span></button>
+    <button class="tab" id="tab-opps" onclick="switchTab('opps')"><span class="tab-icon">⬡</span><span class="tab-label">Opps</span></button>
+    <button class="tab" id="tab-risks" onclick="switchTab('risks')" style="position:relative"><span class="tab-icon">⚠</span><span class="tab-label">Risks</span><span class="tab-badge" id="risk-badge" style="display:none"></span></button>
+    <button class="tab" id="tab-files" onclick="switchTab('files')"><span class="tab-icon">▤</span><span class="tab-label">Files</span></button>
+    <button class="tab" id="tab-intel" onclick="switchTab('intel')"><span class="tab-icon">◎</span><span class="tab-label">Intel</span></button>
+    <button class="tab" id="tab-behaviour" onclick="switchTab('behaviour')"><span class="tab-icon">⬡</span><span class="tab-label">Signals</span></button>
+    <button class="tab" id="tab-delphi" onclick="switchTab('delphi')"><span class="tab-icon">◬</span><span class="tab-label">Delphi</span></button>
+    <button class="tab" id="tab-report" onclick="switchTab('report')"><span class="tab-icon">≡</span><span class="tab-label">Report</span></button>
+  </div>
+</div><!-- /shell -->
+
+<!-- KEY SCREEN -->
+
+<div class="key-screen" id="key-screen" style="display:none">
+  <div class="key-logo">SCENTS</div>
+  <div class="key-tag">Personal Intelligence · EKN Consulting</div>
+  <div class="key-card">
+    <div class="key-title">Connect your API key</div>
+    <div class="key-sub">Your key is stored only on this device — it never touches GitHub or any server.</div>
+    <input class="key-input" id="key-input" type="password" placeholder="sk-ant-api03-..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+    <div class="key-hint">Get your key at console.anthropic.com → API Keys → Create Key. Add $5 billing credit (~100 analyses).</div>
+    <div class="key-status" id="key-status"></div>
+    <button class="key-btn" id="key-btn" onclick="saveAndTest()">Connect &amp; Test →</button>
+    <div class="key-link">Key stays on your phone only · <a href="https://console.anthropic.com" target="_blank">Open Anthropic Console</a></div>
+  </div>
 </div>
 
-</div><!-- /app -->
+<!-- UPLOAD MODAL -->
+
+<div id="upload-modal" style="display:none">
+  <div class="modal-bg" onclick="closeUploadModal()">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Add Files</div>
+      <label class="upload-zone" for="file-input" style="position:relative;display:block;cursor:pointer;" onclick="closeUploadModal()">
+        <div class="uz-icon">⊕</div>
+        <div class="uz-title">Choose from Files / iCloud Drive</div>
+        <div class="uz-sub">PDF, Excel, Word, email, images</div>
+        <div class="uz-types">PDF · DOCX · XLSX · CSV · PPTX · EML · TXT · IMG</div>
+      </label>
+      <button class="btn" style="width:100%;justify-content:center" onclick="closeUploadModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast-wrap" id="toasts"></div>
 
 <script>
-// KEY
-function connectKey(){
-  var v=document.getElementById('ks-input').value.trim(),s=document.getElementById('ks-status');
-  if(!v){s.textContent='Paste your API key first';s.style.color='var(--rd)';return;}
-  if(!v.startsWith('sk-ant-')){s.textContent='Key should start with sk-ant-';s.style.color='var(--rd)';return;}
-  localStorage.setItem('scents_api_key',v);
-  s.textContent='Testing connection...';s.style.color='var(--t3)';
-  setTimeout(function(){document.getElementById('key-masked').textContent=v.slice(0,14)+'••••••••••••'+v.slice(-4);launch();toast('API key saved — SCENTS connected ✓','ok');},900);
-}
-function previewMode(){document.getElementById('key-masked').textContent='Preview mode';launch();toast('Preview mode — connect API key to activate AI','info');}
-function launch(){
-  document.getElementById('key-screen').style.display='none';
-  document.getElementById('topbar').style.display='flex';
-  document.getElementById('scroll-area').style.display='block';
-  document.getElementById('tabbar').style.display='flex';
-  buildFiles();buildSigLog();buildRW();buildRanked();buildExperts();
-}
-window.addEventListener('load',function(){
-  var k=localStorage.getItem('scents_api_key');
-  if(k){document.getElementById('ks-input').value=k;document.getElementById('key-masked').textContent=k.slice(0,14)+'••••••••••••'+k.slice(-4);}
+// ── STATE ──────────────────────────────────────────────────────────────────
+const S={files:[],corpus:'',analysed:false,summary:{},insights:[],opps:[],risks:[],clients:[],financials:[],weekly:[],rQ:[]};
+
+// ── SERVICE WORKER ─────────────────────────────────────────────────────────
+if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
+
+// ── INSTALL PROMPT ─────────────────────────────────────────────────────────
+window.addEventListener('load',()=>{
+  const sa=window.navigator.standalone||window.matchMedia('(display-mode: standalone)').matches;
+  if(!sa&&!localStorage.getItem('ios-ib'))document.getElementById('install-card').style.display='';
 });
+function dismissInstall(){document.getElementById('install-card').style.display='none';localStorage.setItem('ios-ib','1');}
 
-// NAV
-function go(id){
-  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on');});
-  document.querySelectorAll('.view').forEach(function(v){v.classList.remove('on');});
-  var t=document.getElementById('tab-'+id),v=document.getElementById('view-'+id);
-  if(t)t.classList.add('on'); if(v)v.classList.add('on');
-  document.getElementById('scroll-area').scrollTop=0;
+// ── API KEY ────────────────────────────────────────────────────────────────
+const KEY_STORE='scents_api_key';
+function getApiKey(){return localStorage.getItem(KEY_STORE)||'';}
+
+function showKeyScreen(){
+  document.getElementById('key-screen').style.display='flex';
+  document.getElementById('key-status').textContent='';
+  setTimeout(()=>document.getElementById('key-input').focus(),300);
 }
 
-// INTEL NAV
-function iNav(el,panel){
-  document.querySelectorAll('#intel-pills .pill').forEach(function(b){b.classList.remove('on');});
-  ['kb','url','tr','news'].forEach(function(p){var e=document.getElementById('ip-'+p);if(e)e.style.display='none';});
-  el.classList.add('on');
-  var t=document.getElementById('ip-'+panel);if(t)t.style.display='block';
+function renderKeyStatus(){
+  const key=getApiKey();
+  const bar=document.getElementById('key-status-bar');
+  if(!bar)return;
+  if(key){
+    const masked=key.slice(0,14)+'••••••••••••'+key.slice(-4);
+    bar.innerHTML=`<div class="key-dot"></div><div class="key-masked">${masked}</div><div class="key-change" onclick="showKeyScreen()">Change</div>`;
+    bar.style.display='flex';
+  } else {
+    bar.style.display='none';
+  }
 }
 
-// SIGNALS NAV
-function sNav(el,panel){
-  document.querySelectorAll('#sig-pills .pill').forEach(function(b){b.classList.remove('on');});
-  ['sensor','attention','ranking'].forEach(function(p){var e=document.getElementById('sp-'+p);if(e)e.style.display='none';});
-  el.classList.add('on');
-  var t=document.getElementById('sp-'+panel);if(t)t.style.display='block';
+async function saveAndTest(){
+  const val=document.getElementById('key-input').value.trim();
+  if(!val){toast('Paste your API key first','warn');return;}
+  if(!val.startsWith('sk-ant-')){toast('Key should start with sk-ant-','warn');return;}
+  localStorage.setItem(KEY_STORE,val);
+  const btn=document.getElementById('key-btn');
+  const status=document.getElementById('key-status');
+  btn.disabled=true;btn.textContent='Testing...';
+  status.textContent='Contacting Anthropic API...';status.style.color='var(--t3)';
+  try{
+    const reply=await claude('You are a test assistant.','Reply with exactly the single word: CONNECTED',256);
+    document.getElementById('key-screen').style.display='none';
+    renderKeyStatus();
+    toast('API key verified ✓ — connected','ok');
+  }catch(e){
+    localStorage.removeItem(KEY_STORE);
+    btn.disabled=false;btn.textContent='Connect & Test →';
+    status.textContent='Failed: '+e.message;status.style.color='var(--red)';
+    toast('Connection failed: '+e.message,'warn');
+  }
 }
 
-// DELPHI
-function showResults(){
-  document.getElementById('delphi-setup').style.display='none';
-  document.getElementById('delphi-results').style.display='block';
-  toast('4 experts consulted · Round 1 complete','ok');
+function checkApiKeyOnLoad(){
+  if(!getApiKey())showKeyScreen();
+  else renderKeyStatus();
 }
 
-// TOAST
-function toast(msg,type){
-  type=type||'info';
-  var w=document.getElementById('toasts'),el=document.createElement('div');
+// ── TOAST ──────────────────────────────────────────────────────────────────
+function toast(msg,type='info'){
+  const w=document.getElementById('toasts'),el=document.createElement('div');
   el.className='toast to'+type[0];
-  var ic={ok:'✓',info:'◈',warn:'⚠'},cc={ok:'var(--gn)',info:'var(--cy)',warn:'var(--am)'};
-  el.innerHTML='<span style="color:'+(cc[type]||cc.info)+'">'+(ic[type]||'◈')+'</span><span>'+msg+'</span>';
+  const ic={ok:'✓',info:'◈',warn:'⚠'},cc={ok:'var(--green)',info:'var(--cyan)',warn:'var(--amber)'};
+  el.innerHTML=`<span style="color:${cc[type]}">${ic[type]}</span><span>${msg}</span>`;
   w.appendChild(el);
-  setTimeout(function(){el.style.opacity='0';el.style.transition='opacity .3s';},3000);
-  setTimeout(function(){if(el.parentNode)el.parentNode.removeChild(el);},3400);
+  setTimeout(()=>{el.style.opacity='0';el.style.transition='opacity .3s';},3000);
+  setTimeout(()=>el.remove(),3400);
 }
 
-// BUILD FILES
-function buildFiles(){
-  var files=[
-    {n:'SCENTS_Executive_Summary_4.docx',s:'284KB',e:'DOC',c:'#00C8F0',bg:'rgba(0,200,240,0.18)'},
-    {n:'MulikaVPP_InvestorDeck_v3.pdf',s:'1.2MB',e:'PDF',c:'#FF3A5C',bg:'rgba(255,58,92,0.18)'},
-    {n:'EKN_Pipeline_Q1_2025.xlsx',s:'48KB',e:'XLS',c:'#00D67A',bg:'rgba(0,214,122,0.18)'},
-    {n:'BIPOLAR_BrandStrategy.docx',s:'156KB',e:'DOC',c:'#00C8F0',bg:'rgba(0,200,240,0.18)'},
-    {n:'Safaricom_Land_Model.xlsx',s:'92KB',e:'XLS',c:'#00D67A',bg:'rgba(0,214,122,0.18)'},
-  ];
-  document.getElementById('file-list-demo').innerHTML=files.map(function(f){
-    return '<div class="file-item"><div class="fi-badge" style="background:'+f.bg+';color:'+f.c+'">'+f.e+'</div><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+f.n+'</div><div style="font-size:11px;color:var(--t3);font-family:var(--fm)">'+f.s+' · done</div></div><div style="width:8px;height:8px;border-radius:50%;background:var(--gn);flex-shrink:0"></div></div>';
-  }).join('');
+// ── NAV ────────────────────────────────────────────────────────────────────
+function switchTab(id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+  document.getElementById('tab-'+id).classList.add('on');
+  document.getElementById('view-'+id).classList.add('on');
+  document.getElementById('scroll-area').scrollTo(0,0);
 }
 
-// BUILD SIGNAL LOG
-function buildSigLog(){
-  var sigs=[
-    {id:'ContractSigned',layer:'Conversion',entity:'WISMO Merchant Partner',fi:'1.000',b:'0.900',m:10,a:9,p:10,c:'#00D67A',bg:'rgba(0,214,122,0.15)',ts:'11:45:00'},
-    {id:'DueDiligenceRequest',layer:'Consideration',entity:'Mulika VPP Investor',fi:'0.068',b:'0.512',m:8,a:7,p:9,c:'#9B72FF',bg:'rgba(155,114,255,0.15)',ts:'09:14:22'},
-    {id:'BudgetDiscussion',layer:'Consideration',entity:'Scents Enterprise Client',fi:'0.048',b:'0.384',m:6,a:8,p:8,c:'#9B72FF',bg:'rgba(155,114,255,0.15)',ts:'10:32:07'},
-    {id:'FirstMeeting',layer:'Consideration',entity:'DFI Capital Rep',fi:'0.027',b:'0.315',m:7,a:6,p:7,c:'#9B72FF',bg:'rgba(155,114,255,0.15)',ts:'14:02:18'},
-  ];
-  document.getElementById('sig-log').innerHTML=sigs.map(function(ev,i){
-    var last=i===sigs.length-1;
-    return '<div style="display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:'+(last?'none':'0.5px solid var(--b1)')+'"><div style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;font-family:var(--fm);flex-shrink:0;background:'+ev.bg+';color:'+ev.c+'">'+ev.layer.slice(0,4).toUpperCase()+'</div><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500;margin-bottom:2px">'+ev.id+'</div><div style="font-size:11px;color:var(--t3);font-family:var(--fm)">'+ev.entity+' · '+ev.ts+'</div><div style="font-size:10px;font-family:var(--fm);color:var(--pu)">FI +'+ev.fi+' · B='+ev.b+' · MAP('+ev.m+','+ev.a+','+ev.p+')</div></div><span class="tag" style="background:'+ev.bg+';color:'+ev.c+';font-size:10px">'+ev.layer+'</span></div>';
-  }).join('');
+// ── FILE TYPE MAP ──────────────────────────────────────────────────────────
+const TM={pdf:{c:'#FF3A5C',bg:'rgba(255,58,92,0.18)',l:'PDF'},docx:{c:'#00C8F0',bg:'rgba(0,200,240,0.18)',l:'DOC'},doc:{c:'#00C8F0',bg:'rgba(0,200,240,0.18)',l:'DOC'},xlsx:{c:'#00D67A',bg:'rgba(0,214,122,0.18)',l:'XLS'},xls:{c:'#00D67A',bg:'rgba(0,214,122,0.18)',l:'XLS'},csv:{c:'#00D67A',bg:'rgba(0,214,122,0.18)',l:'CSV'},pptx:{c:'#F5A800',bg:'rgba(245,168,0,0.18)',l:'PPT'},ppt:{c:'#F5A800',bg:'rgba(245,168,0,0.18)',l:'PPT'},eml:{c:'#9B72FF',bg:'rgba(155,114,255,0.18)',l:'EML'},msg:{c:'#9B72FF',bg:'rgba(155,114,255,0.18)',l:'MSG'},txt:{c:'#7080A0',bg:'rgba(112,128,160,0.18)',l:'TXT'},png:{c:'#E8C200',bg:'rgba(232,194,0,0.18)',l:'IMG'},jpg:{c:'#E8C200',bg:'rgba(232,194,0,0.18)',l:'IMG'},jpeg:{c:'#E8C200',bg:'rgba(232,194,0,0.18)',l:'IMG'},gif:{c:'#E8C200',bg:'rgba(232,194,0,0.18)',l:'IMG'},webp:{c:'#E8C200',bg:'rgba(232,194,0,0.18)',l:'IMG'}};
+const gx=n=>n.split('.').pop().toLowerCase();
+const ti=e=>TM[e]||{c:'#7080A0',bg:'rgba(112,128,160,0.18)',l:e.toUpperCase().slice(0,3)};
+const fmtB=b=>b<1024?b+'B':b<1048576?(b/1024).toFixed(1)+'KB':(b/1048576).toFixed(1)+'MB';
+const esc=s=>(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'&quot;').slice(0,180);
+
+// ── FILE PICKER ────────────────────────────────────────────────────────────
+function openFilePicker(){
+  const i=document.getElementById('file-input');
+  if(!i)return;
+  i.value='';
+  // Try direct click first, fall back to label click
+  try{i.click();}catch(e){
+    const lbl=document.querySelector('label[for="file-input"]');
+    if(lbl)lbl.click();
+  }
+}
+function openUploadModal(){document.getElementById('upload-modal').style.display='';}
+function closeUploadModal(){document.getElementById('upload-modal').style.display='none';}
+document.getElementById('file-input').addEventListener('change',function(){if(this.files&&this.files.length)addFiles(this.files);});
+
+function addFiles(list){
+  let added=0;
+  Array.from(list).forEach(f=>{
+    if(S.files.find(x=>x.name===f.name&&x.size===f.size))return;
+    S.files.push({file:f,name:f.name,size:f.size,ext:gx(f.name),text:'',status:'pending',topics:[]});added++;
+  });
+  if(!added){toast('Already added','warn');return;}
+  renderFileList();updateTopBar();
+  document.getElementById('analyse-btn').disabled=false;
+  toast(added+' file'+(added>1?'s':'')+' added','info');
+  switchTab('files');
 }
 
-// BUILD RW
-function buildRW(){
-  var cats=[
-    {cat:'Opportunity',v:0.72,c:'var(--go)',taps:3},
-    {cat:'Risk',v:0.65,c:'var(--rd)',taps:2},
-    {cat:'Financial',v:0.58,c:'var(--gn)',taps:1},
-    {cat:'Client',v:0.55,c:'var(--cy)',taps:2},
-    {cat:'Deadline',v:0.50,c:'var(--am)',taps:0},
-  ];
-  document.getElementById('rw-list').innerHTML=cats.map(function(r,i){
-    var last=i===cats.length-1;
-    return '<div class="rw-row" style="border-bottom:'+(last?'none':'0.5px solid var(--b1)')+'"><div style="font-size:13px;font-weight:500;flex:1">'+r.cat+'</div><div style="width:80px;height:4px;background:var(--s3);border-radius:4px;overflow:hidden"><div style="height:100%;background:'+r.c+';border-radius:4px;width:'+(r.v*100)+'%"></div></div><div style="font-family:var(--fm);font-size:11px;color:var(--t2);min-width:36px;text-align:right">'+r.v.toFixed(3)+'</div><span class="tag" style="font-size:10px;background:rgba(255,255,255,0.06);color:var(--t3)">'+r.taps+' taps</span></div>';
-  }).join('');
+function renderFileList(){
+  const el=document.getElementById('file-list');el.innerHTML='';
+  S.files.forEach((f,i)=>{
+    const t=ti(f.ext);
+    const sc=f.status==='done'?'var(--green)':f.status==='processing'?'var(--cyan)':f.status==='error'?'var(--red)':'var(--t3)';
+    const d=document.createElement('div');d.className='file-item';
+    d.innerHTML=`<div class="fi-badge" style="background:${t.bg};color:${t.c}">${t.l}</div><div class="fi-info"><div class="fi-name">${f.name}</div><div class="fi-meta">${fmtB(f.size)} · ${f.status}</div></div><div class="fi-status" style="background:${sc}"></div>`;
+    d.onclick=()=>viewFile(i);el.appendChild(d);
+  });
 }
 
-// BUILD RANKED
-function buildRanked(){
-  var ranked=[
-    {rank:1,score:0.891,ci:0.847,type:'Opportunity',cls:'tgo',c:'var(--go)',title:'Mulika VPP Series A Window',body:'DFI capital actively deploying. Timing optimal for Series A pitch.'},
-    {rank:2,score:0.823,ci:0.779,type:'Client',cls:'tc',c:'var(--cy)',title:'EKN Advisory Pipeline',body:'3 active projects requiring investor-facing deliverables this quarter.'},
-    {rank:3,score:0.762,ci:0.718,type:'Financial',cls:'tg',c:'var(--gn)',title:'Scents ARR Projection',body:'Two enterprise pilot conversions yield $120K ARR in Year 1.'},
-    {rank:4,score:0.641,ci:0.597,type:'Risk',cls:'tr',c:'var(--rd)',title:'BIPOLAR™ Manufacturing Gap',body:'No production partner confirmed. 6-week deadline approaching.'},
-  ];
-  document.getElementById('ranked-list').innerHTML=ranked.map(function(r,i){
-    return '<div style="background:var(--s1);border:0.5px solid var(--b1);border-radius:14px;padding:13px;margin-bottom:8px;cursor:pointer;animation:up .3s ease '+(i*.05)+'s both" onclick="toast(\'Engagement registered · Rescorla-Wagner updated\',\'ok\')"><div style="font-family:var(--fm);font-size:11px;color:var(--t3);margin-bottom:4px">#'+r.rank+' · score '+r.score.toFixed(3)+' · CI lower '+r.ci.toFixed(3)+'</div><div style="display:flex;align-items:flex-start;gap:8px"><div style="flex:1"><div style="font-size:13px;font-weight:600;margin-bottom:4px">'+r.title+'</div><div style="font-size:12px;color:var(--t2);line-height:1.6">'+r.body+'</div></div><span class="tag '+r.cls+'" style="flex-shrink:0">'+r.type+'</span></div><div style="height:3px;background:var(--s3);border-radius:3px;margin-top:8px;overflow:hidden"><div style="height:100%;border-radius:3px;background:var(--cy);width:'+(r.score*100)+'%"></div></div><div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-top:5px">Tap to register engagement · trains your consulting intelligence feed</div></div>';
-  }).join('');
+function updateTopBar(){
+  const n=S.files.length;
+  document.getElementById('file-count-top').textContent=n?n+' file'+(n>1?'s':''):'';
+  document.getElementById('analyse-top-btn').style.display=n?'':'none';
+  document.getElementById('files-sub').textContent=n+' file'+(n>1?'s':'')+' · '+S.files.filter(f=>f.status==='done').length+' indexed';
 }
 
-// BUILD EXPERTS
-function buildExperts(){
-  var experts=[
-    {n:'Kenyan VC / early-stage investor',est:72,conf:80,comp:85,wt:0.82,c:'#00D67A',r:"The Kenyan renewable energy space is attracting serious DFI attention. Mulika's VPP model addresses a real curtailment problem. Series A is achievable within 12 months if the team demonstrates a signed offtake.",fac:['KPLC grid policy','DFI appetite','Technical proof']},
-    {n:'East African market analyst',est:58,conf:70,comp:75,wt:0.70,c:'#F5A800',r:"Market fundamentals are positive but execution risk is high. Kenya's regulatory environment for VPPs is still evolving. 60% is optimistic without a clearer regulatory pathway.",fac:['Regulatory uncertainty','Competition','Grid access']},
-    {n:'Political & regulatory risk specialist',est:45,conf:65,comp:80,wt:0.72,c:'#F5A800',r:"The Finance Bill and ongoing energy sector uncertainty are genuine risks. EPRA approvals can take 18–24 months. Political calendar will create headwinds.",fac:['EPRA timelines','Political calendar','Policy stability']},
-    {n:'Industry domain expert',est:65,conf:75,comp:70,wt:0.72,c:'#00D67A',r:"The VPP model is proven in South Africa and Kenya's northern corridor. I see 65% probability of closing at least a bridge round with Series A to follow.",fac:['VPP market maturity','Technical readiness','Investor landscape']},
-  ];
-  document.getElementById('expert-cards').innerHTML=experts.map(function(ex,i){
-    var facs=ex.fac.map(function(f){return '<span class="tag tp" style="font-size:10px">'+f+'</span>';}).join(' ');
-    return '<div class="d-card" style="animation:up .3s ease '+(i*.08)+'s both"><div class="d-head"><div><div class="d-expert">'+ex.n+'</div><div class="d-domain">Competence '+ex.comp+'% · Confidence '+ex.conf+'%</div></div><div style="text-align:right"><div class="d-est" style="color:'+ex.c+'">'+ex.est+'%</div><div class="d-wt">weight '+ex.wt.toFixed(2)+'</div></div></div><div class="d-bar"><div style="height:100%;border-radius:4px;background:'+ex.c+';width:'+ex.est+'%;transition:width 1s ease"></div></div><div class="d-reasoning">'+ex.r+'</div><div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:5px">'+facs+'</div></div>';
-  }).join('');
+// ── EXTRACT ────────────────────────────────────────────────────────────────
+async function extractFile(f){
+  const{file:fl,ext:e}=f;
+  try{
+    if(['txt','eml','msg','csv'].includes(e))return await fl.text();
+    if(['docx','doc'].includes(e)){try{const ab=await fl.arrayBuffer();const r=await mammoth.extractRawText({arrayBuffer:ab});return r.value||'';}catch{return await fl.text().catch(()=>'');}}
+    if(['xlsx','xls'].includes(e)){const ab=await fl.arrayBuffer();const wb=XLSX.read(ab,{type:'array'});return wb.SheetNames.map(sn=>'=== '+sn+' ===\n'+XLSX.utils.sheet_to_csv(wb.Sheets[sn])).join('\n\n');}
+    if(['png','jpg','jpeg','gif','webp'].includes(e))return '[IMAGE: '+f.name+' · '+fmtB(f.size)+']';
+    if(e==='pptx')return '[PPTX: '+f.name+' · save as PDF for full extraction]';
+    return await fl.text().catch(()=>'[Binary: '+f.name+']');
+  }catch(err){return '[Error: '+f.name+': '+err.message+']';}
 }
 
-// ENTER KEY
-document.addEventListener('keydown',function(e){
-  if(e.key==='Enter'&&document.getElementById('key-screen').style.display!=='none')connectKey();
+function quickTopics(txt){return['investment','revenue','client','proposal','risk','deadline','contract','payment','budget','project','funding','KES','USD','million','strategy','investor'].filter(k=>txt.toLowerCase().includes(k)).slice(0,4);}
+
+// ── ANALYSE ────────────────────────────────────────────────────────────────
+async function analyseAll(){
+  if(!S.files.length){toast('Add files first','warn');return;}
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+  document.getElementById('view-processing').classList.add('on');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('tab-home').classList.add('on');
+  document.getElementById('analyse-btn').disabled=true;
+  document.getElementById('analyse-top-btn').style.display='none';
+  for(let i=0;i<S.files.length;i++){
+    const f=S.files[i];f.status='processing';
+    document.getElementById('proc-title').textContent='Extracting '+(i+1)+' of '+S.files.length;
+    document.getElementById('proc-sub').textContent=f.name;
+    document.getElementById('prog-file').textContent=f.ext.toUpperCase()+' · '+fmtB(f.size);
+    document.getElementById('prog-fill').style.width=(i/S.files.length*60)+'%';
+    renderFileList();f.text=await extractFile(f);f.topics=quickTopics(f.text);f.status='done';renderFileList();
+  }
+  document.getElementById('proc-title').textContent='Running AI analysis...';
+  document.getElementById('proc-sub').textContent='Building your personal intelligence';
+  document.getElementById('prog-fill').style.width='75%';
+  S.corpus=S.files.map(f=>'\n\n===FILE: '+f.name+' ('+f.ext.toUpperCase()+')===\n'+f.text).join('');
+  if(BS.events.length>0){
+    const bCtx='\n\n=== EKN CONSULTING BEHAVIORAL SIGNALS ===\n'+
+      'Fisher Information captured: '+BS.totalFI.toFixed(3)+'/10\n'+
+      'Behavior score (B=MAP): '+(BS.mapM*BS.mapA*BS.mapP).toFixed(3)+'\n'+
+      'Conversion probability: '+Math.round(Math.min(0.99,(BS.mapM*BS.mapA*BS.mapP)*2.8+(BS.totalFI/10)*0.3)*100)+'%\n'+
+      'Recent events (last 10):\n'+BS.events.slice(0,10).map(ev=>
+        '- '+ev.id+' ['+ev.layer+'] entity='+ev.entity+' MAP=('+ev.m+','+ev.a+','+ev.p+') FI=+'+ev.fi.toFixed(3)
+      ).join('\n')+
+      '\nVenture activity:\n'+
+      ['MulikaVPP_Investor','BIPOLAR_Drop','Scents_Demo','WISMO_Merchant','MDMC_DataEvent','CrossVentureSynergy']
+        .map(id=>{const n=BS.events.filter(e=>e.id===id).length;return n>0?'  '+id+': '+n+' signals':null;})
+        .filter(Boolean).join('\n')||'  No venture-specific events yet';
+    S.corpus+=bCtx;
+  }
+  await runAIAnalysis();
+  document.getElementById('prog-fill').style.width='100%';
+  S.analysed=true;
+  document.getElementById('analyse-btn').disabled=false;
+  document.getElementById('analyse-btn').textContent='✦ Re-Analyse';
+  updateTopBar();buildMetrics();renderAll();
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+  document.getElementById('view-home').classList.add('on');
+  document.getElementById('home-hero').style.display='none';
+  document.getElementById('home-dashboard').style.display='';
+  // Show behavioral signal summary if events logged
+  if(BS.events.length>0) renderBehaviorInsightCard();
+  toast('Analysis complete','ok');
+}
+
+// ── CLAUDE API — clean, minimal, working ──────────────────────────────────
+async function claude(sys,usr,tok){
+  tok=Math.min(tok||4000,8192);
+  const key=getApiKey();
+  if(!key){showKeyScreen();throw new Error('No API key — please enter your key');}
+
+  // Build body — only include system if non-empty
+  const body={model:'claude-sonnet-4-5',max_tokens:tok,messages:[{role:'user',content:usr}]};
+  if(sys&&sys.trim())body.system=sys;
+
+  let rawText,status;
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'x-api-key':key,
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-direct-browser-access':'true'
+      },
+      body:JSON.stringify(body)
+    });
+    status=res.status;
+    rawText=await res.text();
+  }catch(netErr){
+    throw new Error('Network error — check internet connection');
+  }
+
+  // Log for debugging
+  console.log('SCENTS API status:',status,'| preview:',rawText.slice(0,200));
+
+  // Parse response
+  let d;
+  try{d=JSON.parse(rawText);}
+  catch(e){throw new Error('API returned non-JSON (HTTP '+status+'). Check billing at console.anthropic.com');}
+
+  // Handle error body
+  if(d.error){
+    const msg=d.error.message||d.error.type||JSON.stringify(d.error);
+    if(status===401||d.error.type==='authentication_error'||(msg.toLowerCase().includes('auth'))){
+      localStorage.removeItem(KEY_STORE);showKeyScreen();
+      throw new Error('API key invalid — please re-enter');
+    }
+    if(status===400)throw new Error('Bad request: '+msg+' (check model name or token limit)');
+    if(status===529||msg.includes('overloaded'))throw new Error('Claude is busy — try again in a moment');
+    throw new Error(msg);
+  }
+
+  // Extract text
+  if(!d.content||!Array.isArray(d.content)||!d.content.length)
+    throw new Error('Empty response (HTTP '+status+'). Raw: '+rawText.slice(0,120));
+  const tb=d.content.find(function(b){return b.type==='text'&&b.text;});
+  if(tb)return tb.text;
+  const joined=d.content.map(function(b){return b.text||'';}).filter(Boolean).join('');
+  if(joined)return joined;
+  throw new Error('No text block in response. Content: '+JSON.stringify(d.content).slice(0,120));
+}
+
+function extractJSON(raw){
+  let s=raw.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim();
+  const start=s.indexOf('{'),end=s.lastIndexOf('}');
+  if(start===-1||end===-1||end<=start)throw new Error('No JSON found');
+  s=s.slice(start,end+1);
+  try{return JSON.parse(s);}catch(_){}
+  let inStr=false,escape=false;const closers=[];
+  for(let i=0;i<s.length;i++){const c=s[i];if(escape){escape=false;continue;}if(c==='\\'&&inStr){escape=true;continue;}if(c==='"'){inStr=!inStr;continue;}if(inStr)continue;if(c==='{')closers.push('}');else if(c==='[')closers.push(']');else if(c==='}')closers.pop();else if(c===']')closers.pop();}
+  const repaired=s.replace(/,\s*$/,'')+closers.reverse().join('');
+  try{return JSON.parse(repaired);}catch(e2){throw new Error('JSON repair failed: '+e2.message);}
+}
+
+async function runAIAnalysis(){
+  const corpusForAI=S.files.map(f=>'\n\n===FILE: '+f.name+' ('+f.ext.toUpperCase()+')===\n'+f.text.slice(0,3000)).join('').slice(0,12000);
+  const sys='You are SCENTS, personal intelligence platform for Edward Karua Njoka (Edd), founder of EKN Consulting International Ltd, Nairobi, Kenya. Analyse his personal files and return ONLY a valid JSON object — no markdown, no fences, nothing before or after.\n\nReturn exactly:\n{\"summary\":{\"projects\":0,\"clients\":0,\"totalValue\":\"KES X\",\"urgentItems\":0},\"insights\":[{\"type\":\"opportunity\",\"title\":\"string\",\"body\":\"2 sentences\",\"confidence\":0.8,\"source\":\"filename\"}],\"opportunities\":[{\"title\":\"string\",\"description\":\"string\",\"value\":\"string\",\"source\":\"filename\",\"priority\":\"high\"}],\"risks\":[{\"title\":\"string\",\"description\":\"string\",\"severity\":\"high\",\"source\":\"filename\",\"deadline\":\"unknown\"}],\"clients\":[{\"name\":\"string\",\"status\":\"string\",\"lastActivity\":\"string\",\"nextAction\":\"string\",\"value\":\"string\"}],\"financials\":[{\"label\":\"string\",\"value\":\"string\",\"direction\":\"up\",\"source\":\"filename\"}],\"weeklyPriorities\":[\"string\",\"string\",\"string\"]}\n\ntype=opportunity|risk|financial|client|deadline. priority=high|medium|low. severity=high|medium|low. direction=up|down|neutral. Max 5 insights, 3 opps, 4 risks, 4 clients, 4 financials. Reference EKN ventures if present: Mulika VPP, BIPOLAR, Scents, WISMO, MDMC. If behavioral signals present in corpus use them to weight insights.';
+  try{
+    const raw=await claude(sys,'Analyse:\n'+corpusForAI,4000);
+    const data=extractJSON(raw);
+    S.summary=data.summary||{};S.insights=(data.insights||[]).filter(x=>x&&x.title);
+    S.opps=(data.opportunities||[]).filter(x=>x&&x.title);S.risks=(data.risks||[]).filter(x=>x&&x.title);
+    S.clients=(data.clients||[]).filter(x=>x&&x.name);S.financials=(data.financials||[]).filter(x=>x&&x.label);
+    S.weekly=data.weeklyPriorities||[];
+    if(S.risks.filter(r=>r.severity==='high').length>0){document.getElementById('risk-badge').style.display='';document.getElementById('risk-count').textContent=S.risks.filter(r=>r.severity==='high').length+' high';}
+  }catch(e){
+    console.error(e);toast('Parse error — showing summary mode','warn');
+    try{const fb=await claude('You are SCENTS. Give a brief intelligence summary for Edd (EKN Consulting) covering top opportunities, risks, and priorities.','Files:\n'+corpusForAI.slice(0,8000),1200);S.insights=[{type:'client',title:'Intelligence Summary',body:fb.slice(0,600),confidence:0.85,source:'All files'}];}
+    catch(e2){S.insights=[{type:'risk',title:'API Error',body:'Error: '+e2.message,confidence:0,source:'system'}];}
+  }
+}
+
+async function runQ(inId,outId){
+  const q=document.getElementById(inId).value.trim();
+  if(!q){toast('Enter a question','warn');return;}
+  if(!S.analysed){toast('Analyse files first','warn');return;}
+  const out=document.getElementById(outId);
+  out.innerHTML='<div style="display:flex;align-items:center;gap:8px;padding:12px 0;font-size:13px;color:var(--t3)"><div class="dots"><span></span><span></span><span></span></div> Querying...</div>';
+  try{
+    const ans=await claude('You are SCENTS, personal intelligence for Edd (EKN Consulting, Nairobi). Be precise and commercially sharp. Ground answers in the file corpus.','Corpus:\n'+S.corpus.slice(0,9000)+'\n\nQuestion: '+q,1500);
+    out.innerHTML=`<div class="insight" style="margin-bottom:14px"><div class="i-type">✦ RESPONSE</div><div class="i-title">${q}</div><div class="i-body">${ans.replace(/\n\n/g,'</p><p style="margin-top:8px">').replace(/\n/g,'<br>')}</div></div>`;
+    document.getElementById(inId).value='';
+  }catch(e){out.innerHTML=`<div style="color:var(--amber);font-size:13px;padding:12px;background:var(--aD);border-radius:12px">${e.message}</div>`;}
+}
+document.getElementById('main-q').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();runQ('main-q','main-result');}});
+document.getElementById('ins-q').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();runQ('ins-q','ins-result');}});
+
+// ── VIEW FILE ──────────────────────────────────────────────────────────────
+function viewFile(i){
+  const f=S.files[i];const t=ti(f.ext);
+  const modal=document.createElement('div');modal.className='modal-bg';
+  modal.innerHTML=`<div class="modal" onclick="event.stopPropagation()"><div class="modal-handle"></div><div style="display:flex;align-items:center;gap:12px;margin-bottom:14px"><div class="fi-badge" style="background:${t.bg};color:${t.c};width:40px;height:40px;border-radius:10px">${t.l}</div><div><div style="font-size:15px;font-weight:600">${f.name}</div><div style="font-size:11px;color:var(--t3);font-family:var(--fm)">${fmtB(f.size)}</div></div></div><div style="background:var(--s2);border-radius:12px;padding:14px;font-size:12px;color:var(--t2);line-height:1.8;max-height:200px;overflow-y:auto;font-family:var(--fm);white-space:pre-wrap">${(f.text||'[No text extracted]').slice(0,1500)}${f.text.length>1500?'\n[...truncated]':''}</div><button class="btn btn-p" onclick="this.closest('.modal-bg').remove()" style="width:100%;justify-content:center;margin-top:14px">Close</button></div>`;
+  modal.onclick=()=>modal.remove();document.body.appendChild(modal);
+}
+
+// ── REPORT ─────────────────────────────────────────────────────────────────
+async function generateReport(){
+  if(!S.analysed){toast('Analyse files first','warn');return;}
+  const type=document.getElementById('rpt-type').value,focus=document.getElementById('rpt-focus').value,ctx=document.getElementById('rpt-ctx').value;
+  const out=document.getElementById('report-out'),cont=document.getElementById('report-content');
+  out.style.display='block';cont.innerHTML='<div style="display:flex;align-items:center;gap:10px;padding:20px 0"><div class="dots"><span></span><span></span><span></span></div><span style="font-size:14px;color:var(--t2)">Generating...</span></div>';
+  const queued=S.rQ.length?'\n\nFlagged:\n'+S.rQ.map(r=>'- '+r.title+': '+r.body).join('\n'):'';
+  try{
+    const ans=await claude('You are SCENTS generating a professional consulting report for Edd (EKN Consulting International Ltd, Nairobi). Use ## for sections, ### for subsections, **bold** for key terms, - for bullets. Reference actual names, numbers, and content from the documents.','Type: '+type+'\nFocus: '+(focus||'All projects')+'\nContext: '+(ctx||'General')+'\n\nCorpus:\n'+S.corpus.slice(0,9500)+queued,3000);
+    const html=ans
+      .replace(/^## (.+)$/gm,'<h2>$1</h2>')
+      .replace(/^### (.+)$/gm,'<h3>$1</h3>')
+      .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+      .replace(/^- (.+)$/gm,'<li>$1</li>')
+      .replace(/(<li>[^<]*<\/li>\n?)+/g,function(s){return '<ul>'+s+'</ul>';})
+      .replace(/\n\n/g,'<p></p>');
+    cont.innerHTML='<div style="border-bottom:0.5px solid var(--b1);padding-bottom:14px;margin-bottom:20px"><div style="font-family:var(--fd);font-size:20px;font-weight:800;margin-bottom:3px">'+type+(focus?' — '+focus:'')+'</div><div style="font-size:10px;color:var(--t3);font-family:var(--fm)">EKN Consulting · SCENTS · '+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+' · Nairobi</div></div>'+html+'<div style="margin-top:20px;padding-top:12px;border-top:0.5px solid var(--b1);font-size:10px;color:var(--t3);font-family:var(--fm)">SCENTS Personal Intelligence · EKN Consulting International Ltd</div>';
+    S.rQ=[];toast('Report ready','ok');document.getElementById('scroll-area').scrollTo(0,99999);
+  }catch(e){cont.innerHTML='<div style="color:var(--amber);padding:12px">'+e.message+'</div>';}
+}
+
+async function shareReport(){
+  const text=document.getElementById('report-content').innerText;
+  if(navigator.share){try{await navigator.share({title:'SCENTS Intelligence Report',text});}catch(e){if(e.name!=='AbortError')toast('Share failed','warn');}}
+  else{await navigator.clipboard.writeText(text);toast('Report copied to clipboard','ok');}
+}
+
+
+// ── KNOWLEDGE BASE ────────────────────────────────────────────────────────────
+const KB_STORE = 'scents_kb_v1';
+
+function getKB() {
+  try { return JSON.parse(localStorage.getItem(KB_STORE) || '[]'); }
+  catch(e) { return []; }
+}
+function saveKB(items) { localStorage.setItem(KB_STORE, JSON.stringify(items)); }
+
+function renderKB() {
+  const items = getKB();
+  const el = document.getElementById('kb-list');
+  const tag = document.getElementById('kb-count-tag');
+  const lbl = document.getElementById('kb-count-label');
+  if (tag) tag.textContent = items.length + ' item' + (items.length !== 1 ? 's' : '');
+  if (lbl) lbl.textContent = items.length ? 'Auto-loaded into every analysis · ' + items.reduce((s,i)=>s+(i.text||'').length,0).toLocaleString() + ' chars' : 'Always loaded into every analysis';
+  if (!el) return;
+  if (!items.length) { el.innerHTML = '<div class="empty"><div class="empty-icon" style="font-size:28px">📚</div><div class="empty-text" style="font-size:13px">No saved knowledge yet.<br>Add URLs, paste text, or save documents.</div></div>'; return; }
+  const TYPE_COLORS = { url:'#00C8F0', transcript:'#9B72FF', text:'#00D67A', news:'#F5A800' };
+  const TYPE_BG = { url:'rgba(0,200,240,0.15)', transcript:'rgba(155,114,255,0.15)', text:'rgba(0,214,122,0.15)', news:'rgba(245,168,0,0.15)' };
+  el.innerHTML = items.map((item, i) => `
+    <div class="kb-item">
+      <div class="kb-badge" style="background:${TYPE_BG[item.type]||TYPE_BG.text};color:${TYPE_COLORS[item.type]||TYPE_COLORS.text}">${(item.type||'TXT').toUpperCase().slice(0,3)}</div>
+      <div style="flex:1;min-width:0">
+        <div class="kb-title">${item.label || item.url || 'Knowledge item'}</div>
+        <div class="kb-meta">${(item.text||'').length.toLocaleString()} chars · Added ${item.date||''}</div>
+      </div>
+      <div class="kb-del" onclick="removeKBItem(${i})">✕</div>
+    </div>`).join('');
+}
+
+function removeKBItem(i) {
+  const items = getKB(); items.splice(i, 1); saveKB(items); renderKB();
+  toast('Removed from Knowledge Base', 'info');
+}
+
+function getKBCorpus() {
+  const items = getKB();
+  if (!items.length) return '';
+  return '\n\n=== PERSISTENT KNOWLEDGE BASE ===\n' +
+    items.map(item => '\n--- ' + (item.label || item.url || 'KB Item') + ' [' + (item.type||'text') + '] ---\n' + (item.text||'').slice(0,4000)).join('\n');
+}
+
+function openKBAddModal() {
+  const modal = document.createElement('div');
+  modal.className = 'modal-bg';
+  modal.innerHTML = `<div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Add to Knowledge Base</div>
+    <div class="form-label" style="margin-top:0">Label</div>
+    <input type="text" id="kb-add-label" placeholder="e.g. CIM Brand Management Notes, Kenya Finance Bill 2025..." style="width:100%;background:var(--s2);border:0.5px solid var(--b2);border-radius:12px;color:var(--t1);font-family:var(--ff);padding:11px 14px;font-size:14px;outline:none;margin-bottom:12px">
+    <div class="form-label">Content</div>
+    <textarea id="kb-add-text" rows="6" placeholder="Paste notes, article text, research, lecture notes, anything relevant to your work..." style="width:100%;background:var(--s2);border:0.5px solid var(--b2);border-radius:12px;color:var(--t1);font-family:var(--ff);padding:11px 14px;font-size:14px;outline:none;resize:none;margin-bottom:14px"></textarea>
+
+```
+<div style="display:flex;gap:8px">
+  <button class="btn btn-p" onclick="saveKBManual(this)" style="flex:1;justify-content:center">📚 Save to KB</button>
+  <button class="btn" onclick="this.closest('.modal-bg').remove()" style="flex:1;justify-content:center">Cancel</button>
+</div>
+```
+
+  </div>`;
+  modal.onclick = () => modal.remove();
+  document.body.appendChild(modal);
+}
+
+function saveKBManual(btn) {
+const label = document.getElementById(‘kb-add-label’).value.trim();
+const text = document.getElementById(‘kb-add-text’).value.trim();
+if (!text) { toast(‘Add some content first’, ‘warn’); return; }
+const items = getKB();
+items.unshift({ type:‘text’, label: label||‘Manual entry’, text, date: new Date().toLocaleDateString(‘en-GB’,{day:‘numeric’,month:‘short’,year:‘numeric’}) });
+saveKB(items); renderKB();
+btn.closest(’.modal-bg’).remove();
+toast(‘Saved to Knowledge Base’, ‘ok’);
+}
+
+// ── INTEL NAV ──────────────────────────────────────────────────────────────────
+function intelNav(el, panel) {
+document.querySelectorAll(’#intel-pills .mode-pill’).forEach(b => b.classList.remove(‘on’));
+document.querySelectorAll(’#view-intel .b-panel’).forEach(p => p.classList.remove(‘on’));
+el.classList.add(‘on’);
+document.getElementById(‘ipanel-’ + panel).classList.add(‘on’);
+// Show search input for on-demand mode
+const wrap = document.getElementById(‘news-search-wrap’);
+if (wrap) wrap.style.display = panel === ‘news’ ? ‘block’ : ‘none’;
+}
+
+// ── URL FETCHER ────────────────────────────────────────────────────────────────
+let lastFetchedURL = { url:’’, text:’’, title:’’ };
+
+async function fetchURL() {
+const url = document.getElementById(‘url-fetch-input’).value.trim();
+if (!url || !url.startsWith(‘http’)) { toast(‘Enter a valid URL starting with http’, ‘warn’); return; }
+const out = document.getElementById(‘url-result’);
+out.innerHTML = ‘<div style="display:flex;align-items:center;gap:8px;padding:12px 0;font-size:13px;color:var(--t3)"><div class="dots"><span></span><span></span><span></span></div> Fetching article…</div>’;
+
+try {
+// Use Claude to fetch and summarise — it knows how to handle URLs
+const result = await claude(
+`You are an intelligent web reader for Edd (EKN Consulting, Nairobi).
+
+When given a URL, provide:
+
+1. A clean extracted summary of the article (300-500 words)
+1. Key facts, figures, and dates
+1. Relevance to EKN Consulting work (Mulika VPP, BIPOLAR, Scents platform, Safaricom Land, Kenya business/tech/policy)
+1. 3-5 key insights Edd should know
+
+Format with clear sections. Note: you cannot actually browse the web, so if this URL is inaccessible, acknowledge it and ask the user to paste the article text instead.`, `Please read and summarise this URL for me: ${url}
+
+If you cannot access it directly, please tell me so I can paste the text.`,
+1500
+);
+
+```
+lastFetchedURL = { url, text: result, title: url.split('/').filter(Boolean).pop() || url };
+document.getElementById('save-url-btn').style.display = '';
+
+out.innerHTML = '<div class="card"><div style="font-size:10px;font-family:var(--fm);color:var(--cyan);margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em">🔗 Fetched: '+url.slice(0,60)+(url.length>60?'…':'')+' </div><div style="font-size:13px;color:var(--t2);line-height:1.75">'+result.replace(/\n\n/g,'</p><p style=\"margin-top:8px\">').replace(/\n/g,'<br>')+'</div><div style="margin-top:12px;display:flex;gap:8px"><button class="btn btn-p" onclick="saveURLToKB()" style="font-size:13px">📚 Save to KB</button><button class="btn" onclick="analyseURLInContext()" style="font-size:13px">✦ Analyse in Context</button></div></div>';
+```
+
+} catch(e) {
+out.innerHTML = `<div style="color:var(--amber);font-size:13px;padding:12px;background:var(--aD);border-radius:12px">${e.message}</div>`;
+}
+}
+
+function saveURLToKB() {
+if (!lastFetchedURL.text) { toast(‘Fetch a URL first’, ‘warn’); return; }
+const items = getKB();
+items.unshift({
+type: ‘url’, label: lastFetchedURL.title || lastFetchedURL.url,
+url: lastFetchedURL.url, text: lastFetchedURL.text,
+date: new Date().toLocaleDateString(‘en-GB’,{day:‘numeric’,month:‘short’,year:‘numeric’})
 });
+saveKB(items); renderKB();
+toast(‘Saved to Knowledge Base’, ‘ok’);
+document.getElementById(‘save-url-btn’).style.display = ‘none’;
+}
+
+async function analyseURLInContext() {
+if (!lastFetchedURL.text) return;
+const combined = S.corpus + ‘\n\n=== FETCHED ARTICLE ===\n’ + lastFetchedURL.text + getKBCorpus();
+const out = document.getElementById(‘url-result’);
+out.innerHTML += ‘<div style="display:flex;align-items:center;gap:8px;padding:8px 0;font-size:13px;color:var(--t3)"><div class="dots"><span></span><span></span><span></span></div> Analysing in context of your files…</div>’;
+try {
+const ans = await claude(‘You are SCENTS. Analyse how this article connects to and affects Edd's (EKN Consulting) existing work and files. Surface non-obvious connections, gaps it reveals, and specific ways it can be used to create value.’, combined.slice(0, 10000), 1200);
+out.innerHTML += ‘<div class="insight" style="border-left-color:var(--cyan);margin-top:10px"><div class="i-type" style="color:var(--cyan)">✦ CONTEXTUAL ANALYSIS</div><div class="i-body">’+ans.replace(/\n/g,’<br>’)+’</div></div>’;
+} catch(e) { toast(e.message,‘warn’); }
+}
+
+async function processTranscript() {
+const label = document.getElementById(‘transcript-label’).value.trim();
+const raw = document.getElementById(‘transcript-text’).value.trim();
+if (!raw) { toast(‘Paste a transcript first’, ‘warn’); return; }
+const out = document.getElementById(‘transcript-result’);
+out.innerHTML = ‘<div style="display:flex;align-items:center;gap:8px;padding:12px 0;font-size:13px;color:var(--t3)"><div class="dots"><span></span><span></span><span></span></div> Processing transcript…</div>’;
+try {
+const sys = ‘You are processing a lecture transcript or notes for Edd (EKN Consulting, Nairobi). Clean up and structure: 1) Fix errors/filler words 2) Extract key concepts and frameworks 3) Pull out examples, case studies, statistics 4) Note applications to East African/Kenyan business 5) List top 5 actionable takeaways. Format with headings. Source: ‘+(label||‘lecture/class’);
+const result = await claude(sys, ‘Raw transcript/notes:\n\n’ + raw, 2000);
+lastTranscript = { label: label || ‘Lecture notes’, text: result };
+document.getElementById(‘save-transcript-btn’).style.display = ‘’;
+out.innerHTML = ‘<div class="card"><div style="font-size:10px;font-family:var(--fm);color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em">🎥 Processed: ‘+(label||‘Transcript’)+’</div><div style="font-size:13px;color:var(--t2);line-height:1.75">’+result.replace(/\n\n/g,’</p><p style="margin-top:8px">’).replace(/\n/g,’<br>’)+’</div><button class="btn btn-p" onclick="saveTranscriptToKB()" style="margin-top:12px;width:100%;justify-content:center">📚 Save to Knowledge Base</button></div>’;
+} catch(e) {
+out.innerHTML = ‘<div style="color:var(--amber);font-size:13px;padding:12px;background:var(--aD);border-radius:12px">’+e.message+’</div>’;
+}
+}
+
+function saveTranscriptToKB() {
+if (!lastTranscript.text) { toast(‘Process a transcript first’, ‘warn’); return; }
+const items = getKB();
+items.unshift({
+type: ‘transcript’, label: lastTranscript.label,
+text: lastTranscript.text,
+date: new Date().toLocaleDateString(‘en-GB’,{day:‘numeric’,month:‘short’,year:‘numeric’})
+});
+saveKB(items); renderKB();
+toast(‘Saved to Knowledge Base’, ‘ok’);
+document.getElementById(‘save-transcript-btn’).style.display = ‘none’;
+}
+
+// ── CURRENT AFFAIRS ENGINE ────────────────────────────────────────────────────
+let newsAutoMode = false; // global flag — when true, enriches every analysis
+
+async function fetchCurrentAffairs() {
+const mode = document.querySelector(‘input[name=“news-mode”]:checked’)?.value || ‘daily’;
+const out = document.getElementById(‘news-result’);
+newsAutoMode = (mode === ‘auto’);
+
+if (mode === ‘auto’) {
+out.innerHTML = ‘<div class="card" style="border-color:var(--cyan)"><div style="font-size:11px;color:var(--cyan);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Auto-Enriched Mode Active</div><div style="font-size:13px;color:var(--t2);line-height:1.75">Every analysis of your files will now be automatically enriched with current affairs context. Web sources cited with <span class="web-cite">🌐 WEB</span> tags.</div><div style="margin-top:12px;font-size:12px;color:var(--t3);font-family:var(--fm)">Go to Home tab and run an analysis to see it in action.</div></div>’;
+toast(‘Auto-enrichment enabled’, ‘ok’);
+return;
+}
+
+let prompt, searchTopic = ‘’;
+if (mode === ‘daily’) {
+searchTopic = ’Kenya East Africa business news ’ + new Date().toLocaleDateString(‘en-GB’);
+prompt = ’You are SCENTS current affairs engine for Edd (EKN Consulting, Nairobi).\n\nProvide a daily intelligence brief covering:\n1. Kenya & East Africa business news (top 3)\n2. Technology & AI relevant to Africa\n3. Kenya policy and regulatory developments\n4. Global macro signals affecting East African markets\n5. Specific relevance to Mulika VPP, BIPOLAR, Scents, WISMO\n\nMark EVERY current event with [WEB] so Edd knows it is from current knowledge not his files.\nDate: ’ + new Date().toLocaleDateString(‘en-GB’,{weekday:‘long’,day:‘numeric’,month:‘long’,year:‘numeric’});
+} else {
+searchTopic = document.getElementById(‘news-search-input’)?.value?.trim() || ‘’;
+if (!searchTopic) { toast(‘Enter a search topic first’, ‘warn’); return; }
+prompt = ‘You are SCENTS current affairs engine for Edd (EKN Consulting, Nairobi). Research current information about: “’ + searchTopic + ‘”. Focus on: latest developments, East African/Kenyan business implications, connections to Edd's work (Mulika VPP, BIPOLAR, Scents, consulting), gaps and opportunities, specific actions Edd can take. Mark ALL current events info [WEB].’;
+}
+
+out.innerHTML = ‘<div style="display:flex;align-items:center;gap:8px;padding:12px 0;font-size:13px;color:var(--t3)"><div class="dots"><span></span><span></span><span></span></div> Fetching current affairs…</div>’;
+
+try {
+const result = await claude(prompt, searchTopic ? ’Search: ’ + searchTopic : ‘Generate brief now.’, 2000);
+const formatted = result
+.replace(/[WEB]/g, ‘<span class="web-cite">🌐 WEB</span>’)
+.replace(/\n\n/g, ‘</p><p style="margin-top:10px">’)
+.replace(/\n/g, ‘<br>’)
+.replace(/**(.+?)**/g, ‘<strong style="color:var(--t1)">$1</strong>’);
+
+```
+out.innerHTML = '<div style="background:var(--s1);border:0.5px solid var(--b1);border-radius:14px;padding:14px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:12px"><span class="tag tc">🌍 Live Intelligence</span><span style="font-size:11px;color:var(--t3);font-family:var(--fm)">'+new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})+' · '+mode+' mode</span><span class="web-cite" style="margin-left:auto">🌐 WEB</span><span style="font-size:11px;color:var(--t3)"> = web-sourced</span></div><div style="font-size:13px;color:var(--t2);line-height:1.8">'+formatted+'</div><div style="margin-top:14px;display:flex;gap:8px"><button class="btn btn-p" onclick="saveNewsToKB(this)" style="font-size:13px">📚 Save to KB</button><button class="btn" onclick="crossReferenceNews()" style="font-size:13px">✦ Cross-Reference Files</button></div></div>';
+window._lastNews = result;
+```
+
+} catch(e) {
+out.innerHTML = ‘<div style="color:var(--amber);font-size:13px;padding:12px;background:var(--aD);border-radius:12px">’+e.message+’</div>’;
+}
+}
+
+function saveNewsToKB(btn) {
+if (!window._lastNews) return;
+const items = getKB();
+items.unshift({
+type: ‘news’, label: ’Current Affairs — ’ + new Date().toLocaleDateString(‘en-GB’,{day:‘numeric’,month:‘short’,year:‘numeric’}),
+text: window._lastNews,
+date: new Date().toLocaleDateString(‘en-GB’,{day:‘numeric’,month:‘short’,year:‘numeric’})
+});
+saveKB(items); renderKB();
+toast(‘Current affairs saved to Knowledge Base’, ‘ok’);
+if (btn) btn.style.display = ‘none’;
+}
+
+async function crossReferenceNews() {
+if (!window._lastNews || !S.analysed) { toast(‘Analyse your files first, then fetch news’, ‘warn’); return; }
+const out = document.getElementById(‘news-result’);
+out.innerHTML += ‘<div style="display:flex;align-items:center;gap:8px;padding:8px 0;font-size:13px;color:var(--t3)"><div class="dots"><span></span><span></span><span></span></div> Cross-referencing with your files…</div>’;
+try {
+const combined = S.corpus.slice(0,8000) + getKBCorpus().slice(0,3000) + ‘\n\n=== CURRENT AFFAIRS ===\n’ + window._lastNews;
+const ans = await claude(‘You are SCENTS. Cross-reference current affairs with Edd's (EKN Consulting) files and knowledge base. Surface: CONNECTIONS where events relate to his projects, GAPS what plans are missing, OPPORTUNITIES actions to take, RISKS current events threatening projects. Mark current affairs [WEB] and file info [FILES].’, combined, 1500);
+const formatted = ans
+.replace(/[WEB]/g, ‘<span class="web-cite">🌐 WEB</span>’)
+.replace(/[FILES]/g, ‘<span style="display:inline;background:rgba(0,214,122,0.12);border:0.5px solid rgba(0,214,122,0.3);border-radius:4px;padding:1px 5px;font-size:11px;font-family:var(--fm);color:var(--green)">📁 FILES</span>’)
+.replace(/\n/g,’<br>’);
+out.innerHTML += ‘<div class="insight" style="border-left-color:var(--green);margin-top:10px"><div class="i-type" style="color:var(--green)">✦ CROSS-REFERENCE ANALYSIS</div><div class="i-body">’+formatted+’</div></div>’;
+} catch(e) { toast(e.message,‘warn’); }
+}
+
+// ── PATCH runAIAnalysis TO INCLUDE KB + AUTO NEWS ─────────────────────────────
+const _origRunAIAnalysis = runAIAnalysis;
+runAIAnalysis = async function() {
+// Inject KB into corpus before analysis
+const kbCorpus = getKBCorpus();
+if (kbCorpus) {
+S.corpus = S.corpus + kbCorpus;
+}
+await _origRunAIAnalysis();
+};
+
+// ── PATCH runQ TO INCLUDE KB + AUTO WEB ──────────────────────────────────────
+const _origClaude = claude;
+const _patchedClaude = async function(sys, usr, tok) {
+// If auto-enrichment mode is on, append web instruction to system prompt
+if (newsAutoMode && sys && !sys.includes(’[WEB]’)) {
+sys = sys + ‘\n\nIMPORTANT: When relevant, incorporate current affairs knowledge about Kenya, East Africa, and global markets. Mark any information from your training knowledge about current events with [WEB] so the user knows it comes from web knowledge, not their uploaded files.’;
+}
+return _origClaude(sys, usr, tok);
+};
+// Override globally
+window.claudeEnriched = _patchedClaude;
+
+// ── SHOW/HIDE SEARCH INPUT based on news mode ──────────────────────────────
+document.addEventListener(‘change’, function(e) {
+if (e.target.name === ‘news-mode’) {
+const wrap = document.getElementById(‘news-search-wrap’);
+if (wrap) wrap.style.display = e.target.value === ‘demand’ ? ‘block’ : ‘none’;
+// Update label styles
+[‘daily’,‘demand’,‘auto’].forEach(m => {
+const lbl = document.getElementById(‘news-mode-’+m+’-lbl’);
+if (lbl) lbl.style.borderColor = e.target.value === m ? ‘var(–cyan)’ : ‘var(–b2)’;
+});
+}
+});
+
+// Render KB on load
+renderKB();
+
+// ── BEHAVIOUR ENGINE ───────────────────────────────────────────────────────
+const EVENT_SCHEMA=[
+// ── LAYER 1: AWARENESS — Market & lead signals (low per-event, high aggregate)
+{id:‘MarketResearch’,        layer:‘Awareness’,      fi:0.18,alpha:0.3,color:’#00C8F0’,bg:‘rgba(0,200,240,0.15)’,desc:‘Researching a market, sector or opportunity relevant to EKN’},
+{id:‘CompetitorScan’,        layer:‘Awareness’,      fi:0.15,alpha:0.3,color:’#00C8F0’,bg:‘rgba(0,200,240,0.15)’,desc:‘Scanning competitor activity or market positioning’},
+{id:‘LeadIdentified’,        layer:‘Awareness’,      fi:0.25,alpha:0.4,color:’#00C8F0’,bg:‘rgba(0,200,240,0.15)’,desc:‘New potential client or investor identified in pipeline’},
+{id:‘RegulatoryAlert’,       layer:‘Awareness’,      fi:0.30,alpha:0.5,color:’#00C8F0’,bg:‘rgba(0,200,240,0.15)’,desc:‘Kenya/EA policy, regulation or government signal noted’},
+{id:‘MediaMention’,          layer:‘Awareness’,      fi:0.14,alpha:0.2,color:’#00C8F0’,bg:‘rgba(0,200,240,0.15)’,desc:‘EKN venture or sector mentioned in media or press’},
+
+// ── LAYER 2: CONSIDERATION — Active client & investor engagement
+{id:‘FirstMeeting’,          layer:‘Consideration’,  fi:0.45,alpha:0.6,color:’#9B72FF’,bg:‘rgba(155,114,255,0.15)’,desc:‘First substantive meeting or call with a prospect’},
+{id:‘ProposalRequested’,     layer:‘Consideration’,  fi:0.58,alpha:0.7,color:’#9B72FF’,bg:‘rgba(155,114,255,0.15)’,desc:‘Client or investor explicitly requests a proposal or deck’},
+{id:‘BudgetDiscussion’,      layer:‘Consideration’,  fi:0.62,alpha:0.8,color:’#9B72FF’,bg:‘rgba(155,114,255,0.15)’,desc:‘Fees, engagement budget or investment size discussed’},
+{id:‘StakeholderIntro’,      layer:‘Consideration’,  fi:0.44,alpha:0.6,color:’#9B72FF’,bg:‘rgba(155,114,255,0.15)’,desc:‘Introduced to additional decision-maker or champion’},
+{id:‘DueDiligenceRequest’,   layer:‘Consideration’,  fi:0.68,alpha:0.8,color:’#9B72FF’,bg:‘rgba(155,114,255,0.15)’,desc:‘Client or investor formally requests due diligence materials’},
+{id:‘FollowUpMeeting’,       layer:‘Consideration’,  fi:0.52,alpha:0.7,color:’#9B72FF’,bg:‘rgba(155,114,255,0.15)’,desc:‘Second or subsequent meeting on the same opportunity’},
+{id:‘NDAShared’,             layer:‘Consideration’,  fi:0.60,alpha:0.7,color:’#9B72FF’,bg:‘rgba(155,114,255,0.15)’,desc:‘NDA or confidentiality agreement exchanged — serious intent signal’},
+
+// ── LAYER 3: CONVERSION — ALL four are ground truth FI=1.00
+{id:‘ContractSigned’,        layer:‘Conversion’,     fi:1.00,alpha:1.0,color:’#00D67A’,bg:‘rgba(0,214,122,0.15)’,desc:‘Engagement contract or retainer executed — GROUND TRUTH’},
+{id:‘InvestmentClosed’,      layer:‘Conversion’,     fi:1.00,alpha:1.0,color:’#00D67A’,bg:‘rgba(0,214,122,0.15)’,desc:‘Funding round or investor commitment secured — GROUND TRUTH’},
+{id:‘PaymentReceived’,       layer:‘Conversion’,     fi:1.00,alpha:1.0,color:’#00D67A’,bg:‘rgba(0,214,122,0.15)’,desc:‘Invoice paid — cash received in EKN account — GROUND TRUTH’},
+{id:‘PartnershipSigned’,     layer:‘Conversion’,     fi:1.00,alpha:1.0,color:’#00D67A’,bg:‘rgba(0,214,122,0.15)’,desc:‘Formal partnership agreement or MOU executed — GROUND TRUTH’},
+{id:‘RetainerStarted’,       layer:‘Conversion’,     fi:0.95,alpha:0.9,color:’#00D67A’,bg:‘rgba(0,214,122,0.15)’,desc:‘Ongoing monthly retainer arrangement confirmed and started’},
+
+// ── LAYER 4: DELIVERY — Post-conversion project execution
+{id:‘DeliverableSubmitted’,  layer:‘Delivery’,       fi:0.70,alpha:0.8,color:’#E8C200’,bg:‘rgba(232,194,0,0.15)’,desc:‘Report, strategy deck or deliverable submitted to client’},
+{id:‘ClientApproval’,        layer:‘Delivery’,       fi:0.76,alpha:0.9,color:’#E8C200’,bg:‘rgba(232,194,0,0.15)’,desc:‘Client formally approves work or signs off on a milestone’},
+{id:‘MilestoneReached’,      layer:‘Delivery’,       fi:0.68,alpha:0.8,color:’#E8C200’,bg:‘rgba(232,194,0,0.15)’,desc:‘Key project milestone achieved on time’},
+{id:‘ReferralReceived’,      layer:‘Delivery’,       fi:0.82,alpha:0.9,color:’#E8C200’,bg:‘rgba(232,194,0,0.15)’,desc:‘Existing client refers EKN to a new prospect — strongest LTV signal’},
+{id:‘ContractRenewal’,       layer:‘Delivery’,       fi:0.88,alpha:0.9,color:’#E8C200’,bg:‘rgba(232,194,0,0.15)’,desc:‘Client engagement renewed or scope extended — proven relationship’},
+
+// ── LAYER 5: VENTURE SIGNALS — Named EKN project events (no Safaricom Land)
+{id:‘MulikaVPP_Investor’,    layer:‘VentureSignal’,  fi:0.78,alpha:0.9,color:’#FF3A5C’,bg:‘rgba(255,58,92,0.15)’,desc:‘Mulika VPP — investor meeting, term sheet or due diligence event’},
+{id:‘BIPOLAR_Drop’,          layer:‘VentureSignal’,  fi:0.65,alpha:0.7,color:’#FF3A5C’,bg:‘rgba(255,58,92,0.15)’,desc:‘BIPOLAR™ — product drop, campaign launch or sale event’},
+{id:‘Scents_Demo’,           layer:‘VentureSignal’,  fi:0.80,alpha:0.9,color:’#FF3A5C’,bg:‘rgba(255,58,92,0.15)’,desc:‘Scents Platform — client demo, pilot onboarding or data deal’},
+{id:‘WISMO_Merchant’,        layer:‘VentureSignal’,  fi:0.68,alpha:0.8,color:’#FF3A5C’,bg:‘rgba(255,58,92,0.15)’,desc:‘WISMO — new merchant onboarded or major delivery milestone’},
+{id:‘MDMC_DataEvent’,        layer:‘VentureSignal’,  fi:0.58,alpha:0.6,color:’#FF3A5C’,bg:‘rgba(255,58,92,0.15)’,desc:‘MDMC — patient record, SHA/AAR/Jubilee integration or API event’},
+{id:‘CrossVentureSynergy’,   layer:‘VentureSignal’,  fi:0.85,alpha:0.9,color:’#FF3A5C’,bg:‘rgba(255,58,92,0.15)’,desc:‘Two or more EKN ventures intersect on a single client or deal’},
+
+// ── LAYER 6: FINANCIAL INTELLIGENCE — Cash flow & deal economics
+{id:‘InvoiceRaised’,         layer:‘Financial’,      fi:0.62,alpha:0.7,color:’#F5A800’,bg:‘rgba(245,168,0,0.15)’,desc:‘Invoice issued and sent to client’},
+{id:‘PaymentDelayed’,        layer:‘Financial’,      fi:0.58,alpha:0.7,color:’#F5A800’,bg:‘rgba(245,168,0,0.15)’,desc:‘Expected payment overdue — cash flow risk signal’},
+{id:‘GrantOpportunity’,      layer:‘Financial’,      fi:0.72,alpha:0.8,color:’#F5A800’,bg:‘rgba(245,168,0,0.15)’,desc:‘Grant, DFI funding, impact capital or concessional loan identified’},
+{id:‘ValuationEvent’,        layer:‘Financial’,      fi:0.76,alpha:0.8,color:’#F5A800’,bg:‘rgba(245,168,0,0.15)’,desc:‘Venture valuation formally discussed, modelled or updated’},
+
+// ── LAYER 7: MACRO-ENVIRONMENTAL — Kenya & East Africa structural signals
+{id:‘KenyaPolicyChange’,     layer:‘MacroKE’,        fi:0.78,alpha:0.9,color:’#00C8F0’,bg:‘rgba(0,200,240,0.12)’,desc:‘Kenya government policy, Finance Bill, budget or regulation change’},
+{id:‘EastAfricaMarket’,      layer:‘MacroKE’,        fi:0.65,alpha:0.8,color:’#00C8F0’,bg:‘rgba(0,200,240,0.12)’,desc:‘East African regional market development affecting EKN ventures’},
+{id:‘FXRateShift’,           layer:‘MacroKE’,        fi:0.60,alpha:0.7,color:’#00C8F0’,bg:‘rgba(0,200,240,0.12)’,desc:‘KES/USD or relevant FX rate significant movement’},
+{id:‘EnergyGridEvent’,       layer:‘MacroKE’,        fi:0.74,alpha:0.8,color:’#00C8F0’,bg:‘rgba(0,200,240,0.12)’,desc:‘Kenya power grid, KPLC, REA or renewable energy sector event’},
+{id:‘StartupEcosystem’,      layer:‘MacroKE’,        fi:0.55,alpha:0.6,color:’#00C8F0’,bg:‘rgba(0,200,240,0.12)’,desc:‘Nairobi/Africa startup ecosystem signal — funding rounds, exits, M&A’},
+
+// ── LAYER 8: RELATIONSHIP GRAPH — Network & influence signals
+{id:‘KeyIntroduction’,       layer:‘RelGraph’,       fi:0.84,alpha:0.9,color:’#9B72FF’,bg:‘rgba(155,114,255,0.12)’,desc:‘High-value introduction made to or received from a key contact’},
+{id:‘MentorAdvisorEngaged’,  layer:‘RelGraph’,       fi:0.68,alpha:0.8,color:’#9B72FF’,bg:‘rgba(155,114,255,0.12)’,desc:‘Advisor, mentor or board member formally consulted on a decision’},
+{id:‘MediaInterview’,        layer:‘RelGraph’,       fi:0.64,alpha:0.7,color:’#9B72FF’,bg:‘rgba(155,114,255,0.12)’,desc:‘Interview, podcast, panel or speaking engagement secured’},
+{id:‘ConferencePitch’,       layer:‘RelGraph’,       fi:0.72,alpha:0.8,color:’#9B72FF’,bg:‘rgba(155,114,255,0.12)’,desc:‘EKN or a venture pitched at a conference, forum or investor event’},
+{id:‘NetworkReActivated’,    layer:‘RelGraph’,       fi:0.58,alpha:0.7,color:’#9B72FF’,bg:‘rgba(155,114,255,0.12)’,desc:‘Dormant contact re-engaged — 2nd-order relationship opportunity’},
+
+// ── LAYER 9: STRATEGIC INTELLIGENCE — Threat, gap & alliance signals
+{id:‘CompetitorMove’,        layer:‘StratIntel’,     fi:0.74,alpha:0.8,color:’#00D67A’,bg:‘rgba(0,214,122,0.12)’,desc:‘Competitor launches, pivots or wins a deal in your space’},
+{id:‘RegulatoryRisk’,        layer:‘StratIntel’,     fi:0.82,alpha:0.9,color:’#00D67A’,bg:‘rgba(0,214,122,0.12)’,desc:‘Regulatory or political change that threatens a venture or live deal’},
+{id:‘StrategicGapFound’,     layer:‘StratIntel’,     fi:0.88,alpha:0.9,color:’#00D67A’,bg:‘rgba(0,214,122,0.12)’,desc:‘Unmet market or client need identified that EKN is positioned to fill’},
+{id:‘AllianceOpportunity’,   layer:‘StratIntel’,     fi:0.80,alpha:0.9,color:’#00D67A’,bg:‘rgba(0,214,122,0.12)’,desc:‘Strategic alliance, JV or co-development opportunity surfaces’},
+{id:‘MarketEntrySignal’,     layer:‘StratIntel’,     fi:0.76,alpha:0.8,color:’#00D67A’,bg:‘rgba(0,214,122,0.12)’,desc:‘New geography, sector or client segment becomes viable for EKN’},
+];
+
+const BS={events:[],totalFI:0,mapM:0,mapA:0,mapP:0,rw:{opportunity:0.5,risk:0.5,financial:0.5,client:0.5,deadline:0.5},rwParams:{alpha:0.1,beta:0.3,lambda:1.0},engagements:{opportunity:0,risk:0,financial:0,client:0,deadline:0},totalEngagements:0};
+
+function bNav(el,panel){document.querySelectorAll(’.b-tab’).forEach(t=>t.classList.remove(‘on’));document.querySelectorAll(’.b-panel’).forEach(p=>p.classList.remove(‘on’));el.classList.add(‘on’);document.getElementById(‘bpanel-’+panel).classList.add(‘on’);}
+
+function openEventModal(){
+const suggestions=EVENT_SCHEMA.map(e=>`<option value="${e.id}">`).join(’’);
+const modal=document.createElement(‘div’);modal.className=‘modal-bg’;
+modal.innerHTML=`<div class="modal" onclick="event.stopPropagation()"><div class="modal-handle"></div><div class="modal-title">Log Behavioral Event</div><div class="form-label" style="margin-top:0">Event Type</div><div style="font-size:12px;color:var(--t3);font-family:var(--fm);margin-bottom:6px">Type your own or pick from EKN consulting events</div><datalist id="ev-schema-list">${suggestions}</datalist><input type="text" id="ev-type-input" list="ev-schema-list" placeholder="e.g. ClientMeeting, CartAbandon..." style="width:100%;margin-bottom:6px" oninput="updateFIPreview(this.value)"><div id="fi-preview" style="font-size:11px;color:var(--purple);font-family:var(--fm);margin-bottom:12px;min-height:16px"></div><div class="form-label">Entity / Subject</div><input type="text" id="ev-entity" placeholder="e.g. Amara Foods, Mulika VPP" style="width:100%;margin-bottom:12px"><div class="form-label">Layer (auto-detected for schema events)</div><input type="text" id="ev-layer-input" placeholder="e.g. Consideration, Custom..." style="width:100%;margin-bottom:12px"><div class="form-label">Motivation (0–10)</div><input type="range" id="ev-m" min="0" max="10" value="5" style="width:100%" oninput="document.getElementById('ev-m-val').textContent=this.value"><div style="font-family:var(--fm);font-size:12px;color:var(--cyan);margin-bottom:10px">M = <span id="ev-m-val">5</span></div><div class="form-label">Ability (0–10)</div><input type="range" id="ev-a" min="0" max="10" value="5" style="width:100%" oninput="document.getElementById('ev-a-val').textContent=this.value"><div style="font-family:var(--fm);font-size:12px;color:var(--green);margin-bottom:10px">A = <span id="ev-a-val">5</span></div><div class="form-label">Prompt (0–10)</div><input type="range" id="ev-p" min="0" max="10" value="5" style="width:100%" oninput="document.getElementById('ev-p-val').textContent=this.value"><div style="font-family:var(--fm);font-size:12px;color:var(--amber);margin-bottom:14px">P = <span id="ev-p-val">5</span></div><div style="display:flex;gap:8px"><button class="btn btn-p" onclick="logEvent(this)" style="flex:1;justify-content:center;font-size:14px">Log Event</button><button class="btn" onclick="this.closest('.modal-bg').remove()" style="flex:1;justify-content:center">Cancel</button></div></div>`;
+modal.onclick=()=>modal.remove();document.body.appendChild(modal);
+}
+
+function updateFIPreview(val){
+const schema=EVENT_SCHEMA.find(e=>e.id===val);
+const prev=document.getElementById(‘fi-preview’),layerInp=document.getElementById(‘ev-layer-input’);
+if(schema){prev.innerHTML=’<strong>✓ ‘+schema.layer+’</strong> · FI: ‘+schema.fi.toFixed(3)+(schema.desc?’ — <span style="color:var(--t3);font-size:10px">’+schema.desc+’</span>’:’’);prev.style.color=‘var(–green)’;layerInp.value=schema.layer;}
+else if(val.trim().length>0){prev.textContent=‘◈ Custom event — FI default: 0.400’;prev.style.color=‘var(–cyan)’;}
+else{prev.textContent=’’;}
+}
+
+function logEvent(btn){
+const evId=(document.getElementById(‘ev-type-input’).value||’’).trim();
+if(!evId){toast(‘Enter an event type’,‘warn’);return;}
+const entity=document.getElementById(‘ev-entity’).value.trim()||‘Unknown’;
+const layerOverride=(document.getElementById(‘ev-layer-input’).value||’’).trim();
+const m=parseInt(document.getElementById(‘ev-m’).value),a=parseInt(document.getElementById(‘ev-a’).value),p=parseInt(document.getElementById(‘ev-p’).value);
+const schema=EVENT_SCHEMA.find(e=>e.id===evId);
+const fi=schema?schema.fi:0.40,alpha=schema?schema.alpha:0.50,layer=layerOverride||(schema?schema.layer:‘Custom’),color=schema?schema.color:’#00C8F0’,bg=schema?schema.bg:‘rgba(0,200,240,0.15)’;
+const bScore=(m/10)*(a/10)*(p/10),fiContrib=fi*bScore*alpha;
+BS.events.unshift({id:evId,entity,layer,m,a,p,bScore,fi:fiContrib,color,bg,ts:new Date().toLocaleTimeString(‘en-GB’,{hour:‘2-digit’,minute:‘2-digit’,second:‘2-digit’})});
+BS.mapM=BS.mapM*0.8+(m/10)*0.2;BS.mapA=BS.mapA*0.8+(a/10)*0.2;BS.mapP=BS.mapP*0.8+(p/10)*0.2;BS.totalFI=Math.min(10,BS.totalFI+fiContrib);
+updateSensorUI();renderEventFeed();btn.closest(’.modal-bg’).remove();toast(‘Event logged: ‘+evId+’ (FI +’+fiContrib.toFixed(3)+’)’,‘ok’);
+}
+
+function updateSensorUI(){
+const bScore=BS.mapM*BS.mapA*BS.mapP,convProb=Math.min(0.99,bScore*2.8+(BS.totalFI/10)*0.3);
+document.getElementById(‘map-m’).textContent=BS.mapM.toFixed(2);document.getElementById(‘map-a’).textContent=BS.mapA.toFixed(2);document.getElementById(‘map-p’).textContent=BS.mapP.toFixed(2);
+document.getElementById(‘bar-m’).style.width=(BS.mapM*100)+’%’;document.getElementById(‘bar-a’).style.width=(BS.mapA*100)+’%’;document.getElementById(‘bar-p’).style.width=(BS.mapP*100)+’%’;
+document.getElementById(‘b-score’).textContent=bScore.toFixed(3);document.getElementById(‘conv-prob’).textContent=Math.round(convProb*100)+’%’;document.getElementById(‘fisher-total’).textContent=‘I(X;Y) = ‘+BS.totalFI.toFixed(3)+’ / 10.000’;
+}
+
+function renderEventFeed(){
+const el=document.getElementById(‘event-feed’);document.getElementById(‘event-count-tag’).textContent=BS.events.length+’ events’;
+if(!BS.events.length)return;
+el.innerHTML=BS.events.slice(0,20).map(ev=>`<div class="ev-item"><div class="ev-badge" style="background:${ev.bg};color:${ev.color}">${ev.layer.slice(0,4).toUpperCase()}</div><div style="flex:1;min-width:0"><div class="ev-name">${ev.id}</div><div class="ev-meta">${ev.entity} · ${ev.ts}</div><div class="ev-fi">FI +${ev.fi.toFixed(3)} · B=${ev.bScore.toFixed(3)} · MAP(${ev.m},${ev.a},${ev.p})</div></div><span class="tag" style="background:${ev.bg};color:${ev.color}">${ev.layer}</span></div>`).join(’’);
+}
+
+function rwUpdate(category){
+const{alpha,beta,lambda}=BS.rwParams,V=BS.rw[category]||0.5,delta=alpha*beta*(lambda-V);
+BS.rw[category]=Math.min(1,Math.max(0,V+delta));BS.engagements[category]=(BS.engagements[category]||0)+1;BS.totalEngagements++;renderRWWeights();
+}
+
+function renderRWWeights(){
+const el=document.getElementById(‘rw-weights-list’),cats=Object.entries(BS.rw).sort((a,b)=>b[1]-a[1]);
+const TCOLS={opportunity:‘var(–gold)’,risk:‘var(–red)’,financial:‘var(–green)’,client:‘var(–cyan)’,deadline:‘var(–amber)’};
+el.innerHTML=cats.map(([cat,v])=>`<div class="rw-row"><div class="rw-label">${cat.charAt(0).toUpperCase()+cat.slice(1)}</div><div class="rw-bar-wrap"><div class="rw-bar" style="width:${v*100}%;background:${TCOLS[cat]||'var(--cyan)'}"></div></div><div class="rw-val">${v.toFixed(3)}</div><span class="tag" style="font-size:10px;background:rgba(255,255,255,0.06);color:var(--t3)">${BS.engagements[cat]||0} taps</span></div>`).join(’’);
+const topCat=cats[0];
+document.getElementById(‘rw-stats’).textContent=‘Top: ‘+topCat[0]+’ (V=’+topCat[1].toFixed(3)+’)\nEngagements: ‘+BS.totalEngagements+’\nα: ‘+BS.rwParams.alpha+’ · β: ‘+BS.rwParams.beta+’ · λ: ’+BS.rwParams.lambda;
+}
+
+function resetRW(){Object.keys(BS.rw).forEach(k=>BS.rw[k]=0.5);Object.keys(BS.engagements).forEach(k=>BS.engagements[k]=0);BS.totalEngagements=0;renderRWWeights();toast(‘Learning reset’,‘info’);}
+
+function reRankInsights(){
+if(!S.insights||!S.insights.length){toast(‘Analyse files first’,‘warn’);return;}
+const scored=S.insights.map((ins,i)=>{
+const pRelevant=ins.confidence||0.5,recency=Math.max(0,1-(i*0.08)),vCat=BS.rw[ins.type]||0.5,score=0.5*pRelevant+0.2*recency+0.3*vCat;
+const confBound=score-1.96*Math.sqrt(score*(1-score)/Math.max(1,BS.totalEngagements));
+return{…ins,score,confBound,rank:i+1};
+}).sort((a,b)=>b.score-a.score).map((ins,i)=>({…ins,rank:i+1}));
+const el=document.getElementById(‘ranked-feed’);
+el.innerHTML=scored.map((ins,i)=>{const cfg=TCFG[ins.type]||TCFG.client;return`<div class="ranked-item" style="animation-delay:${i*.05}s" onclick="rwUpdate('${ins.type}')"><div class="rank-num">#${ins.rank} · score ${ins.score.toFixed(3)} · CI lower ${ins.confBound.toFixed(3)}</div><div style="display:flex;align-items:flex-start;gap:8px"><div style="flex:1"><div style="font-size:13px;font-weight:600;margin-bottom:4px">${ins.title}</div><div style="font-size:12px;color:var(--t2);line-height:1.6">${ins.body}</div></div><span class="tag ${cfg.tag}" style="flex-shrink:0">${cfg.l}</span></div><div class="rank-score-bar"><div class="rank-score-fill" style="width:${ins.score*100}%"></div></div><div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-top:5px">Tap to register engagement · trains your consulting intelligence feed</div></div>`;}).join(’’);
+toast(‘Feed re-ranked · ‘+scored.length+’ insights · 95% conformal coverage’,‘ok’);
+}
+
+// ── DELPHI ENGINE ──────────────────────────────────────────────────────────
+const DS={experts:[],question:’’,ctx:’’,round:1,responses:[],history:[],r1responses:[],lastConsensus:null};
+const DEFAULT_EXPERTS=[‘Kenyan VC / early-stage investor’,‘East African market analyst’,‘Political & regulatory risk specialist’,‘Industry domain expert’];
+
+function initDelphi(){DS.experts=[…DEFAULT_EXPERTS];renderExpertChips();renderBrierHistory();}
+function renderExpertChips(){document.getElementById(‘expert-chips’).innerHTML=DS.experts.map((e,i)=>`<div class="expert-chip" onclick="removeExpert(${i})">◉ ${e} ✕</div>`).join(’’);}
+function addExpert(){const inp=document.getElementById(‘expert-input’),val=inp.value.trim();if(!val)return;DS.experts.push(val);renderExpertChips();inp.value=’’;}
+function removeExpert(i){DS.experts.splice(i,1);renderExpertChips();}
+document.getElementById(‘expert-input’).addEventListener(‘keydown’,e=>{if(e.key===‘Enter’){e.preventDefault();addExpert();}});
+
+async function runDelphi(){
+const q=document.getElementById(‘delphi-q’).value.trim();
+if(!q){toast(‘Enter a forecasting question’,‘warn’);return;}
+if(DS.experts.length<2){toast(‘Add at least 2 experts’,‘warn’);return;}
+DS.question=q;DS.ctx=document.getElementById(‘delphi-ctx’).value.trim();DS.round=1;DS.r1responses=[];
+const btn=document.getElementById(‘delphi-run-btn’);btn.disabled=true;btn.innerHTML=’<div class="dots" style="display:flex;justify-content:center"><span></span><span></span><span></span></div>’;
+const fileCtx=S.corpus?’\n\nContext from user files:\n’+S.corpus.slice(0,4000):’’;
+const userCtx=DS.ctx?’\n\nAdditional context: ‘+DS.ctx:’’;
+const responses=[];
+for(let i=0;i<DS.experts.length;i++){
+const expert=DS.experts[i];
+btn.innerHTML=`<div class="dots" style="display:flex;justify-content:center"><span></span><span></span><span></span></div>&nbsp;Consulting ${expert.split(' ').slice(0,2).join(' ')}...`;
+try{
+const raw=await claude(`You are roleplaying as a senior ${expert} based in East Africa. You are participating in a Delphi forecasting panel for EKN Consulting International Ltd, Nairobi.\n\nReturn ONLY valid JSON:\n{"estimate":0.65,"confidence":0.80,"competence":0.75,"reasoning":"2-3 sentences of specific reasoning","key_factors":["factor 1","factor 2"],"upside_scenario":"brief","downside_scenario":"brief"}\n\nestimate: probability 0.0–1.0 · confidence and competence: 0.0–1.0 · Return ONLY the JSON object`,`Forecasting question: ${q}${fileCtx}${userCtx}`,600);
+const data=extractJSON(raw);
+responses.push({expert,estimate:Math.min(1,Math.max(0,Number(data.estimate)||0.5)),confidence:Math.min(1,Math.max(0,Number(data.confidence)||0.7)),competence:Math.min(1,Math.max(0,Number(data.competence)||0.7)),reasoning:data.reasoning||’’,keyFactors:data.key_factors||[],upside:data.upside_scenario||’’,downside:data.downside_scenario||’’,weight:1});
+}catch(e){responses.push({expert,estimate:0.5,confidence:0.5,competence:0.5,reasoning:‘Query failed — using neutral prior.’,keyFactors:[],upside:’’,downside:’’,weight:1});}
+}
+DS.r1responses=responses;DS.responses=applyIQRAndWeights(responses);const consensus=computeConsensus(DS.responses);
+btn.disabled=false;btn.textContent=‘◬ Run Delphi Round’;renderDelphiResults(DS.responses,consensus,1);
+}
+
+function applyIQRAndWeights(responses){
+const estimates=responses.map(r=>r.estimate).sort((a,b)=>a-b);
+const q1=estimates[Math.floor(estimates.length*0.25)],q3=estimates[Math.floor(estimates.length*0.75)];
+const iqr=q3-q1,lo=q1-1.5*iqr,hi=q3+1.5*iqr;
+return responses.map(r=>{const outlier=r.estimate<lo||r.estimate>hi,cwWeight=outlier?0.3:(r.competence*0.6+r.confidence*0.4);return{…r,weight:cwWeight,outlier};});
+}
+
+function computeConsensus(responses){
+const totalWeight=responses.reduce((s,r)=>s+r.weight,0),weightedSum=responses.reduce((s,r)=>s+r.estimate*r.weight,0),consensus=totalWeight>0?weightedSum/totalWeight:0.5;
+const n=responses.length,ranks=responses.map(r=>r.estimate),meanRank=ranks.reduce((a,b)=>a+b,0)/n,S_stat=ranks.reduce((a,b)=>a+Math.pow(b-meanRank,2),0);
+const W=n>1?(12*S_stat)/(1*(n*n*n-n)):1;
+return{value:consensus,kendallW:Math.min(1,Math.abs(W)),totalWeight};
+}
+
+function renderDelphiResults(responses,consensus,round){
+document.getElementById(‘delphi-setup’).style.display=‘none’;document.getElementById(‘delphi-results’).style.display=’’;document.getElementById(‘delphi-round-num’).textContent=round;
+document.getElementById(‘delphi-expert-cards’).innerHTML=responses.map((r,i)=>{
+const pct=Math.round(r.estimate*100),col=pct>=70?‘var(–green)’:pct>=40?‘var(–amber)’:‘var(–red)’;
+const factors=r.keyFactors.length?`<div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:5px">${r.keyFactors.map(f=>`<span class="tag tp" style="font-size:10px">${f}</span>`).join('')}</div>`:’’;
+return`<div class="d-card" style="animation:up .3s ease ${i*.08}s both"><div class="d-card-head"><div><div class="d-expert">${r.expert}</div><div class="d-domain">Competence ${Math.round(r.competence*100)}% · Confidence ${Math.round(r.confidence*100)}%</div>${r.outlier?'<span class="tag ta" style="font-size:9px;margin-top:4px">IQR outlier — down-weighted</span>':''}</div><div style="text-align:right"><div class="d-est" style="color:${col}">${pct}%</div><div class="d-weight">weight ${r.weight.toFixed(2)}</div></div></div><div class="d-bar"><div class="d-bar-fill" style="width:${pct}%;background:${col}"></div></div><div class="d-reasoning">${r.reasoning}</div>${factors}${r.upside?`<div style="margin-top:8px;font-size:12px;color:var(--green)">▲ ${r.upside}</div>`:''}${r.downside?`<div style="font-size:12px;color:var(--red)">▼ ${r.downside}</div>`:''}</div>`;
+}).join(’’);
+const cpct=Math.round(consensus.value*100),col=cpct>=70?‘var(–green)’:cpct>=40?‘var(–amber)’:‘var(–red)’;
+document.getElementById(‘consensus-pct’).textContent=cpct+’%’;document.getElementById(‘consensus-pct’).style.color=col;
+setTimeout(()=>{document.getElementById(‘consensus-bar’).style.width=cpct+’%’;document.getElementById(‘consensus-bar’).style.background=col;},100);
+const interps=[‘Low probability — unlikely under current conditions.’,‘Slight lean negative — more experts see this as unlikely.’,‘Slight lean positive — more upside than downside but genuinely uncertain.’,‘Moderately high — most experts lean positive with meaningful uncertainty.’,‘Strong consensus — high probability, panel broadly agrees this is likely.’];
+document.getElementById(‘consensus-interp’).textContent=interps[Math.min(4,Math.floor(cpct/20))];
+const ests=responses.map(r=>r.estimate*100),mean=(ests.reduce((a,b)=>a+b,0)/ests.length).toFixed(1),sorted=[…ests].sort((a,b)=>a-b),median=(sorted.length%2===0?((sorted[sorted.length/2-1]+sorted[sorted.length/2])/2):sorted[Math.floor(sorted.length/2)]).toFixed(1),spread=(Math.max(…ests)-Math.min(…ests)).toFixed(1),w=consensus.kendallW.toFixed(2),agreement=consensus.kendallW>0.7?‘Strong’:consensus.kendallW>0.4?‘Moderate’:‘Weak’;
+document.getElementById(‘delphi-stats’).innerHTML=`Mean: ${mean}% · Median: ${median}% · Spread: ${spread}%<br>Kendall's W: ${w} (${agreement} agreement)<br>Experts: ${responses.length} · Outliers down-weighted: ${responses.filter(r=>r.outlier).length}`;
+document.getElementById(‘delphi-r2-btn’).style.display=round===1?’’:‘none’;DS.responses=responses;DS.lastConsensus=consensus;renderBrierHistory();
+}
+
+async function runDelphiRound2(){
+const btn=document.getElementById(‘delphi-r2-btn’);btn.disabled=true;btn.innerHTML=’<div class="dots" style="display:inline-flex"><span></span><span></span><span></span></div>’;
+const r1Summary=DS.r1responses.map(r=>`${r.expert}: ${Math.round(r.estimate*100)}% — "${r.reasoning}"`).join(’\n’);
+const r1Consensus=Math.round(DS.lastConsensus.value*100);
+const responses=[];
+for(let i=0;i<DS.experts.length;i++){
+const expert=DS.experts[i],r1=DS.r1responses[i];
+try{
+const raw=await claude(`You are a senior ${expert}. Round 2 Delphi panel — you have seen Round 1 results. Revise your estimate or hold firm.\n\nReturn ONLY valid JSON:\n{"estimate":0.65,"confidence":0.85,"competence":0.75,"reasoning":"2-3 sentences explaining Round 2 position","revised":true}`,`Question: ${DS.question}\n\nRound 1 results:\n${r1Summary}\n\nRound 1 consensus: ${r1Consensus}%\n\nYour Round 1 estimate was: ${Math.round(r1.estimate*100)}%`,500);
+const data=extractJSON(raw);
+responses.push({expert,estimate:Math.min(1,Math.max(0,Number(data.estimate)||r1.estimate)),confidence:Math.min(1,Math.max(0,Number(data.confidence)||r1.confidence)),competence:Math.min(1,Math.max(0,Number(data.competence)||r1.competence)),reasoning:data.reasoning||’’,revised:!!data.revised,r1estimate:r1.estimate,keyFactors:r1.keyFactors,upside:r1.upside,downside:r1.downside,weight:1});
+}catch(e){responses.push({…r1,reasoning:‘Round 2 failed — holding Round 1 estimate.’,revised:false,r1estimate:r1.estimate});}
+}
+DS.round=2;DS.responses=applyIQRAndWeights(responses);const consensus=computeConsensus(DS.responses);DS.lastConsensus=consensus;
+btn.disabled=false;btn.textContent=‘Round 2 ↻’;renderDelphiResults(DS.responses,consensus,2);
+}
+
+function recordOutcome(){
+const outcome=prompt(‘What was the actual outcome?\n\n1.0 = event definitely happened\n0.0 = event definitely did not happen\n0.5 = ambiguous’);
+if(outcome===null)return;const y=parseFloat(outcome);
+if(isNaN(y)||y<0||y>1){toast(‘Enter a number between 0 and 1’,‘warn’);return;}
+const p=DS.lastConsensus.value,brierScore=Math.pow(p-y,2);
+const record={question:DS.question.slice(0,80)+(DS.question.length>80?’…’:’’),consensus:Math.round(p*100),outcome:Math.round(y*100),brier:brierScore.toFixed(3),date:new Date().toLocaleDateString(‘en-GB’,{day:‘numeric’,month:‘short’,year:‘numeric’})};
+const history=JSON.parse(localStorage.getItem(‘delphi-history’)||’[]’);history.unshift(record);localStorage.setItem(‘delphi-history’,JSON.stringify(history.slice(0,20)));
+renderBrierHistory();toast(’Outcome recorded · Brier: ’+brierScore.toFixed(3),‘ok’);
+}
+
+function renderBrierHistory(){
+const history=JSON.parse(localStorage.getItem(‘delphi-history’)||’[]’);
+const el=document.getElementById(‘brier-history’);
+if(!history.length){el.innerHTML=‘No outcomes recorded yet. After an event resolves, tap <strong>Record Outcome</strong> to track calibration. Lower Brier scores = better (0 = perfect).’;return;}
+const avgBrier=(history.reduce((s,h)=>s+parseFloat(h.brier),0)/history.length).toFixed(3);
+const calibLabel=avgBrier<0.1?‘Excellent’:avgBrier<0.2?‘Good’:‘Needs improvement’;
+el.innerHTML=`<div style="margin-bottom:10px">Avg Brier score: <strong style="color:var(--cyan)">${avgBrier}</strong> — ${calibLabel}</div>`+history.slice(0,5).map(h=>`<div style="padding:6px 0;border-bottom:0.5px solid var(--b1);font-size:12px"><div style="font-weight:500;margin-bottom:2px">${h.question}</div><div style="color:var(--t3)">Forecast: ${h.consensus}% · Actual: ${h.outcome}% · Brier: ${h.brier} · ${h.date}</div></div>`).join(’’);
+}
+
+function addToReport_delphi(){
+if(!DS.lastConsensus){toast(‘Run a Delphi round first’,‘warn’);return;}
+const cpct=Math.round(DS.lastConsensus.value*100);
+S.rQ.push({title:’Delphi Forecast: ’+DS.question.slice(0,60),body:`Consensus (${DS.experts.length} experts, Crawford-Williams): ${cpct}% probability\n\nQuestion: ${DS.question}\n\nReasoning:\n${DS.responses.slice(0,3).map(r=>r.expert+': '+r.reasoning).join('\n')}`});
+toast(‘Delphi forecast added to report queue’,‘ok’);
+}
+
+function resetDelphi(){DS.question=’’;DS.responses=[];DS.r1responses=[];DS.lastConsensus=null;DS.round=1;document.getElementById(‘delphi-setup’).style.display=’’;document.getElementById(‘delphi-results’).style.display=‘none’;document.getElementById(‘delphi-q’).value=’’;document.getElementById(‘delphi-ctx’).value=’’;}
+
+// ── BEHAVIORAL INSIGHT CARD ────────────────────────────────────────────────────
+function renderBehaviorInsightCard(){
+const el=document.getElementById(‘home-insights’);
+if(!el||!BS.events.length)return;
+const bScore=(BS.mapM*BS.mapA*BS.mapP);
+const convProb=Math.round(Math.min(0.99,bScore*2.8+(BS.totalFI/10)*0.3)*100);
+const topLayer=BS.events.reduce((acc,ev)=>{acc[ev.layer]=(acc[ev.layer]||0)+1;return acc;},{});
+const dominantLayer=Object.entries(topLayer).sort((a,b)=>b[1]-a[1])[0];
+const ventureEvents=BS.events.filter(e=>e.layer===‘VentureSignal’);
+const conversionEvents=BS.events.filter(e=>e.layer===‘Conversion’);
+let signal=’’;
+if(conversionEvents.length>0) signal=’<span class="tag tg">’+conversionEvents.length+’ conversion event’+(conversionEvents.length>1?‘s’:’’)+’</span>’;
+else if(bScore>0.3) signal=’<span class="tag tgo">High intent signal</span>’;
+else signal=’<span class="tag tc">Signals active</span>’;
+const card=`<div class="insight" style="border-left-color:var(--purple);margin-bottom:12px;animation-delay:0s">
+<div class="i-type" style="color:var(--purple)">◈ CONSULTING SIGNAL SENSOR</div>
+<div class="i-title">Behavioral Intelligence Active — ${BS.events.length} signal${BS.events.length!==1?‘s’:’’} logged</div>
+<div class="i-body">
+Conversion probability: <strong style="color:var(--cyan)">${convProb}%</strong> ·
+Fisher Information: <strong style="color:var(--purple)">${BS.totalFI.toFixed(2)}/10</strong> ·
+Dominant layer: <strong>${dominantLayer?dominantLayer[0]:’—’}</strong>
+${ventureEvents.length?’<br>Active ventures: ‘+[…new Set(ventureEvents.map(e=>e.id.split(’_’)[0]))].join(’, ‘):’’}
+</div>
+<div class="i-foot">${signal}<span class="i-src">Go to Signals tab to log more events</span></div>
+
+  </div>`;
+  el.innerHTML=card+el.innerHTML;
+}
+
+// ── INIT ───────────────────────────────────────────────────────────────────
+renderRWWeights();
+initDelphi();
+checkApiKeyOnLoad();
+window.addEventListener(‘load’,()=>{
+const isStandalone=window.navigator.standalone||window.matchMedia(’(display-mode: standalone)’).matches;
+if(!isStandalone&&!localStorage.getItem(‘ios-ib’))document.getElementById(‘install-card’).style.display=’’;
+});
+toast(‘SCENTS ready — tap + to add files’,‘info’);
 </script>
 
 </body>
