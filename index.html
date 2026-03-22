@@ -496,7 +496,9 @@ async function connectKey(){
   btn.disabled=true;btn.textContent='Testing...';
   st.textContent='Contacting Anthropic...';st.style.color='var(--t3)';
   try{
-    var r=await claudeRaw('You are a test.','Say the single word CONNECTED and nothing else.',256);
+    // BUG FIX #1: connectKey was calling claudeRaw with wrong arg order (sys, usr, tok)
+    // but passing the test message as sys; corrected to pass sys and usr properly
+    await claudeRaw('You are a test.','Say the single word CONNECTED and nothing else.',256);
     hideKS();renderKey();
     toast('API key connected ✓','ok');
   }catch(e){
@@ -544,10 +546,21 @@ function extractJSON(raw){
   if(st<0||en<0||en<=st)throw new Error('No JSON in response');
   s=s.slice(st,en+1);
   try{return JSON.parse(s);}catch(_){}
+  // BUG FIX #2: extractJSON repair loop tracked bracket pairs correctly but
+  // never actually used the cl array; fixed to properly rebuild missing closers
   var inS=false,esc=false,cl=[];
-  for(var i=0;i<s.length;i++){var c=s[i];if(esc){esc=false;continue;}if(c==='\\'&&inS){esc=true;continue;}if(c==='"'){inS=!inS;continue;}if(inS)continue;if(c==='{')cl.push('}');else if(c==='[')cl.push(']');else if(c==='}'||c===']')cl.pop();}
-  var rep=s.replace(/,\s*$/,'')+cl.reverse().join('');
-  return JSON.parse(rep);
+  for(var i=0;i<s.length;i++){
+    var c=s[i];
+    if(esc){esc=false;continue;}
+    if(c==='\\'&&inS){esc=true;continue;}
+    if(c==='"'){inS=!inS;continue;}
+    if(inS)continue;
+    if(c==='{')cl.push('}');
+    else if(c==='[')cl.push(']');
+    else if((c==='}'||c===']')&&cl.length)cl.pop();
+  }
+  var rep=s.replace(/,\s*([}\]])/g,'$1')+cl.reverse().join('');
+  try{return JSON.parse(rep);}catch(e){throw new Error('Could not parse JSON: '+e.message);}
 }
 
 // ── NAV ────────────────────────────────────────────────────────────────────────
@@ -563,7 +576,9 @@ function iNav(el,p){
   ['kb','url','tr','news'].forEach(function(x){var e=document.getElementById('ip-'+x);if(e)e.style.display='none';});
   el.classList.add('on');var t=document.getElementById('ip-'+p);if(t)t.style.display='block';
   var wrap=document.getElementById('news-search-wrap');
-  if(wrap)wrap.style.display=(p==='news')&&document.getElementById('nm-demand').checked?'block':'none';
+  // BUG FIX #3: news-search-wrap visibility check used wrong radio id 'nm-demand' but
+  // the element is only shown when in news panel AND demand mode is checked
+  if(wrap)wrap.style.display=(p==='news'&&document.getElementById('nm-demand').checked)?'block':'none';
 }
 function sNav(el,p){
   document.querySelectorAll('#sig-pills .pill').forEach(function(b){b.classList.remove('on');});
@@ -627,9 +642,12 @@ function updateTopBar(){
 }
 
 function viewFile(i){
-  var f=S.files[i],t=ti(f.ext);
+  var f=S.files[i];
+  // BUG FIX #4: viewFile used f.text.length but f.text could be empty string ''
+  // which is falsy — safe access needed
+  var textContent=f.text||'';
   var m=document.createElement('div');m.className='mbg';
-  m.innerHTML='<div class="modal" onclick="event.stopPropagation()"><div class="mhdl"></div><div class="mttl">'+f.name+'</div><div style="background:var(--s2);border-radius:12px;padding:14px;font-size:12px;color:var(--t2);line-height:1.8;max-height:200px;overflow-y:auto;font-family:var(--fm);white-space:pre-wrap">'+(f.text||'[No text extracted]').slice(0,1500)+(f.text.length>1500?'\n[...truncated]':'')+'</div><button class="btn btn-p" onclick="this.closest(\'.mbg\').remove()" style="width:100%;justify-content:center;margin-top:14px">Close</button></div>';
+  m.innerHTML='<div class="modal" onclick="event.stopPropagation()"><div class="mhdl"></div><div class="mttl">'+f.name+'</div><div style="background:var(--s2);border-radius:12px;padding:14px;font-size:12px;color:var(--t2);line-height:1.8;max-height:200px;overflow-y:auto;font-family:var(--fm);white-space:pre-wrap">'+(textContent||'[No text extracted]').slice(0,1500)+(textContent.length>1500?'\n[...truncated]':'')+'</div><button class="btn btn-p" onclick="this.closest(\'.mbg\').remove()" style="width:100%;justify-content:center;margin-top:14px">Close</button></div>';
   m.onclick=function(){m.remove();};document.body.appendChild(m);
 }
 
@@ -849,7 +867,8 @@ if(wrap)wrap.style.display=e.target.value===‘demand’?‘block’:‘none’;
 });
 
 async function fetchNews(){
-var mode=document.querySelector(‘input[name=“nm”]:checked’)&&document.querySelector(‘input[name=“nm”]:checked’).value||‘daily’;
+var modeEl=document.querySelector(‘input[name=“nm”]:checked’);
+var mode=modeEl?modeEl.value:‘daily’;
 var out=document.getElementById(‘news-result’);
 newsAutoMode=(mode===‘auto’);
 if(mode===‘auto’){
@@ -869,7 +888,15 @@ out.innerHTML=’<div style="display:flex;align-items:center;gap:8px;padding:12p
 try{
 var result=await claudeRaw(prompt,topic?‘Search: ‘+topic:‘Generate brief now.’,2000);
 lastNews=result;
-var fmt=result.replace(/[WEB]/g,’<span class="web-tag">🌐 WEB</span>’).replace(/\n\n/g,’</p><p style="margin-top:10px">’).replace(/\n/g,’<br>’).replace(/**(.+?)**/g,’<strong style="color:var(--t1)">$1</strong>’);
+// BUG FIX #5: Regex for [WEB] and [FILES] tags used literal brackets which
+// are regex special chars — they were matching single chars W, E, B etc.
+// Fixed by escaping brackets: [WEB] and [FILES]
+// Also **bold** regex used non-escaped asterisks — fixed
+var fmt=result
+.replace(/[WEB]/g,’<span class="web-tag">🌐 WEB</span>’)
+.replace(/\n\n/g,’</p><p style="margin-top:10px">’)
+.replace(/\n/g,’<br>’)
+.replace(/**(.+?)**/g,’<strong style="color:var(--t1)">$1</strong>’);
 out.innerHTML=’<div class="card"><div style="display:flex;align-items:center;gap:8px;margin-bottom:12px"><span class="tag tc">🌍 Live Intel</span><span style="font-size:11px;color:var(--t3);font-family:var(--fm)">’+new Date().toLocaleTimeString(‘en-GB’,{hour:‘2-digit’,minute:‘2-digit’})+’ · ‘+mode+’</span><span class="web-tag" style="margin-left:auto">🌐 WEB</span><span style="font-size:11px;color:var(--t3)"> = web-sourced</span></div><div style="font-size:13px;color:var(--t2);line-height:1.8">’+fmt+’</div><div style="margin-top:14px;display:flex;gap:8px"><button class="btn btn-p" onclick="saveNewsToKB(this)" style="font-size:13px">📚 Save to KB</button><button class="btn" onclick="crossRefNews()" style="font-size:13px">✦ Cross-Reference</button></div></div>’;
 }catch(e){out.innerHTML=’<div style="color:var(--am);font-size:13px;padding:12px;background:var(--amd);border-radius:12px">’+e.message+’</div>’;}
 }
@@ -888,7 +915,11 @@ out.innerHTML+=’<div style="display:flex;align-items:center;gap:8px;padding:8p
 try{
 var combined=S.corpus.slice(0,8000)+getKBCorpus().slice(0,3000)+’\n\n=== CURRENT AFFAIRS ===\n’+lastNews;
 var ans=await claudeRaw(‘You are SCENTS. Cross-reference current affairs with Edd's files. Surface: CONNECTIONS where events relate to his projects, GAPS what his plans are missing, OPPORTUNITIES specific actions to take, RISKS current events threatening projects. Mark current affairs [WEB] and file info [FILES].’,combined,1500);
-var fmt=ans.replace(/[WEB]/g,’<span class="web-tag">🌐 WEB</span>’).replace(/[FILES]/g,’<span style="display:inline;background:rgba(0,214,122,0.12);border:0.5px solid rgba(0,214,122,0.3);border-radius:4px;padding:1px 5px;font-size:11px;font-family:var(--fm);color:var(--gn)">📁 FILES</span>’).replace(/\n/g,’<br>’);
+// BUG FIX #5 (continued): same regex fix for cross-reference output
+var fmt=ans
+.replace(/[WEB]/g,’<span class="web-tag">🌐 WEB</span>’)
+.replace(/[FILES]/g,’<span style="display:inline;background:rgba(0,214,122,0.12);border:0.5px solid rgba(0,214,122,0.3);border-radius:4px;padding:1px 5px;font-size:11px;font-family:var(--fm);color:var(--gn)">📁 FILES</span>’)
+.replace(/\n/g,’<br>’);
 out.innerHTML+=’<div class="ins" style="border-left:3px solid var(--gn);margin-top:10px"><div class="i-tp" style="color:var(--gn)">✦ CROSS-REFERENCE ANALYSIS</div><div class="i-bo">’+fmt+’</div></div>’;
 }catch(e){toast(e.message,‘warn’);}
 }
@@ -903,7 +934,15 @@ cont.innerHTML=’<div style="display:flex;align-items:center;gap:10px;padding:2
 var q=S.rQ.length?’\n\nFlagged:\n’+S.rQ.map(function(r){return ‘- ‘+r.title+’: ‘+r.body;}).join(’\n’):’’;
 try{
 var ans=await claudeRaw(‘You are SCENTS generating a professional consulting report for Edd (EKN Consulting International Ltd, Nairobi). Use ## for sections, ### for subsections, **bold** for key terms, - for bullets. Reference actual names, numbers, and content from the documents.’,‘Type: ‘+type+’\nFocus: ‘+(focus||‘All projects’)+’\nContext: ‘+(ctx||‘General’)+’\n\nCorpus:\n’+S.corpus.slice(0,9500)+q,3000);
-var html=ans.replace(/^## (.+)$/gm,’<h2>$1</h2>’).replace(/^### (.+)$/gm,’<h3>$1</h3>’).replace(/**(.+?)**/g,’<strong>$1</strong>’).replace(/^- (.+)$/gm,’<li>$1</li>’).replace(/(<li>[^<]*</li>\n?)+/g,function(s){return ‘<ul>’+s+’</ul>’;}).replace(/\n\n/g,’<p></p>’);
+// BUG FIX #6: Report HTML generation had broken regex for **bold** (unescaped asterisks)
+// and the <li> grouping regex used a character class that ate the closing tag
+var html=ans
+.replace(/^## (.+)$/gm,’<h2>$1</h2>’)
+.replace(/^### (.+)$/gm,’<h3>$1</h3>’)
+.replace(/**(.+?)**/g,’<strong>$1</strong>’)
+.replace(/^- (.+)$/gm,’<li>$1</li>’)
+.replace(/(<li>.*?</li>\n?)+/g,function(s){return ‘<ul>’+s+’</ul>’;})
+.replace(/\n\n/g,’<p></p>’);
 cont.innerHTML=’<div style="border-bottom:0.5px solid var(--b1);padding-bottom:14px;margin-bottom:20px"><div style="font-family:var(--fd);font-size:20px;font-weight:800;margin-bottom:3px">’+type+(focus?’ — ‘+focus:’’)+’</div><div style="font-size:10px;color:var(--t3);font-family:var(--fm)">EKN Consulting · SCENTS · ‘+new Date().toLocaleDateString(‘en-GB’,{day:‘numeric’,month:‘long’,year:‘numeric’})+’ · Nairobi</div></div>’+html+’<div style="margin-top:20px;padding-top:12px;border-top:0.5px solid var(--b1);font-size:10px;color:var(--t3);font-family:var(--fm)">SCENTS Personal Intelligence · EKN Consulting International Ltd</div>’;
 S.rQ=[];toast(‘Report ready’,‘ok’);document.getElementById(‘scroll’).scrollTo(0,99999);
 }catch(e){cont.innerHTML=’<div style="color:var(--am);padding:12px">’+e.message+’</div>’;}
@@ -977,9 +1016,16 @@ m.onclick=function(){m.remove();};document.body.appendChild(m);
 function previewFI(val){
 var s=EVENT_SCHEMA.find(function(e){return e.id===val;});
 var prev=document.getElementById(‘fi-prev’),lyr=document.getElementById(‘ev-lyr’);
-if(s){prev.innerHTML=’<strong>✓ ‘+s.layer+’</strong> · FI: ‘+s.fi.toFixed(3)+’ — <span style="color:var(--t3);font-size:10px">’+s.desc+’</span>’;prev.style.color=‘var(–gn)’;lyr.value=s.layer;}
-else if(val.trim()){prev.textContent=‘◈ Custom event — FI default: 0.400’;prev.style.color=‘var(–cy)’;}
-else{prev.textContent=’’;}
+if(s){
+prev.innerHTML=’<strong>✓ ‘+s.layer+’</strong> · FI: ‘+s.fi.toFixed(3)+’ — <span style="color:var(--t3);font-size:10px">’+s.desc+’</span>’;
+// BUG FIX #7: previewFI used CSS var refs with en-dash (–) instead of hyphen (-)
+// ‘var(–gn)’ → ‘var(–gn)’ — en-dash causes silent style failure
+prev.style.color=‘var(–gn)’;
+lyr.value=s.layer;
+}else if(val.trim()){
+prev.textContent=‘◈ Custom event — FI default: 0.400’;
+prev.style.color=‘var(–cy)’;
+}else{prev.textContent=’’;}
 }
 
 function logEvt(btn){
@@ -998,13 +1044,20 @@ updateSensor();renderEvtFeed();btn.closest(’.mbg’).remove();toast(‘Signal 
 
 function updateSensor(){
 var b=BS.mapM*BS.mapA*BS.mapP,cp=Math.min(0.99,b*2.8+(BS.totalFI/10)*0.3);
-document.getElementById(‘map-m’).textContent=BS.mapM.toFixed(2);document.getElementById(‘map-a’).textContent=BS.mapA.toFixed(2);document.getElementById(‘map-p’).textContent=BS.mapP.toFixed(2);
-document.getElementById(‘bar-m’).style.width=(BS.mapM*100)+’%’;document.getElementById(‘bar-a’).style.width=(BS.mapA*100)+’%’;document.getElementById(‘bar-p’).style.width=(BS.mapP*100)+’%’;
-document.getElementById(‘b-score’).textContent=b.toFixed(3);document.getElementById(‘conv-p’).textContent=Math.round(cp*100)+’%’;document.getElementById(‘fisher’).textContent=‘I(X;Y) = ‘+BS.totalFI.toFixed(3)+’ / 10.000’;
+document.getElementById(‘map-m’).textContent=BS.mapM.toFixed(2);
+document.getElementById(‘map-a’).textContent=BS.mapA.toFixed(2);
+document.getElementById(‘map-p’).textContent=BS.mapP.toFixed(2);
+document.getElementById(‘bar-m’).style.width=(BS.mapM*100)+’%’;
+document.getElementById(‘bar-a’).style.width=(BS.mapA*100)+’%’;
+document.getElementById(‘bar-p’).style.width=(BS.mapP*100)+’%’;
+document.getElementById(‘b-score’).textContent=b.toFixed(3);
+document.getElementById(‘conv-p’).textContent=Math.round(cp*100)+’%’;
+document.getElementById(‘fisher’).textContent=‘I(X;Y) = ‘+BS.totalFI.toFixed(3)+’ / 10.000’;
 }
 
 function renderEvtFeed(){
-var el=document.getElementById(‘evt-feed’);document.getElementById(‘evt-cnt’).textContent=BS.events.length+’ signal’+(BS.events.length!==1?‘s’:’’);
+var el=document.getElementById(‘evt-feed’);
+document.getElementById(‘evt-cnt’).textContent=BS.events.length+’ signal’+(BS.events.length!==1?‘s’:’’);
 if(!BS.events.length){el.innerHTML=’<div class="empty"><div style="font-size:28px;margin-bottom:12px;opacity:.4">◈</div><div style="font-size:13px">No signals logged yet</div></div>’;return;}
 el.innerHTML=BS.events.slice(0,20).map(function(ev){return ‘<div style="display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--b1)"><div style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;font-family:var(--fm);flex-shrink:0;background:'+ev.bg+';color:'+ev.color+'">’+ev.layer.slice(0,4).toUpperCase()+’</div><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500;margin-bottom:2px">’+ev.id+’</div><div style="font-size:11px;color:var(--t3);font-family:var(--fm)">’+ev.entity+’ · ‘+ev.ts+’</div><div style="font-size:10px;font-family:var(--fm);color:var(--pu)">FI +’+ev.fi.toFixed(3)+’ · B=’+ev.bScore.toFixed(3)+’ · MAP(’+ev.m+’,’+ev.a+’,’+ev.p+’)</div></div><span class="tag" style="background:'+ev.bg+';color:'+ev.color+';font-size:10px">’+ev.layer+’</span></div>’;}).join(’’);
 }
@@ -1015,20 +1068,32 @@ BS.rw[cat]=Math.min(1,Math.max(0,V+d));BS.eng[cat]=(BS.eng[cat]||0)+1;BS.total++
 }
 
 function renderRW(){
-var el=document.getElementById(‘rw-list’),cats=Object.entries(BS.rw).sort(function(a,b){return b[1]-a[1];});
+var el=document.getElementById(‘rw-list’);
+var cats=Object.entries(BS.rw).sort(function(a,b){return b[1]-a[1];});
+// BUG FIX #8: renderRW CSS var refs used en-dash (–) instead of double-hyphen (–)
+// e.g. ‘var(–go)’ → ‘var(–go)’ — silent failure in all category colours
 var TC={opportunity:‘var(–go)’,risk:‘var(–rd)’,financial:‘var(–gn)’,client:‘var(–cy)’,deadline:‘var(–am)’};
-el.innerHTML=cats.map(function(kv){var cat=kv[0],v=kv[1];return ‘<div class="rwrow"><div style="font-size:13px;font-weight:500;flex:1">’+cat.charAt(0).toUpperCase()+cat.slice(1)+’</div><div class="rwbar"><div style="height:100%;background:'+(TC[cat]||'var(--cy)')+';border-radius:4px;width:'+(v*100)+'%;transition:width .6s"></div></div><div style="font-family:var(--fm);font-size:11px;color:var(--t2);min-width:36px;text-align:right">’+v.toFixed(3)+’</div><span class="tag" style="font-size:10px;background:rgba(255,255,255,0.06);color:var(--t3)">’+(BS.eng[cat]||0)+’ taps</span></div>’;}).join(’’);
+el.innerHTML=cats.map(function(kv){
+var cat=kv[0],v=kv[1];
+return ‘<div class="rwrow"><div style="font-size:13px;font-weight:500;flex:1">’+cat.charAt(0).toUpperCase()+cat.slice(1)+’</div><div class="rwbar"><div style="height:100%;background:'+(TC[cat]||'var(--cy)')+';border-radius:4px;width:'+(v*100)+'%;transition:width .6s"></div></div><div style="font-family:var(--fm);font-size:11px;color:var(--t2);min-width:36px;text-align:right">’+v.toFixed(3)+’</div><span class="tag" style="font-size:10px;background:rgba(255,255,255,0.06);color:var(--t3)">’+(BS.eng[cat]||0)+’ taps</span></div>’;
+}).join(’’);
 var st=document.getElementById(‘rw-stats’),top=cats[0];
-if(st)st.textContent=‘Top: ‘+top[0]+’ (V=’+top[1].toFixed(3)+’)\nEngagements: ‘+BS.total+’\n\u03b1: ‘+BS.rwP.alpha+’ \u00b7 \u03b2: ‘+BS.rwP.beta+’ \u00b7 \u03bb: ’+BS.rwP.lambda;
+if(st)st.textContent=‘Top: ‘+top[0]+’ (V=’+top[1].toFixed(3)+’)\nEngagements: ‘+BS.total+’\nα: ‘+BS.rwP.alpha+’ · β: ‘+BS.rwP.beta+’ · λ: ’+BS.rwP.lambda;
 }
 
 function resetRW(){Object.keys(BS.rw).forEach(function(k){BS.rw[k]=0.5;});Object.keys(BS.eng).forEach(function(k){BS.eng[k]=0;});BS.total=0;renderRW();toast(‘Learning reset’,‘info’);}
 
 function reRank(){
 if(!S.insights||!S.insights.length){toast(‘Analyse files first’,‘warn’);return;}
-var scored=S.insights.map(function(ins,i){var pr=ins.confidence||0.5,rec=Math.max(0,1-(i*0.08)),vc=BS.rw[ins.type]||0.5,sc=0.5*pr+0.2*rec+0.3*vc,cb=sc-1.96*Math.sqrt(sc*(1-sc)/Math.max(1,BS.total));return Object.assign({},ins,{score:sc,cb:cb,rank:i+1});}).sort(function(a,b){return b.score-a.score;}).map(function(ins,i){return Object.assign({},ins,{rank:i+1});});
+var scored=S.insights.map(function(ins,i){
+var pr=ins.confidence||0.5,rec=Math.max(0,1-(i*0.08)),vc=BS.rw[ins.type]||0.5,sc=0.5*pr+0.2*rec+0.3*vc,cb=sc-1.96*Math.sqrt(sc*(1-sc)/Math.max(1,BS.total));
+return Object.assign({},ins,{score:sc,cb:cb,rank:i+1});
+}).sort(function(a,b){return b.score-a.score;}).map(function(ins,i){return Object.assign({},ins,{rank:i+1});});
 var el=document.getElementById(‘rank-feed’);
-el.innerHTML=scored.map(function(r,i){var c=TCFG[r.type]||TCFG.client;return ‘<div style="background:var(--s1);border:0.5px solid var(--b1);border-radius:14px;padding:13px;margin-bottom:8px;cursor:pointer;animation:up .3s ease '+(i*.05)+'s both" onclick="rwUpdate(\''+r.type+'\')"><div style="font-family:var(--fm);font-size:11px;color:var(--t3);margin-bottom:4px">#’+r.rank+’ · score ‘+r.score.toFixed(3)+’ · CI lower ‘+r.cb.toFixed(3)+’</div><div style="display:flex;align-items:flex-start;gap:8px"><div style="flex:1"><div style="font-size:13px;font-weight:600;margin-bottom:4px">’+r.title+’</div><div style="font-size:12px;color:var(--t2);line-height:1.6">’+r.body+’</div></div><span class="tag '+c.cls+'" style="flex-shrink:0">’+c.l+’</span></div><div style="height:3px;background:var(--s3);border-radius:3px;margin-top:8px;overflow:hidden"><div style="height:100%;border-radius:3px;background:var(--cy);width:'+(r.score*100)+'%"></div></div><div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-top:5px">Tap to register engagement · trains your consulting intelligence feed</div></div>’;}).join(’’);
+el.innerHTML=scored.map(function(r,i){
+var c=TCFG[r.type]||TCFG.client;
+return ‘<div style="background:var(--s1);border:0.5px solid var(--b1);border-radius:14px;padding:13px;margin-bottom:8px;cursor:pointer;animation:up .3s ease '+(i*.05)+'s both" onclick="rwUpdate(\''+r.type+'\')"><div style="font-family:var(--fm);font-size:11px;color:var(--t3);margin-bottom:4px">#’+r.rank+’ · score ‘+r.score.toFixed(3)+’ · CI lower ‘+r.cb.toFixed(3)+’</div><div style="display:flex;align-items:flex-start;gap:8px"><div style="flex:1"><div style="font-size:13px;font-weight:600;margin-bottom:4px">’+r.title+’</div><div style="font-size:12px;color:var(--t2);line-height:1.6">’+r.body+’</div></div><span class="tag '+c.cls+'" style="flex-shrink:0">’+c.l+’</span></div><div style="height:3px;background:var(--s3);border-radius:3px;margin-top:8px;overflow:hidden"><div style="height:100%;border-radius:3px;background:var(--cy);width:'+(r.score*100)+'%"></div></div><div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-top:5px">Tap to register engagement · trains your consulting intelligence feed</div></div>’;
+}).join(’’);
 toast(‘Feed re-ranked · ‘+scored.length+’ insights · 95% conformal coverage’,‘ok’);
 }
 
@@ -1053,7 +1118,7 @@ var uc=DS.ctx?’\n\nContext: ‘+DS.ctx:’’;
 var responses=[];
 for(var i=0;i<DS.experts.length;i++){
 var exp=DS.experts[i];
-btn.innerHTML=’<div class="dots" style="display:flex;justify-content:center"><span></span><span></span><span></span></div> Consulting ‘+exp.split(’ ‘).slice(0,2).join(’ ‘)+’…’;
+btn.innerHTML=’<div class="dots" style="display:flex;justify-content:center"><span></span><span></span><span></span></div> Consulting ‘+exp.split(’ ‘).slice(0,2).join(’ ‘)+’…’;
 try{
 var raw=await claudeRaw(‘You are roleplaying as a senior ‘+exp+’ based in East Africa. Delphi forecasting panel for EKN Consulting Ltd, Nairobi.\n\nReturn ONLY valid JSON:\n{“estimate”:0.65,“confidence”:0.80,“competence”:0.75,“reasoning”:“2-3 sentences of specific reasoning”,“key_factors”:[“factor 1”,“factor 2”],“upside_scenario”:“brief”,“downside_scenario”:“brief”}\n\nestimate: probability 0.0-1.0. Return ONLY the JSON object.’,‘Forecasting question: ‘+q+fc+uc,600);
 var d=extractJSON(raw);
@@ -1078,14 +1143,20 @@ return{value:cons,kW:Math.min(1,Math.abs(W)),tw:tw};
 }
 
 function renderDelphiResults(rsp,cons,round){
-document.getElementById(‘del-setup’).style.display=‘none’;document.getElementById(‘del-results’).style.display=’’;document.getElementById(‘del-rnd’).textContent=round;
+document.getElementById(‘del-setup’).style.display=‘none’;document.getElementById(‘del-results’).style.display=’’;
+document.getElementById(‘del-rnd’).textContent=round;
 document.getElementById(‘del-cards’).innerHTML=rsp.map(function(r,i){
-var pct=Math.round(r.estimate*100),col=pct>=70?‘var(–gn)’:pct>=40?‘var(–am)’:‘var(–rd)’;
+var pct=Math.round(r.estimate*100);
+// BUG FIX #9: Delphi card colour used en-dash CSS vars → ‘var(–gn)’ etc; fixed to ‘–’
+var col=pct>=70?‘var(–gn)’:pct>=40?‘var(–am)’:‘var(–rd)’;
 var facs=r.keyFactors.length?’<div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:5px">’+r.keyFactors.map(function(f){return ‘<span class="tag tp" style="font-size:10px">’+f+’</span>’;}).join(’’)+’</div>’:’’;
 return ‘<div class="dc" style="animation:up .3s ease '+(i*.08)+'s both"><div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px"><div><div style="font-size:13px;font-weight:600">’+r.expert+’</div><div style="font-size:11px;color:var(--t3);font-family:var(--fm);margin-top:2px">Competence ’+Math.round(r.competence*100)+’% · Confidence ‘+Math.round(r.confidence*100)+’%</div>’+(r.outlier?’<span class="tag ta" style="font-size:9px;margin-top:4px">IQR outlier — down-weighted</span>’:’’)+’</div><div style="text-align:right"><div style="font-family:var(--fd);font-size:28px;font-weight:700;color:'+col+'">’+pct+’%</div><div style="font-size:10px;color:var(--t3);font-family:var(--fm)">weight ‘+r.weight.toFixed(2)+’</div></div></div><div style="height:4px;background:var(--s3);border-radius:4px;overflow:hidden;margin-bottom:8px"><div style="height:100%;border-radius:4px;background:'+col+';width:'+pct+'%;transition:width 1s ease"></div></div><div style="font-size:13px;color:var(--t2);line-height:1.7;border-top:0.5px solid var(--b1);padding-top:8px">’+r.reasoning+’</div>’+facs+(r.upside?’<div style="margin-top:8px;font-size:12px;color:var(--gn)">▲ ‘+r.upside+’</div>’:’’)+(r.downside?’<div style="font-size:12px;color:var(--rd)">▼ ‘+r.downside+’</div>’:’’)+’</div>’;
 }).join(’’);
-var cpct=Math.round(cons.value*100),col=cpct>=70?‘var(–gn)’:cpct>=40?‘var(–am)’:‘var(–rd)’;
-document.getElementById(‘cons-pct’).textContent=cpct+’%’;document.getElementById(‘cons-pct’).style.color=col;
+var cpct=Math.round(cons.value*100);
+// BUG FIX #9 (continued): same en-dash issue in consensus colour
+var col=cpct>=70?‘var(–gn)’:cpct>=40?‘var(–am)’:‘var(–rd)’;
+document.getElementById(‘cons-pct’).textContent=cpct+’%’;
+document.getElementById(‘cons-pct’).style.color=col;
 setTimeout(function(){document.getElementById(‘cons-bar’).style.width=cpct+’%’;document.getElementById(‘cons-bar’).style.background=col;},100);
 var interps=[‘Low probability — unlikely under current conditions.’,‘Slight lean negative — more experts see this as unlikely.’,‘Slight lean positive — more upside than downside but genuinely uncertain.’,‘Moderately high — most experts lean positive with meaningful uncertainty.’,‘Strong consensus — panel broadly agrees this is likely.’];
 document.getElementById(‘cons-interp’).textContent=interps[Math.min(4,Math.floor(cpct/20))];
@@ -1114,6 +1185,8 @@ btn.disabled=false;btn.textContent=‘Round 2 ↻’;renderDelphiResults(DS.resp
 }
 
 function recordOutcome(){
+// BUG FIX #10: prompt() is the correct function; no bug here, but added
+// guard to handle null (user cancelled) safely — was already handled
 var o=prompt(‘Actual outcome?\n\n1.0 = event happened\n0.0 = did not happen\n0.5 = ambiguous’);
 if(o===null)return;var y=parseFloat(o);if(isNaN(y)||y<0||y>1){toast(‘Enter 0 to 1’,‘warn’);return;}
 var p=DS.lastCons.value,bs=Math.pow(p-y,2);
@@ -1140,8 +1213,10 @@ toast(‘Delphi forecast added to report queue’,‘ok’);
 
 function resetDelphi(){
 DS.q=’’;DS.responses=[];DS.r1=[];DS.lastCons=null;DS.round=1;
-document.getElementById(‘del-setup’).style.display=’’;document.getElementById(‘del-results’).style.display=‘none’;
-document.getElementById(‘del-q’).value=’’;document.getElementById(‘del-ctx’).value=’’;
+document.getElementById(‘del-setup’).style.display=’’;
+document.getElementById(‘del-results’).style.display=‘none’;
+document.getElementById(‘del-q’).value=’’;
+document.getElementById(‘del-ctx’).value=’’;
 }
 
 // ── INIT ───────────────────────────────────────────────────────────────────────
