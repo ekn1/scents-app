@@ -61,7 +61,7 @@ html,body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--ff)
 .tl{font-size:9px;}
 .tbadge{position:absolute;top:2px;right:calc(50% - 14px);width:7px;height:7px;border-radius:50%;background:var(--rd);border:1.5px solid var(--s1);}
 /* KEY SCREEN */
-.ks{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px;}
+.ks{position:fixed;inset:0;background:var(--bg);z-index:9999;display:none;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px;}
 .ks-grid{position:absolute;inset:0;background-image:linear-gradient(var(--b1) 1px,transparent 1px),linear-gradient(90deg,var(--b1) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;}
 .ks-logo{font-family:var(--fd);font-size:48px;font-weight:800;color:var(--cy);letter-spacing:.06em;margin-bottom:4px;position:relative;}
 .ks-tag{font-size:10px;font-family:var(--fm);color:var(--t3);text-transform:uppercase;letter-spacing:.12em;margin-bottom:36px;position:relative;}
@@ -468,10 +468,12 @@ select{cursor:pointer;}textarea{resize:none;}
 <script>
 // ── API KEY ────────────────────────────────────────────────────────────────────
 var KS='scents_k';
+var SKIP_KEY='scents_skip';
 function getKey(){return localStorage.getItem(KS)||'';}
-function showKS(){document.getElementById('ks').style.display='flex';document.getElementById('ks-st').textContent='';setTimeout(function(){document.getElementById('ks-inp').focus();},300);}
+function hasBrowseMode(){return localStorage.getItem(SKIP_KEY)==='1';}
+function showKS(){localStorage.removeItem(SKIP_KEY);document.getElementById('ks').style.display='flex';document.getElementById('ks-st').textContent='';setTimeout(function(){document.getElementById('ks-inp').focus();},300);}
 function hideKS(){document.getElementById('ks').style.display='none';}
-function skipKey(){hideKS();renderKey();toast('Browse mode — connect API key to activate AI','info');}
+function skipKey(){localStorage.setItem(SKIP_KEY,'1');hideKS();renderKey();toast('Browse mode — connect API key to activate AI','info');}
 
 function renderKey(){
   var k=getKey(),pill=document.getElementById('key-pill');
@@ -493,6 +495,7 @@ async function connectKey(){
   if(!v){st.textContent='Paste your API key first';st.style.color='var(--rd)';return;}
   if(!v.startsWith('sk-ant-')){st.textContent='Key must start with sk-ant-';st.style.color='var(--rd)';return;}
   localStorage.setItem(KS,v);
+  localStorage.removeItem(SKIP_KEY);
   btn.disabled=true;btn.textContent='Testing...';
   st.textContent='Contacting Anthropic...';st.style.color='var(--t3)';
   try{
@@ -512,7 +515,10 @@ async function connectKey(){
 async function claudeRaw(sys,usr,tok){
   tok=Math.min(tok||4000,8192);
   var key=getKey();
-  if(!key){showKS();throw new Error('No API key');}
+  if(!key){
+    if(!hasBrowseMode())showKS();
+    throw new Error('Connect an API key to use AI features');
+  }
   var body={model:'claude-sonnet-4-5',max_tokens:tok,messages:[{role:'user',content:usr}]};
   if(sys&&sys.trim())body.system=sys;
   var res,raw,status;
@@ -1225,9 +1231,9 @@ renderRW();
 initDelphi();
 renderKB();
 renderKey();
-// Show key screen if no key stored
+// Show key screen only if no key AND user has not chosen browse mode
 (function(){
-if(!getKey())showKS();
+if(!getKey()&&!hasBrowseMode())showKS();
 })();
 toast(‘SCENTS ready — tap + to add files’,‘info’);
 </script>
