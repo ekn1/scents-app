@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -37,22 +36,18 @@ html,body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--ff)
 .dots span{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--cy);margin:0 2px;animation:bn .75s ease infinite;}
 .dots span:nth-child(2){animation-delay:.15s}.dots span:nth-child(3){animation-delay:.3s}
 #app{display:flex;flex-direction:column;height:100vh;height:100dvh;position:relative;overflow:hidden;}
-/* TOPBAR */
 .topbar{height:52px;background:var(--s1);border-bottom:0.5px solid var(--b1);display:flex;align-items:center;padding:0 16px;gap:10px;flex-shrink:0;}
 .tb-logo{font-family:var(--fd);font-size:18px;font-weight:800;color:var(--cy);letter-spacing:.06em;}
 .tb-right{margin-left:auto;display:flex;gap:8px;align-items:center;}
 .icon-btn{height:36px;min-width:36px;border-radius:10px;border:none;background:var(--s2);color:var(--t2);font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0 10px;}
 .icon-btn:active{background:var(--s3);}
-.icon-btn.prim{background:var(--cy);color:#04080F;font-size:13px;font-weight:700;font-family:var(--fd);padding:0 14px;}
+.icon-btn.prim{background:var(--cy);border-color:var(--cy);color:#04080F;font-size:13px;font-weight:700;font-family:var(--fd);padding:0 14px;}
 .key-pill{display:flex;align-items:center;gap:6px;background:var(--s2);border:0.5px solid var(--b1);border-radius:8px;padding:5px 10px;cursor:pointer;}
 .key-pill-dot{width:7px;height:7px;border-radius:50%;background:var(--gn);}
 .key-pill-txt{font-size:11px;color:var(--t2);font-family:var(--fm);max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-/* SCROLL */
 .scroll{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;}
-/* VIEWS */
 .view{display:none;padding:16px 16px 24px;}
 .view.on{display:block;}
-/* TABBAR */
 .tabbar{height:var(--tab-h);background:var(--s1);border-top:0.5px solid var(--b1);display:flex;align-items:flex-start;padding:8px 0 0;padding-bottom:var(--safe-bot);flex-shrink:0;}
 .tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 2px;cursor:pointer;border:none;background:transparent;color:var(--t3);transition:color .15s;min-height:44px;justify-content:center;-webkit-user-select:none;position:relative;}
 .tab.on{color:var(--cy);}
@@ -60,7 +55,6 @@ html,body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--ff)
 .ti{font-size:17px;line-height:1;}
 .tl{font-size:9px;}
 .tbadge{position:absolute;top:2px;right:calc(50% - 14px);width:7px;height:7px;border-radius:50%;background:var(--rd);border:1.5px solid var(--s1);}
-/* KEY SCREEN */
 .ks{position:fixed;inset:0;background:var(--bg);z-index:9999;display:none;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px;}
 .ks-grid{position:absolute;inset:0;background-image:linear-gradient(var(--b1) 1px,transparent 1px),linear-gradient(90deg,var(--b1) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;}
 .ks-logo{font-family:var(--fd);font-size:48px;font-weight:800;color:var(--cy);letter-spacing:.06em;margin-bottom:4px;position:relative;}
@@ -80,22 +74,18 @@ html,body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--ff)
 .ks-lnk a{color:var(--cy);text-decoration:none;}
 .ks-demo{margin-top:16px;padding-top:14px;border-top:0.5px solid var(--b1);text-align:center;}
 .ks-demo-btn{background:transparent;border:0.5px solid var(--b2);border-radius:8px;color:var(--t2);font-size:12px;padding:8px 16px;cursor:pointer;font-family:var(--ff);}
-/* CARDS */
 .card{background:var(--s1);border:0.5px solid var(--b1);border-radius:16px;padding:16px;margin-bottom:12px;}
-/* METRICS */
 .mrow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
 .met{background:var(--s1);border:0.5px solid var(--b1);border-radius:14px;padding:14px;}
 .ml{font-size:10px;text-transform:uppercase;letter-spacing:.1em;font-family:var(--fm);color:var(--t3);margin-bottom:6px;}
 .mv{font-family:var(--fd);font-size:24px;font-weight:700;}
 .md{font-size:10px;color:var(--t3);margin-top:3px;font-family:var(--fm);}
-/* INSIGHTS */
 .ins{border-radius:14px;padding:14px;margin-bottom:10px;background:var(--s1);border:0.5px solid var(--b1);animation:up .3s ease both;}
 .i-tp{font-size:9px;text-transform:uppercase;letter-spacing:.15em;font-family:var(--fm);margin-bottom:5px;}
 .i-ti{font-size:14px;font-weight:600;margin-bottom:6px;line-height:1.4;}
 .i-bo{font-size:13px;color:var(--t2);line-height:1.7;}
 .i-ft{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap;}
 .i-sr{font-size:10px;color:var(--t3);font-family:var(--fm);}
-/* TAGS */
 .tag{display:inline-flex;align-items:center;padding:3px 8px;border-radius:6px;font-size:11px;font-family:var(--fm);font-weight:500;}
 .tc{background:var(--cyd);color:var(--cy);}
 .tg{background:var(--gnd);color:var(--gn);}
@@ -104,20 +94,16 @@ html,body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--ff)
 .tp{background:var(--pud);color:var(--pu);}
 .tgo{background:var(--god);color:var(--go);}
 .web-tag{display:inline;background:rgba(0,200,240,0.12);border:0.5px solid rgba(0,200,240,0.3);border-radius:4px;padding:1px 5px;font-size:11px;font-family:var(--fm);color:var(--cy);}
-/* QUERY BOX */
 .qbox{background:var(--s1);border:0.5px solid var(--b1);border-radius:16px;padding:14px;margin-bottom:14px;display:flex;gap:10px;align-items:flex-end;}
 .qi{flex:1;background:transparent;border:none;color:var(--t1);font-family:var(--ff);font-size:15px;outline:none;resize:none;line-height:1.5;min-height:40px;max-height:100px;}
 .qi::placeholder{color:var(--t3);}
 .qsend{width:40px;height:40px;border-radius:12px;border:none;background:var(--cy);color:#04080F;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;}
 .qsend:active{background:#00AED4;}
-/* SECTION HEADER */
 .sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
 .sh-t{font-family:var(--fd);font-size:16px;font-weight:700;}
-/* PRIORITY LIST */
 .pri{display:flex;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--b1);align-items:flex-start;}
 .pri:last-child{border-bottom:none;}
 .pnum{font-family:var(--fm);font-size:12px;color:var(--go);min-width:24px;margin-top:1px;}
-/* BTNS */
 .btn{padding:10px 16px;border-radius:10px;border:0.5px solid var(--b2);background:transparent;color:var(--t2);font-family:var(--ff);font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;min-height:44px;}
 .btn:active{background:var(--s2);}
 .btn-p{background:var(--cy);border-color:var(--cy);color:#04080F;font-weight:600;}
@@ -125,54 +111,42 @@ html,body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--ff)
 .abtn{width:100%;padding:16px;border-radius:14px;border:none;background:var(--cy);color:#04080F;font-family:var(--fd);font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px;min-height:56px;}
 .abtn:active{background:#00AED4;}
 .abtn:disabled{background:var(--s3);color:var(--t3);}
-/* FILES */
 .fitem{display:flex;align-items:center;gap:12px;background:var(--s1);border:0.5px solid var(--b1);border-radius:12px;padding:12px;margin-bottom:8px;cursor:pointer;}
 .fitem:active{background:var(--s2);}
 .fbadge{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;font-family:var(--fm);flex-shrink:0;}
 .fname{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px;}
 .fmeta{font-size:11px;color:var(--t3);font-family:var(--fm);}
-/* UPLOAD ZONE */
 .uzone{border:1.5px dashed var(--b2);border-radius:16px;padding:28px 20px;text-align:center;cursor:pointer;margin-bottom:12px;background:transparent;width:100%;display:block;}
 .uzone:active{background:var(--cyd);border-color:var(--cy);}
-/* ANALYSE BTN */
 #file-input{display:none;}
-/* PILLS */
 .pills{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;flex-wrap:wrap;}
 .pill{padding:7px 14px;border-radius:20px;border:0.5px solid var(--b2);background:transparent;color:var(--t2);font-family:var(--ff);font-size:12px;cursor:pointer;white-space:nowrap;transition:all .15s;}
 .pill.on{background:var(--cyd);border-color:var(--cy);color:var(--cy);}
-/* DELPHI */
 .dc{background:var(--s1);border:0.5px solid var(--b1);border-radius:14px;padding:14px;margin-bottom:10px;}
 .chip{display:inline-flex;align-items:center;gap:6px;background:var(--pud);border:0.5px solid var(--pu);color:var(--pu);border-radius:20px;padding:5px 12px;font-size:12px;font-family:var(--fm);cursor:pointer;margin:3px;}
-/* SIGNAL BARS */
 .rwrow{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--b1);}
 .rwrow:last-child{border-bottom:none;}
 .rwbar{height:4px;background:var(--s3);border-radius:4px;overflow:hidden;width:80px;}
-/* FORMS */
 select,textarea,input[type=text],input[type=url],input[type=password]{background:var(--s2);border:0.5px solid var(--b2);border-radius:12px;color:var(--t1);font-family:var(--ff);padding:12px 14px;font-size:14px;outline:none;width:100%;appearance:none;box-sizing:border-box;}
 select{cursor:pointer;}textarea{resize:none;}
 .flbl{font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;margin-top:12px;}
-/* REPORT */
 .rb h2{font-family:var(--fd);font-size:18px;font-weight:700;margin:18px 0 8px;padding-bottom:8px;border-bottom:0.5px solid var(--b1);}
 .rb h3{font-size:10px;color:var(--cy);font-family:var(--fm);text-transform:uppercase;letter-spacing:.12em;margin:12px 0 5px;}
 .rb p{font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:10px;}
 .rb li{font-size:13px;color:var(--t2);line-height:1.75;margin-bottom:4px;}
 .rb ul{padding-left:18px;margin-bottom:10px;}
 .rb strong{color:var(--t1);font-weight:600;}
-/* TOASTS */
 .tw{position:fixed;top:70px;left:0;right:0;margin:0 auto;padding:0 16px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none;max-width:430px;}
 .toast{background:var(--s2);border:0.5px solid var(--b2);border-radius:12px;padding:12px 16px;font-size:13px;display:flex;gap:8px;align-items:center;animation:up .25s ease;pointer-events:auto;box-shadow:0 8px 32px rgba(0,0,0,.4);}
 .tok{border-left:2px solid var(--gn);}
 .toi{border-left:2px solid var(--cy);}
 .tow{border-left:2px solid var(--am);}
-/* MODAL */
 .mbg{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9000;display:flex;align-items:flex-end;justify-content:center;}
 .modal{background:var(--s1);border-radius:24px 24px 0 0;padding:20px 20px 36px;width:100%;max-height:80vh;overflow-y:auto;}
 .mhdl{width:36px;height:4px;background:var(--b2);border-radius:2px;margin:0 auto 16px;}
 .mttl{font-family:var(--fd);font-size:17px;font-weight:700;margin-bottom:14px;}
-/* PROG */
 .prog{height:4px;background:var(--s3);border-radius:4px;overflow:hidden;}
 .prog-f{height:100%;background:var(--cy);border-radius:4px;transition:width .5s ease;}
-/* EMPTY */
 .empty{text-align:center;padding:40px 20px;color:var(--t3);}
 </style>
 </head>
@@ -180,7 +154,6 @@ select{cursor:pointer;}textarea{resize:none;}
 <div id="app">
 
 <!-- KEY SCREEN -->
-
 <div class="ks" id="ks">
   <div class="ks-grid"></div>
   <div class="ks-logo">SCENTS</div>
@@ -198,7 +171,6 @@ select{cursor:pointer;}textarea{resize:none;}
 </div>
 
 <!-- TOPBAR -->
-
 <div class="topbar">
   <div class="tb-logo">SCENTS</div>
   <div class="tb-right">
@@ -213,18 +185,16 @@ select{cursor:pointer;}textarea{resize:none;}
 </div>
 
 <!-- SCROLL -->
-
 <div class="scroll" id="scroll">
 
   <!-- HOME -->
-
   <div class="view on" id="view-home">
     <div id="home-hero">
       <div style="text-align:center;padding:32px 16px 24px">
         <div style="font-family:var(--fd);font-size:36px;font-weight:800;color:var(--cy);letter-spacing:.06em;margin-bottom:4px">SCENTS</div>
         <div style="font-size:10px;font-family:var(--fm);color:var(--t3);text-transform:uppercase;letter-spacing:.12em;margin-bottom:14px">Personal Intelligence · EKN Consulting</div>
         <div style="font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:20px">Your files. Your intelligence. Proposals, spreadsheets, emails — analysed and turned into insights personal to you.</div>
-        <div style="display:flex;align-items:flex-start;gap:12px;background:var(--s1);border:0.5px solid var(--b1);border-radius:14px;padding:14px;margin-bottom:8px;text-align:left"><div style="width:22px;height:22px;border-radius:50%;background:var(--cyd);border:0.5px solid var(--cy);color:var(--cy);font-size:10px;font-weight:700;font-family:var(--fm);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">1</div><div><div style="font-size:13px;font-weight:600;margin-bottom:2px">Tap + to add files</div><div style="font-size:12px;color:var(--t2)">Pick from iCloud Drive, Files app, or your iPhone.</div></div></div>
+        <div style="display:flex;align-items:flex-start;gap:12px;background:var(--s1);border:0.5px solid var(--b1);border-radius:14px;padding:14px;margin-bottom:8px;text-align:left"><div style="width:22px;height:22px;border-radius:50%;background:var(--cyd);border:0.5px solid var(--cy);color:var(--cy);font-size:10px;font-weight:700;font-family:var(--fm);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">1</div><div><div style="font-size:13px;font-weight:600;margin-bottom:2px">Tap + to add files</div><div style="font-size:12px;color:var(--t2)">Pick from iCloud Drive, Files app, or your device.</div></div></div>
         <div style="display:flex;align-items:flex-start;gap:12px;background:var(--s1);border:0.5px solid var(--b1);border-radius:14px;padding:14px;margin-bottom:8px;text-align:left"><div style="width:22px;height:22px;border-radius:50%;background:var(--cyd);border:0.5px solid var(--cy);color:var(--cy);font-size:10px;font-weight:700;font-family:var(--fm);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">2</div><div><div style="font-size:13px;font-weight:600;margin-bottom:2px">Tap Analyse</div><div style="font-size:12px;color:var(--t2)">SCENTS reads everything and builds your intelligence corpus.</div></div></div>
         <div style="display:flex;align-items:flex-start;gap:12px;background:var(--s1);border:0.5px solid var(--b1);border-radius:14px;padding:14px;margin-bottom:8px;text-align:left"><div style="width:22px;height:22px;border-radius:50%;background:var(--cyd);border:0.5px solid var(--cy);color:var(--cy);font-size:10px;font-weight:700;font-family:var(--fm);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">3</div><div><div style="font-size:13px;font-weight:600;margin-bottom:2px">Get insights</div><div style="font-size:12px;color:var(--t2)">Opportunities, risks, clients, financials — ask anything.</div></div></div>
       </div>
@@ -239,7 +209,6 @@ select{cursor:pointer;}textarea{resize:none;}
   </div>
 
   <!-- PROCESSING -->
-
   <div class="view" id="view-proc">
     <div style="text-align:center;padding:48px 24px">
       <div class="dots" style="display:flex;justify-content:center;margin-bottom:20px"><span></span><span></span><span></span></div>
@@ -251,7 +220,6 @@ select{cursor:pointer;}textarea{resize:none;}
   </div>
 
   <!-- INSIGHTS -->
-
   <div class="view" id="view-insights">
     <div class="qbox"><textarea class="qi" id="ins-q" placeholder="Deep analysis... compare projects, identify gaps..." rows="2"></textarea><button class="qsend" onclick="runQ('ins-q','ins-r')">↑</button></div>
     <div id="ins-r"></div>
@@ -260,21 +228,18 @@ select{cursor:pointer;}textarea{resize:none;}
   </div>
 
   <!-- OPPS -->
-
   <div class="view" id="view-opps">
     <div class="sh"><div class="sh-t">Opportunities</div><span class="tag tgo">From your files</span></div>
     <div id="opps-list"><div class="empty"><div style="font-size:36px;margin-bottom:12px;opacity:.4">⬡</div><div style="font-size:14px">Analyse files to extract opportunities</div></div></div>
   </div>
 
   <!-- RISKS -->
-
   <div class="view" id="view-risks">
     <div class="sh"><div class="sh-t">Risks &amp; Deadlines</div><span class="tag tr" id="risk-cnt"></span></div>
     <div id="risks-list"><div class="empty"><div style="font-size:36px;margin-bottom:12px;opacity:.4">⚠</div><div style="font-size:14px">Analyse documents to extract risks</div></div></div>
   </div>
 
   <!-- FILES -->
-
   <div class="view" id="view-files">
     <div class="sh"><div class="sh-t">Your Files</div><div style="font-size:11px;color:var(--t3);font-family:var(--fm)" id="files-sub">—</div></div>
     <label class="uzone" for="file-input">
@@ -288,7 +253,6 @@ select{cursor:pointer;}textarea{resize:none;}
   </div>
 
   <!-- INTEL -->
-
   <div class="view" id="view-intel">
     <div class="pills" id="intel-pills">
       <button class="pill on" onclick="iNav(this,'kb')">📚 Knowledge Base</button>
@@ -323,9 +287,9 @@ select{cursor:pointer;}textarea{resize:none;}
       <div class="sh-t" style="font-family:var(--fd);font-size:16px;font-weight:700;margin-bottom:12px">Current Affairs</div>
       <div class="flbl" style="margin-top:0">Mode</div>
       <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
-        <label style="display:flex;align-items:flex-start;gap:10px;background:var(--s2);border:0.5px solid var(--b2);border-radius:12px;padding:12px;cursor:pointer" id="nm-daily-lbl"><input type="radio" name="nm" value="daily" id="nm-daily" checked style="margin-top:2px;accent-color:var(--cy)"><div><div style="font-size:13px;font-weight:600">Daily Brief</div><div style="font-size:12px;color:var(--t2);margin-top:2px">Top Kenya &amp; Africa news every time you fetch.</div></div></label>
-        <label style="display:flex;align-items:flex-start;gap:10px;background:var(--s2);border:0.5px solid var(--b2);border-radius:12px;padding:12px;cursor:pointer" id="nm-demand-lbl"><input type="radio" name="nm" value="demand" id="nm-demand" style="margin-top:2px;accent-color:var(--cy)"><div><div style="font-size:13px;font-weight:600">On-Demand Search</div><div style="font-size:12px;color:var(--t2);margin-top:2px">Search for current information on any topic.</div></div></label>
-        <label style="display:flex;align-items:flex-start;gap:10px;background:var(--s2);border:0.5px solid var(--b2);border-radius:12px;padding:12px;cursor:pointer" id="nm-auto-lbl"><input type="radio" name="nm" value="auto" id="nm-auto" style="margin-top:2px;accent-color:var(--cy)"><div><div style="font-size:13px;font-weight:600">Auto-Enriched Analysis</div><div style="font-size:12px;color:var(--t2);margin-top:2px">Every analysis enriched with current affairs. <span class="web-tag">🌐 WEB</span> cited inline.</div></div></label>
+        <label style="display:flex;align-items:flex-start;gap:10px;background:var(--s2);border:0.5px solid var(--b2);border-radius:12px;padding:12px;cursor:pointer"><input type="radio" name="nm" value="daily" id="nm-daily" checked style="margin-top:2px;accent-color:var(--cy)"><div><div style="font-size:13px;font-weight:600">Daily Brief</div><div style="font-size:12px;color:var(--t2);margin-top:2px">Top Kenya &amp; Africa news every time you fetch.</div></div></label>
+        <label style="display:flex;align-items:flex-start;gap:10px;background:var(--s2);border:0.5px solid var(--b2);border-radius:12px;padding:12px;cursor:pointer"><input type="radio" name="nm" value="demand" id="nm-demand" style="margin-top:2px;accent-color:var(--cy)"><div><div style="font-size:13px;font-weight:600">On-Demand Search</div><div style="font-size:12px;color:var(--t2);margin-top:2px">Search for current information on any topic.</div></div></label>
+        <label style="display:flex;align-items:flex-start;gap:10px;background:var(--s2);border:0.5px solid var(--b2);border-radius:12px;padding:12px;cursor:pointer"><input type="radio" name="nm" value="auto" id="nm-auto" style="margin-top:2px;accent-color:var(--cy)"><div><div style="font-size:13px;font-weight:600">Auto-Enriched Analysis</div><div style="font-size:12px;color:var(--t2);margin-top:2px">Every analysis enriched with current affairs. <span class="web-tag">🌐 WEB</span> cited inline.</div></div></label>
       </div>
       <div id="news-search-wrap" style="display:none;margin-bottom:12px"><input type="text" id="news-q" placeholder="e.g. Kenya fuel price, East Africa startup funding..."></div>
       <button class="abtn" onclick="fetchNews()">🌍 Fetch Current Affairs</button>
@@ -334,14 +298,12 @@ select{cursor:pointer;}textarea{resize:none;}
   </div>
 
   <!-- SIGNALS (Behaviour) -->
-
   <div class="view" id="view-signals">
     <div class="pills" id="sig-pills">
       <button class="pill on" onclick="sNav(this,'sensor')">47-Event Sensor</button>
       <button class="pill" onclick="sNav(this,'attn')">Attention Engine</button>
       <button class="pill" onclick="sNav(this,'rank')">Engagement Ranking</button>
     </div>
-    <!-- SENSOR -->
     <div id="sp-sensor">
       <div class="card" style="margin-bottom:12px">
         <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">EKN Consulting — Behavioral Signal Sensor</div>
@@ -360,7 +322,6 @@ select{cursor:pointer;}textarea{resize:none;}
       <div class="sh"><div class="sh-t">Signal Log</div><span class="tag tc" id="evt-cnt">0 signals</span></div>
       <div id="evt-feed"><div class="empty"><div style="font-size:28px;margin-bottom:12px;opacity:.4">◈</div><div style="font-size:13px">No signals logged yet</div></div></div>
     </div>
-    <!-- ATTENTION -->
     <div id="sp-attn" style="display:none">
       <div class="card" style="margin-bottom:12px">
         <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Rescorla-Wagner RL — Attention Model</div>
@@ -371,7 +332,6 @@ select{cursor:pointer;}textarea{resize:none;}
       <div id="rw-list"></div>
       <div class="card" style="margin-top:12px"><div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Session Stats</div><div id="rw-stats" style="font-size:13px;color:var(--t2);line-height:1.9;font-family:var(--fm)"></div><button class="btn" style="margin-top:10px;font-size:12px" onclick="resetRW()">↺ Reset Learning</button></div>
     </div>
-    <!-- RANKING -->
     <div id="sp-rank" style="display:none">
       <div class="card" style="margin-bottom:12px">
         <div style="font-size:11px;color:var(--t3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Instagram-Style Conformal Ranking</div>
@@ -384,7 +344,6 @@ select{cursor:pointer;}textarea{resize:none;}
   </div>
 
   <!-- DELPHI -->
-
   <div class="view" id="view-delphi">
     <div class="sh"><div class="sh-t">Delphi Engine</div><span class="tag tp">L4 · Crawford-Williams</span></div>
     <div id="del-setup">
@@ -425,7 +384,6 @@ select{cursor:pointer;}textarea{resize:none;}
   </div>
 
   <!-- REPORT -->
-
   <div class="view" id="view-report">
     <div class="sh"><div class="sh-t">Report Builder</div></div>
     <div class="card">
@@ -446,7 +404,6 @@ select{cursor:pointer;}textarea{resize:none;}
 </div><!-- /scroll -->
 
 <!-- TABBAR -->
-
 <div class="tabbar">
   <button class="tab on" id="tab-home" onclick="go('home')"><span class="ti">◈</span><span class="tl">Home</span></button>
   <button class="tab" id="tab-insights" onclick="go('insights')"><span class="ti">✦</span><span class="tl">Insights</span></button>
@@ -461,17 +418,22 @@ select{cursor:pointer;}textarea{resize:none;}
 
 </div><!-- /app -->
 
-<!-- TOAST CONTAINER -->
-
 <div class="tw" id="tw"></div>
 
 <script>
-// ── API KEY ────────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════
+// API KEY
+// ═══════════════════════════════════════════════════════════════════
 var KS='scents_k';
 var SKIP_KEY='scents_skip';
 function getKey(){return localStorage.getItem(KS)||'';}
 function hasBrowseMode(){return localStorage.getItem(SKIP_KEY)==='1';}
-function showKS(){localStorage.removeItem(SKIP_KEY);document.getElementById('ks').style.display='flex';document.getElementById('ks-st').textContent='';setTimeout(function(){document.getElementById('ks-inp').focus();},300);}
+function showKS(){
+  localStorage.removeItem(SKIP_KEY);
+  document.getElementById('ks').style.display='flex';
+  document.getElementById('ks-st').textContent='';
+  setTimeout(function(){document.getElementById('ks-inp').focus();},300);
+}
 function hideKS(){document.getElementById('ks').style.display='none';}
 function skipKey(){localStorage.setItem(SKIP_KEY,'1');hideKS();renderKey();toast('Browse mode — connect API key to activate AI','info');}
 
@@ -481,14 +443,14 @@ function renderKey(){
   if(k){
     document.getElementById('key-txt').textContent=k.slice(0,12)+'••••'+k.slice(-4);
     document.getElementById('key-dot').style.background='var(--gn)';
-    pill.style.display='flex';
   } else {
     document.getElementById('key-txt').textContent='No key';
     document.getElementById('key-dot').style.background='var(--rd)';
-    pill.style.display='flex';
   }
+  pill.style.display='flex';
 }
 
+// FIX #1: connectKey — correct sys/usr arg order to claudeRaw
 async function connectKey(){
   var v=document.getElementById('ks-inp').value.trim();
   var st=document.getElementById('ks-st'),btn=document.getElementById('ks-btn');
@@ -499,9 +461,8 @@ async function connectKey(){
   btn.disabled=true;btn.textContent='Testing...';
   st.textContent='Contacting Anthropic...';st.style.color='var(--t3)';
   try{
-    // BUG FIX #1: connectKey was calling claudeRaw with wrong arg order (sys, usr, tok)
-    // but passing the test message as sys; corrected to pass sys and usr properly
-    await claudeRaw('You are a test.','Say the single word CONNECTED and nothing else.',256);
+    // sys = system prompt, usr = user message — correct order
+    await claudeRaw('You are a connection test assistant.','Say the single word CONNECTED and nothing else.',256);
     hideKS();renderKey();
     toast('API key connected ✓','ok');
   }catch(e){
@@ -511,7 +472,9 @@ async function connectKey(){
   }
 }
 
-// ── CLAUDE API ─────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════
+// CLAUDE API
+// ═══════════════════════════════════════════════════════════════════
 async function claudeRaw(sys,usr,tok){
   tok=Math.min(tok||4000,8192);
   var key=getKey();
@@ -519,7 +482,7 @@ async function claudeRaw(sys,usr,tok){
     if(!hasBrowseMode())showKS();
     throw new Error('Connect an API key to use AI features');
   }
-  var body={model:'claude-sonnet-4-5',max_tokens:tok,messages:[{role:'user',content:usr}]};
+  var body={model:'claude-sonnet-4-20250514',max_tokens:tok,messages:[{role:'user',content:usr}]};
   if(sys&&sys.trim())body.system=sys;
   var res,raw,status;
   try{
@@ -530,7 +493,6 @@ async function claudeRaw(sys,usr,tok){
     });
     status=res.status;raw=await res.text();
   }catch(e){throw new Error('Network error — check internet connection');}
-  console.log('SCENTS API',status,raw.slice(0,150));
   var d;
   try{d=JSON.parse(raw);}catch(e){throw new Error('API returned non-JSON (HTTP '+status+') — check billing at console.anthropic.com');}
   if(d.error){
@@ -546,14 +508,13 @@ async function claudeRaw(sys,usr,tok){
   throw new Error('No text in response');
 }
 
+// FIX #2: extractJSON — repair loop now correctly appends unclosed brackets
 function extractJSON(raw){
   var s=raw.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim();
   var st=s.indexOf('{'),en=s.lastIndexOf('}');
   if(st<0||en<0||en<=st)throw new Error('No JSON in response');
   s=s.slice(st,en+1);
   try{return JSON.parse(s);}catch(_){}
-  // BUG FIX #2: extractJSON repair loop tracked bracket pairs correctly but
-  // never actually used the cl array; fixed to properly rebuild missing closers
   var inS=false,esc=false,cl=[];
   for(var i=0;i<s.length;i++){
     var c=s[i];
@@ -565,11 +526,14 @@ function extractJSON(raw){
     else if(c==='[')cl.push(']');
     else if((c==='}'||c===']')&&cl.length)cl.pop();
   }
+  // cl now contains unclosed openers in order; reverse gives correct closers
   var rep=s.replace(/,\s*([}\]])/g,'$1')+cl.reverse().join('');
   try{return JSON.parse(rep);}catch(e){throw new Error('Could not parse JSON: '+e.message);}
 }
 
-// ── NAV ────────────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════
+// NAV
+// ═══════════════════════════════════════════════════════════════════
 function go(id){
   document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on');});
   document.querySelectorAll('.view').forEach(function(v){v.classList.remove('on');});
@@ -577,22 +541,27 @@ function go(id){
   if(t)t.classList.add('on');if(v)v.classList.add('on');
   document.getElementById('scroll').scrollTop=0;
 }
+
+// FIX #3: iNav — news-search-wrap only visible when in news panel AND demand radio checked
 function iNav(el,p){
   document.querySelectorAll('#intel-pills .pill').forEach(function(b){b.classList.remove('on');});
   ['kb','url','tr','news'].forEach(function(x){var e=document.getElementById('ip-'+x);if(e)e.style.display='none';});
-  el.classList.add('on');var t=document.getElementById('ip-'+p);if(t)t.style.display='block';
+  el.classList.add('on');
+  var t=document.getElementById('ip-'+p);if(t)t.style.display='block';
   var wrap=document.getElementById('news-search-wrap');
-  // BUG FIX #3: news-search-wrap visibility check used wrong radio id 'nm-demand' but
-  // the element is only shown when in news panel AND demand mode is checked
-  if(wrap)wrap.style.display=(p==='news'&&document.getElementById('nm-demand').checked)?'block':'none';
+  var demandRadio=document.getElementById('nm-demand');
+  if(wrap)wrap.style.display=(p==='news'&&demandRadio&&demandRadio.checked)?'block':'none';
 }
+
 function sNav(el,p){
   document.querySelectorAll('#sig-pills .pill').forEach(function(b){b.classList.remove('on');});
   ['sensor','attn','rank'].forEach(function(x){var e=document.getElementById('sp-'+x);if(e)e.style.display='none';});
   el.classList.add('on');var t=document.getElementById('sp-'+p);if(t)t.style.display='block';
 }
 
-// ── TOAST ──────────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════════════════════════════
 function toast(msg,type){
   type=type||'info';
   var w=document.getElementById('tw'),el=document.createElement('div');
@@ -604,16 +573,22 @@ function toast(msg,type){
   setTimeout(function(){if(el.parentNode)el.parentNode.removeChild(el);},3400);
 }
 
-// ── STATE ──────────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════════
 var S={files:[],corpus:'',analysed:false,summary:{},insights:[],opps:[],risks:[],clients:[],financials:[],weekly:[],rQ:[]};
 
-// ── FILE TYPE MAP ──────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════
+// FILE TYPE MAP
+// ═══════════════════════════════════════════════════════════════════
 var TM={pdf:{c:'#FF3A5C',bg:'rgba(255,58,92,0.18)',l:'PDF'},docx:{c:'#00C8F0',bg:'rgba(0,200,240,0.18)',l:'DOC'},doc:{c:'#00C8F0',bg:'rgba(0,200,240,0.18)',l:'DOC'},xlsx:{c:'#00D67A',bg:'rgba(0,214,122,0.18)',l:'XLS'},xls:{c:'#00D67A',bg:'rgba(0,214,122,0.18)',l:'XLS'},csv:{c:'#00D67A',bg:'rgba(0,214,122,0.18)',l:'CSV'},pptx:{c:'#F5A800',bg:'rgba(245,168,0,0.18)',l:'PPT'},eml:{c:'#9B72FF',bg:'rgba(155,114,255,0.18)',l:'EML'},msg:{c:'#9B72FF',bg:'rgba(155,114,255,0.18)',l:'MSG'},txt:{c:'#7080A0',bg:'rgba(112,128,160,0.18)',l:'TXT'},png:{c:'#E8C200',bg:'rgba(232,194,0,0.18)',l:'IMG'},jpg:{c:'#E8C200',bg:'rgba(232,194,0,0.18)',l:'IMG'},jpeg:{c:'#E8C200',bg:'rgba(232,194,0,0.18)',l:'IMG'},gif:{c:'#E8C200',bg:'rgba(232,194,0,0.18)',l:'IMG'},webp:{c:'#E8C200',bg:'rgba(232,194,0,0.18)',l:'IMG'}};
 function gx(n){return n.split('.').pop().toLowerCase();}
 function ti(e){return TM[e]||{c:'#7080A0',bg:'rgba(112,128,160,0.18)',l:e.toUpperCase().slice(0,3)};}
 function fmtB(b){return b<1024?b+'B':b<1048576?(b/1024).toFixed(1)+'KB':(b/1048576).toFixed(1)+'MB';}
 
-// ── FILE HANDLING ──────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════
+// FILE HANDLING
+// ═══════════════════════════════════════════════════════════════════
 document.getElementById('file-input').addEventListener('change',function(){
   if(this.files&&this.files.length)addFiles(this.files);
 });
@@ -647,30 +622,39 @@ function updateTopBar(){
   document.getElementById('analyse-btn').style.display=n?'':'none';
 }
 
+// FIX #4: viewFile — safe access to f.text which can be empty string
 function viewFile(i){
   var f=S.files[i];
-  // BUG FIX #4: viewFile used f.text.length but f.text could be empty string ''
-  // which is falsy — safe access needed
   var textContent=f.text||'';
   var m=document.createElement('div');m.className='mbg';
   m.innerHTML='<div class="modal" onclick="event.stopPropagation()"><div class="mhdl"></div><div class="mttl">'+f.name+'</div><div style="background:var(--s2);border-radius:12px;padding:14px;font-size:12px;color:var(--t2);line-height:1.8;max-height:200px;overflow-y:auto;font-family:var(--fm);white-space:pre-wrap">'+(textContent||'[No text extracted]').slice(0,1500)+(textContent.length>1500?'\n[...truncated]':'')+'</div><button class="btn btn-p" onclick="this.closest(\'.mbg\').remove()" style="width:100%;justify-content:center;margin-top:14px">Close</button></div>';
   m.onclick=function(){m.remove();};document.body.appendChild(m);
 }
 
-// ── EXTRACT ────────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════
+// EXTRACT
+// ═══════════════════════════════════════════════════════════════════
 async function extractFile(f){
   var fl=f.file,e=f.ext;
   try{
     if(['txt','eml','msg','csv'].includes(e))return await fl.text();
-    if(['docx','doc'].includes(e)){try{var ab=await fl.arrayBuffer();var r=await mammoth.extractRawText({arrayBuffer:ab});return r.value||'';}catch(x){return await fl.text().catch(function(){return '';});}}
-    if(['xlsx','xls'].includes(e)){var ab2=await fl.arrayBuffer();var wb=XLSX.read(ab2,{type:'array'});return wb.SheetNames.map(function(sn){return '=== '+sn+' ===\n'+XLSX.utils.sheet_to_csv(wb.Sheets[sn]);}).join('\n\n');}
+    if(['docx','doc'].includes(e)){
+      try{var ab=await fl.arrayBuffer();var r=await mammoth.extractRawText({arrayBuffer:ab});return r.value||'';}
+      catch(x){return await fl.text().catch(function(){return '';});}
+    }
+    if(['xlsx','xls'].includes(e)){
+      var ab2=await fl.arrayBuffer();var wb=XLSX.read(ab2,{type:'array'});
+      return wb.SheetNames.map(function(sn){return '=== '+sn+' ===\n'+XLSX.utils.sheet_to_csv(wb.Sheets[sn]);}).join('\n\n');
+    }
     if(['png','jpg','jpeg','gif','webp'].includes(e))return '[IMAGE: '+f.name+' '+fmtB(f.size)+']';
     if(e==='pptx')return '[PPTX: '+f.name+' — save as PDF for full extraction]';
     return await fl.text().catch(function(){return '[Binary: '+f.name+']';});
   }catch(err){return '[Error: '+f.name+': '+err.message+']';}
 }
 
-// ── ANALYSE ────────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════
+// ANALYSE
+// ═══════════════════════════════════════════════════════════════════
 async function analyseAll(){
   if(!S.files.length){toast('Add files first','warn');return;}
   document.querySelectorAll('.view').forEach(function(v){v.classList.remove('on');});
@@ -728,12 +712,16 @@ async function runAnalysis(){
     if(highRisks>0){document.getElementById('risk-badge').style.display='';document.getElementById('risk-cnt').textContent=highRisks+' high';}
   }catch(e){
     console.error('Analysis error:',e);toast('Parse error — showing summary','warn');
-    try{var fb=await claudeRaw('You are SCENTS. Give a brief intelligence summary for Edd (EKN Consulting) covering top opportunities, risks, and priorities.','Files:\n'+corp.slice(0,8000),1200);S.insights=[{type:'client',title:'Intelligence Summary',body:fb.slice(0,600),confidence:0.85,source:'All files'}];}
-    catch(e2){S.insights=[{type:'risk',title:'API Error',body:e2.message,confidence:0,source:'system'}];}
+    try{
+      var fb=await claudeRaw('You are SCENTS. Give a brief intelligence summary for Edd (EKN Consulting) covering top opportunities, risks, and priorities.','Files:\n'+corp.slice(0,8000),1200);
+      S.insights=[{type:'client',title:'Intelligence Summary',body:fb.slice(0,600),confidence:0.85,source:'All files'}];
+    }catch(e2){S.insights=[{type:'risk',title:'API Error',body:e2.message,confidence:0,source:'system'}];}
   }
 }
 
-// ── METRICS + RENDER ───────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════
+// METRICS + RENDER
+// ═══════════════════════════════════════════════════════════════════
 var TCFG={opportunity:{c:'var(--go)',cls:'tgo',l:'Opportunity'},risk:{c:'var(--rd)',cls:'tr',l:'Risk'},financial:{c:'var(--gn)',cls:'tg',l:'Financial'},client:{c:'var(--cy)',cls:'tc',l:'Client'},deadline:{c:'var(--am)',cls:'ta',l:'Deadline'}};
 
 function buildMetrics(){
@@ -752,25 +740,23 @@ function iCard(ins,i){
 }
 
 function renderAll(){
-  // Home
   var hi=document.getElementById('home-ins'),html='';
   if(S.weekly.length){html+='<div class="card" style="border-color:var(--go);margin-bottom:12px"><div class="sh"><div class="sh-t" style="color:var(--go)">★ This Week</div><span class="tag tgo">AI</span></div>'+S.weekly.map(function(p,i){return '<div class="pri"><span class="pnum">#'+(i+1)+'</span><span style="font-size:14px">'+p+'</span></div>';}).join('')+'</div>';}
   html+=S.insights.map(iCard).join('');
   hi.innerHTML=html||'<div class="empty"><div style="font-size:36px;margin-bottom:12px;opacity:.4">✦</div><div style="font-size:14px">No insights yet</div></div>';
 
-  // Insights tab
   document.getElementById('ins-list').innerHTML=S.insights.length?S.insights.map(iCard).join(''):'<div class="empty"><div style="font-size:36px;margin-bottom:12px;opacity:.4">✦</div><div style="font-size:14px">No insights extracted</div></div>';
 
-  // Opps
   var PC={high:'var(--go)',medium:'var(--cy)',low:'var(--t2)'},PT={high:'tgo',medium:'tc',low:''};
   document.getElementById('opps-list').innerHTML=S.opps.length?S.opps.map(function(o,i){return '<div class="ins" style="border-left:3px solid '+PC[o.priority]+';animation-delay:'+(i*.07)+'s"><div class="i-tp" style="color:'+PC[o.priority]+'">⬡ '+(o.priority||'').toUpperCase()+'</div><div class="i-ti">'+o.title+'</div><div class="i-bo">'+o.description+'</div><div class="i-ft"><span class="tag '+PT[o.priority]+'">'+o.value+'</span><span class="i-sr">'+o.source+'</span></div></div>';}).join(''):'<div class="empty"><div style="font-size:36px;margin-bottom:12px;opacity:.4">⬡</div><div style="font-size:14px">No opportunities found</div></div>';
 
-  // Risks
   var SC={high:'var(--rd)',medium:'var(--am)',low:'var(--t2)'},ST={high:'tr',medium:'ta',low:''};
   document.getElementById('risks-list').innerHTML=S.risks.length?S.risks.map(function(r,i){return '<div class="ins" style="border-left:3px solid '+SC[r.severity]+';animation-delay:'+(i*.07)+'s"><div class="i-tp" style="color:'+SC[r.severity]+'">⚠ '+(r.severity||'').toUpperCase()+'</div><div class="i-ti">'+r.title+'</div><div class="i-bo">'+r.description+'</div><div class="i-ft"><span class="tag '+ST[r.severity]+'">'+r.severity+'</span>'+(r.deadline&&r.deadline!=='unknown'?'<span class="tag ta">⏱ '+r.deadline+'</span>':'')+'<span class="i-sr">'+r.source+'</span></div></div>';}).join(''):'<div class="empty"><div style="font-size:36px;margin-bottom:12px;opacity:.4">⚠</div><div style="font-size:14px">No risks flagged</div></div>';
 }
 
-// ── QUERY ──────────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════
+// QUERY
+// ═══════════════════════════════════════════════════════════════════
 async function runQ(inId,outId){
   var q=document.getElementById(inId).value.trim();
   if(!q){toast('Enter a question','warn');return;}
@@ -786,11 +772,16 @@ async function runQ(inId,outId){
 document.getElementById('main-q').addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();runQ('main-q','main-r');}});
 document.getElementById('ins-q').addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();runQ('ins-q','ins-r');}});
 
-// ── KNOWLEDGE BASE ─────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════
+// KNOWLEDGE BASE
+// ═══════════════════════════════════════════════════════════════════
 var KB_KEY='scents_kb_v1';
 function getKB(){try{return JSON.parse(localStorage.getItem(KB_KEY)||'[]');}catch(e){return[];}}
 function saveKB(items){localStorage.setItem(KB_KEY,JSON.stringify(items));}
-function getKBCorpus(){var items=getKB();if(!items.length)return'';return'\n\n=== PERSISTENT KNOWLEDGE BASE ===\n'+items.map(function(item){return'\n--- '+(item.label||'KB Item')+' ['+item.type+'] ---\n'+(item.text||'').slice(0,4000);}).join('\n');}
+function getKBCorpus(){
+  var items=getKB();if(!items.length)return'';
+  return'\n\n=== PERSISTENT KNOWLEDGE BASE ===\n'+items.map(function(item){return'\n--- '+(item.label||'KB Item')+' ['+item.type+'] ---\n'+(item.text||'').slice(0,4000);}).join('\n');
+}
 
 function renderKB(){
   var items=getKB();
@@ -809,434 +800,466 @@ function removeKB(i){var items=getKB();items.splice(i,1);saveKB(items);renderKB(
 function openKBModal(){
   var m=document.createElement('div');m.className='mbg';
   m.innerHTML='<div class="modal" onclick="event.stopPropagation()"><div class="mhdl"></div><div class="mttl">Add to Knowledge Base</div><div class="flbl" style="margin-top:0">Label</div><input type="text" id="kb-m-lbl" placeholder="e.g. CIM Brand Management Notes, Kenya Finance Bill..." style="margin-bottom:12px"><div class="flbl">Content</div><textarea id="kb-m-txt" rows="6" placeholder="Paste notes, article text, lecture notes, research..." style="margin-bottom:14px"></textarea><div style="display:flex;gap:8px"><button class="btn btn-p" onclick="saveKBManual(this)" style="flex:1;justify-content:center">📚 Save to KB</button><button class="btn" onclick="this.closest(\'.mbg\').remove()" style="flex:1;justify-content:center">Cancel</button></div></div>';
-
-m.onclick=function(){m.remove();};document.body.appendChild(m);
+  m.onclick=function(){m.remove();};document.body.appendChild(m);
 }
 
 function saveKBManual(btn){
-var lbl=document.getElementById(‘kb-m-lbl’).value.trim(),txt=document.getElementById(‘kb-m-txt’).value.trim();
-if(!txt){toast(‘Add some content first’,‘warn’);return;}
-var items=getKB();
-items.unshift({type:‘text’,label:lbl||‘Manual entry’,text:txt,date:new Date().toLocaleDateString(‘en-GB’,{day:‘numeric’,month:‘short’,year:‘numeric’})});
-saveKB(items);renderKB();btn.closest(’.mbg’).remove();toast(‘Saved to Knowledge Base’,‘ok’);
+  var lbl=document.getElementById('kb-m-lbl').value.trim(),txt=document.getElementById('kb-m-txt').value.trim();
+  if(!txt){toast('Add some content first','warn');return;}
+  var items=getKB();
+  items.unshift({type:'text',label:lbl||'Manual entry',text:txt,date:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})});
+  saveKB(items);renderKB();btn.closest('.mbg').remove();toast('Saved to Knowledge Base','ok');
 }
 
-// ── URL FETCHER ────────────────────────────────────────────────────────────────
-var lastURL={url:’’,text:’’};
+// ═══════════════════════════════════════════════════════════════════
+// URL FETCHER
+// ═══════════════════════════════════════════════════════════════════
+var lastURL={url:'',text:''};
 async function fetchURL(){
-var url=document.getElementById(‘url-inp’).value.trim();
-if(!url||!url.startsWith(‘http’)){toast(‘Enter a valid URL starting with http’,‘warn’);return;}
-var out=document.getElementById(‘url-result’);
-out.innerHTML=’<div style="display:flex;align-items:center;gap:8px;padding:12px 0;font-size:13px;color:var(--t3)"><div class="dots"><span></span><span></span><span></span></div> Fetching article…</div>’;
-try{
-var result=await claudeRaw(‘You are an intelligent web reader for Edd (EKN Consulting, Nairobi). When given a URL, provide: 1) A clean summary (300-500 words) 2) Key facts, figures, and dates 3) Relevance to EKN work (Mulika VPP, BIPOLAR, Scents, WISMO) 4) 3-5 key insights Edd should know. If you cannot access the URL directly, say so clearly.’,‘Please read and summarise: ‘+url,1500);
-lastURL={url:url,text:result};
-document.getElementById(‘save-url-btn’).style.display=’’;
-out.innerHTML=’<div class="card"><div style="font-size:10px;font-family:var(--fm);color:var(--cy);margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em">🔗 ‘+url.slice(0,50)+(url.length>50?’…’:’’)+’</div><div style="font-size:13px;color:var(--t2);line-height:1.75">’+result.replace(/\n\n/g,’</p><p style="margin-top:8px">’).replace(/\n/g,’<br>’)+’</div><div style="margin-top:12px;display:flex;gap:8px"><button class="btn btn-p" onclick="saveURLtoKB()" style="font-size:13px">📚 Save to KB</button></div></div>’;
-}catch(e){out.innerHTML=’<div style="color:var(--am);font-size:13px;padding:12px;background:var(--amd);border-radius:12px">’+e.message+’</div>’;}
+  var url=document.getElementById('url-inp').value.trim();
+  if(!url||!url.startsWith('http')){toast('Enter a valid URL starting with http','warn');return;}
+  var out=document.getElementById('url-result');
+  out.innerHTML='<div style="display:flex;align-items:center;gap:8px;padding:12px 0;font-size:13px;color:var(--t3)"><div class="dots"><span></span><span></span><span></span></div> Fetching article…</div>';
+  try{
+    var result=await claudeRaw('You are an intelligent web reader for Edd (EKN Consulting, Nairobi). When given a URL, provide: 1) A clean summary (300-500 words) 2) Key facts, figures, and dates 3) Relevance to EKN work (Mulika VPP, BIPOLAR, Scents, WISMO) 4) 3-5 key insights Edd should know. If you cannot access the URL directly, say so clearly.','Please read and summarise: '+url,1500);
+    lastURL={url:url,text:result};
+    document.getElementById('save-url-btn').style.display='';
+    out.innerHTML='<div class="card"><div style="font-size:10px;font-family:var(--fm);color:var(--cy);margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em">🔗 '+url.slice(0,50)+(url.length>50?'…':'')+'</div><div style="font-size:13px;color:var(--t2);line-height:1.75">'+result.replace(/\n\n/g,'</p><p style="margin-top:8px">').replace(/\n/g,'<br>')+'</div><div style="margin-top:12px;display:flex;gap:8px"><button class="btn btn-p" onclick="saveURLtoKB()" style="font-size:13px">📚 Save to KB</button></div></div>';
+  }catch(e){out.innerHTML='<div style="color:var(--am);font-size:13px;padding:12px;background:var(--amd);border-radius:12px">'+e.message+'</div>';}
 }
 function saveURLtoKB(){
-if(!lastURL.text){toast(‘Fetch a URL first’,‘warn’);return;}
-var items=getKB();
-items.unshift({type:‘url’,label:lastURL.url.split(’/’).filter(Boolean).pop()||lastURL.url,url:lastURL.url,text:lastURL.text,date:new Date().toLocaleDateString(‘en-GB’,{day:‘numeric’,month:‘short’,year:‘numeric’})});
-saveKB(items);renderKB();toast(‘Saved to Knowledge Base’,‘ok’);document.getElementById(‘save-url-btn’).style.display=‘none’;
+  if(!lastURL.text){toast('Fetch a URL first','warn');return;}
+  var items=getKB();
+  items.unshift({type:'url',label:lastURL.url.split('/').filter(Boolean).pop()||lastURL.url,url:lastURL.url,text:lastURL.text,date:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})});
+  saveKB(items);renderKB();toast('Saved to Knowledge Base','ok');document.getElementById('save-url-btn').style.display='none';
 }
 
-// ── TRANSCRIBE ─────────────────────────────────────────────────────────────────
-var lastTr={label:’’,text:’’};
+// ═══════════════════════════════════════════════════════════════════
+// TRANSCRIBE
+// ═══════════════════════════════════════════════════════════════════
+var lastTr={label:'',text:''};
 async function processTranscript(){
-var lbl=document.getElementById(‘tr-lbl’).value.trim(),raw=document.getElementById(‘tr-txt’).value.trim();
-if(!raw){toast(‘Paste a transcript first’,‘warn’);return;}
-var out=document.getElementById(‘tr-result’);
-out.innerHTML=’<div style="display:flex;align-items:center;gap:8px;padding:12px 0;font-size:13px;color:var(--t3)"><div class="dots"><span></span><span></span><span></span></div> Processing transcript…</div>’;
-try{
-var result=await claudeRaw(‘You are processing a lecture transcript or notes for Edd (EKN Consulting, Nairobi). Clean up and structure: 1) Fix errors/filler words 2) Extract key concepts and frameworks 3) Pull out examples, case studies, statistics 4) Note applications to East African/Kenyan business 5) List top 5 actionable takeaways. Format with headings. Source: ‘+(lbl||‘lecture/class’),‘Raw transcript:\n\n’+raw,2000);
-lastTr={label:lbl||‘Lecture notes’,text:result};
-document.getElementById(‘save-tr-btn’).style.display=’’;
-out.innerHTML=’<div class="card"><div style="font-size:10px;font-family:var(--fm);color:var(--pu);margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em">🎥 ‘+(lbl||‘Transcript’)+’</div><div style="font-size:13px;color:var(--t2);line-height:1.75">’+result.replace(/\n\n/g,’</p><p style="margin-top:8px">’).replace(/\n/g,’<br>’)+’</div><button class="btn btn-p" onclick="saveTranscriptToKB()" style="margin-top:12px;width:100%;justify-content:center">📚 Save to Knowledge Base</button></div>’;
-}catch(e){out.innerHTML=’<div style="color:var(--am);font-size:13px;padding:12px;background:var(--amd);border-radius:12px">’+e.message+’</div>’;}
+  var lbl=document.getElementById('tr-lbl').value.trim(),raw=document.getElementById('tr-txt').value.trim();
+  if(!raw){toast('Paste a transcript first','warn');return;}
+  var out=document.getElementById('tr-result');
+  out.innerHTML='<div style="display:flex;align-items:center;gap:8px;padding:12px 0;font-size:13px;color:var(--t3)"><div class="dots"><span></span><span></span><span></span></div> Processing transcript…</div>';
+  try{
+    var result=await claudeRaw('You are processing a lecture transcript or notes for Edd (EKN Consulting, Nairobi). Clean up and structure: 1) Fix errors/filler words 2) Extract key concepts and frameworks 3) Pull out examples, case studies, statistics 4) Note applications to East African/Kenyan business 5) List top 5 actionable takeaways. Format with headings. Source: '+(lbl||'lecture/class'),'Raw transcript:\n\n'+raw,2000);
+    lastTr={label:lbl||'Lecture notes',text:result};
+    document.getElementById('save-tr-btn').style.display='';
+    out.innerHTML='<div class="card"><div style="font-size:10px;font-family:var(--fm);color:var(--pu);margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em">🎥 '+(lbl||'Transcript')+'</div><div style="font-size:13px;color:var(--t2);line-height:1.75">'+result.replace(/\n\n/g,'</p><p style="margin-top:8px">').replace(/\n/g,'<br>')+'</div><button class="btn btn-p" onclick="saveTranscriptToKB()" style="margin-top:12px;width:100%;justify-content:center">📚 Save to Knowledge Base</button></div>';
+  }catch(e){out.innerHTML='<div style="color:var(--am);font-size:13px;padding:12px;background:var(--amd);border-radius:12px">'+e.message+'</div>';}
 }
 function saveTranscriptToKB(){
-if(!lastTr.text){toast(‘Process a transcript first’,‘warn’);return;}
-var items=getKB();
-items.unshift({type:‘transcript’,label:lastTr.label,text:lastTr.text,date:new Date().toLocaleDateString(‘en-GB’,{day:‘numeric’,month:‘short’,year:‘numeric’})});
-saveKB(items);renderKB();toast(‘Saved to Knowledge Base’,‘ok’);document.getElementById(‘save-tr-btn’).style.display=‘none’;
+  if(!lastTr.text){toast('Process a transcript first','warn');return;}
+  var items=getKB();
+  items.unshift({type:'transcript',label:lastTr.label,text:lastTr.text,date:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})});
+  saveKB(items);renderKB();toast('Saved to Knowledge Base','ok');document.getElementById('save-tr-btn').style.display='none';
 }
 
-// ── CURRENT AFFAIRS ────────────────────────────────────────────────────────────
-var newsAutoMode=false,lastNews=’’;
-document.addEventListener(‘change’,function(e){
-if(e.target.name===‘nm’){
-var wrap=document.getElementById(‘news-search-wrap’);
-if(wrap)wrap.style.display=e.target.value===‘demand’?‘block’:‘none’;
-}
+// ═══════════════════════════════════════════════════════════════════
+// CURRENT AFFAIRS
+// ═══════════════════════════════════════════════════════════════════
+var newsAutoMode=false,lastNews='';
+document.addEventListener('change',function(e){
+  if(e.target.name==='nm'){
+    var wrap=document.getElementById('news-search-wrap');
+    // Only show search box when in the news panel in demand mode
+    var inNewsPanel=document.getElementById('ip-news')&&document.getElementById('ip-news').style.display!=='none';
+    if(wrap)wrap.style.display=(inNewsPanel&&e.target.value==='demand')?'block':'none';
+  }
 });
 
 async function fetchNews(){
-var modeEl=document.querySelector(‘input[name=“nm”]:checked’);
-var mode=modeEl?modeEl.value:‘daily’;
-var out=document.getElementById(‘news-result’);
-newsAutoMode=(mode===‘auto’);
-if(mode===‘auto’){
-out.innerHTML=’<div class="card" style="border-color:var(--cy)"><div style="font-size:11px;color:var(--cy);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Auto-Enriched Mode Active</div><div style="font-size:13px;color:var(--t2);line-height:1.75">Every analysis of your files will now be automatically enriched with current affairs context. Web sources cited with <span class="web-tag">🌐 WEB</span> tags.</div></div>’;
-toast(‘Auto-enrichment enabled’,‘ok’);return;
-}
-var topic=’’,prompt=’’;
-if(mode===‘daily’){
-topic=‘Kenya East Africa business news ‘+new Date().toLocaleDateString(‘en-GB’);
-prompt=‘You are SCENTS current affairs engine for Edd (EKN Consulting, Nairobi).\n\nProvide a daily intelligence brief:\n1. Kenya & East Africa business news (top 3)\n2. Technology & AI relevant to Africa\n3. Kenya policy and regulatory developments\n4. Global macro signals affecting East African markets\n5. Relevance to: Mulika VPP, BIPOLAR, Scents, WISMO\n\nMark ALL current events with [WEB] so Edd knows they are from current knowledge not his files.\nDate: ‘+new Date().toLocaleDateString(‘en-GB’,{weekday:‘long’,day:‘numeric’,month:‘long’,year:‘numeric’});
-}else{
-topic=document.getElementById(‘news-q’).value.trim();
-if(!topic){toast(‘Enter a search topic’,‘warn’);return;}
-prompt=‘You are SCENTS current affairs engine for Edd (EKN Consulting, Nairobi). Research current information about: “’+topic+’”. Focus on: latest developments, East African/Kenyan implications, connections to Mulika VPP, BIPOLAR, Scents, WISMO, specific actions Edd can take. Mark ALL current events [WEB].’;
-}
-out.innerHTML=’<div style="display:flex;align-items:center;gap:8px;padding:12px 0;font-size:13px;color:var(--t3)"><div class="dots"><span></span><span></span><span></span></div> Fetching current affairs…</div>’;
-try{
-var result=await claudeRaw(prompt,topic?‘Search: ‘+topic:‘Generate brief now.’,2000);
-lastNews=result;
-// BUG FIX #5: Regex for [WEB] and [FILES] tags used literal brackets which
-// are regex special chars — they were matching single chars W, E, B etc.
-// Fixed by escaping brackets: [WEB] and [FILES]
-// Also **bold** regex used non-escaped asterisks — fixed
-var fmt=result
-.replace(/[WEB]/g,’<span class="web-tag">🌐 WEB</span>’)
-.replace(/\n\n/g,’</p><p style="margin-top:10px">’)
-.replace(/\n/g,’<br>’)
-.replace(/**(.+?)**/g,’<strong style="color:var(--t1)">$1</strong>’);
-out.innerHTML=’<div class="card"><div style="display:flex;align-items:center;gap:8px;margin-bottom:12px"><span class="tag tc">🌍 Live Intel</span><span style="font-size:11px;color:var(--t3);font-family:var(--fm)">’+new Date().toLocaleTimeString(‘en-GB’,{hour:‘2-digit’,minute:‘2-digit’})+’ · ‘+mode+’</span><span class="web-tag" style="margin-left:auto">🌐 WEB</span><span style="font-size:11px;color:var(--t3)"> = web-sourced</span></div><div style="font-size:13px;color:var(--t2);line-height:1.8">’+fmt+’</div><div style="margin-top:14px;display:flex;gap:8px"><button class="btn btn-p" onclick="saveNewsToKB(this)" style="font-size:13px">📚 Save to KB</button><button class="btn" onclick="crossRefNews()" style="font-size:13px">✦ Cross-Reference</button></div></div>’;
-}catch(e){out.innerHTML=’<div style="color:var(--am);font-size:13px;padding:12px;background:var(--amd);border-radius:12px">’+e.message+’</div>’;}
+  var modeEl=document.querySelector('input[name="nm"]:checked');
+  var mode=modeEl?modeEl.value:'daily';
+  var out=document.getElementById('news-result');
+  newsAutoMode=(mode==='auto');
+  if(mode==='auto'){
+    out.innerHTML='<div class="card" style="border-color:var(--cy)"><div style="font-size:11px;color:var(--cy);font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Auto-Enriched Mode Active</div><div style="font-size:13px;color:var(--t2);line-height:1.75">Every analysis of your files will now be automatically enriched with current affairs context. Web sources cited with <span class="web-tag">🌐 WEB</span> tags.</div></div>';
+    toast('Auto-enrichment enabled','ok');return;
+  }
+  var topic='',prompt='';
+  if(mode==='daily'){
+    topic='Kenya East Africa business news '+new Date().toLocaleDateString('en-GB');
+    prompt='You are SCENTS current affairs engine for Edd (EKN Consulting, Nairobi).\n\nProvide a daily intelligence brief:\n1. Kenya & East Africa business news (top 3)\n2. Technology & AI relevant to Africa\n3. Kenya policy and regulatory developments\n4. Global macro signals affecting East African markets\n5. Relevance to: Mulika VPP, BIPOLAR, Scents, WISMO\n\nMark ALL current events with [WEB] so Edd knows they are from current knowledge not his files.\nDate: '+new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  }else{
+    topic=document.getElementById('news-q').value.trim();
+    if(!topic){toast('Enter a search topic','warn');return;}
+    prompt='You are SCENTS current affairs engine for Edd (EKN Consulting, Nairobi). Research current information about: "'+topic+'". Focus on: latest developments, East African/Kenyan implications, connections to Mulika VPP, BIPOLAR, Scents, WISMO, specific actions Edd can take. Mark ALL current events [WEB].';
+  }
+  out.innerHTML='<div style="display:flex;align-items:center;gap:8px;padding:12px 0;font-size:13px;color:var(--t3)"><div class="dots"><span></span><span></span><span></span></div> Fetching current affairs…</div>';
+  try{
+    var result=await claudeRaw(prompt,topic?'Search: '+topic:'Generate brief now.',2000);
+    lastNews=result;
+    // FIX #5: escaped regex brackets for [WEB] and escaped asterisks for **bold**
+    var fmt=result
+      .replace(/\[WEB\]/g,'<span class="web-tag">🌐 WEB</span>')
+      .replace(/\n\n/g,'</p><p style="margin-top:10px">')
+      .replace(/\n/g,'<br>')
+      .replace(/\*\*(.+?)\*\*/g,'<strong style="color:var(--t1)">$1</strong>');
+    out.innerHTML='<div class="card"><div style="display:flex;align-items:center;gap:8px;margin-bottom:12px"><span class="tag tc">🌍 Live Intel</span><span style="font-size:11px;color:var(--t3);font-family:var(--fm)">'+new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})+' · '+mode+'</span><span class="web-tag" style="margin-left:auto">🌐 WEB</span><span style="font-size:11px;color:var(--t3)"> = web-sourced</span></div><div style="font-size:13px;color:var(--t2);line-height:1.8">'+fmt+'</div><div style="margin-top:14px;display:flex;gap:8px"><button class="btn btn-p" onclick="saveNewsToKB(this)" style="font-size:13px">📚 Save to KB</button><button class="btn" onclick="crossRefNews()" style="font-size:13px">✦ Cross-Reference</button></div></div>';
+  }catch(e){out.innerHTML='<div style="color:var(--am);font-size:13px;padding:12px;background:var(--amd);border-radius:12px">'+e.message+'</div>';}
 }
 
 function saveNewsToKB(btn){
-if(!lastNews)return;
-var items=getKB();
-items.unshift({type:‘news’,label:’Current Affairs — ’+new Date().toLocaleDateString(‘en-GB’,{day:‘numeric’,month:‘short’,year:‘numeric’}),text:lastNews,date:new Date().toLocaleDateString(‘en-GB’,{day:‘numeric’,month:‘short’,year:‘numeric’})});
-saveKB(items);renderKB();toast(‘Current affairs saved to KB’,‘ok’);if(btn)btn.style.display=‘none’;
+  if(!lastNews)return;
+  var items=getKB();
+  items.unshift({type:'news',label:'Current Affairs — '+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}),text:lastNews,date:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})});
+  saveKB(items);renderKB();toast('Current affairs saved to KB','ok');if(btn)btn.style.display='none';
 }
 
 async function crossRefNews(){
-if(!lastNews||!S.analysed){toast(‘Analyse your files first, then fetch news’,‘warn’);return;}
-var out=document.getElementById(‘news-result’);
-out.innerHTML+=’<div style="display:flex;align-items:center;gap:8px;padding:8px 0;font-size:13px;color:var(--t3)"><div class="dots"><span></span><span></span><span></span></div> Cross-referencing with your files…</div>’;
-try{
-var combined=S.corpus.slice(0,8000)+getKBCorpus().slice(0,3000)+’\n\n=== CURRENT AFFAIRS ===\n’+lastNews;
-var ans=await claudeRaw(‘You are SCENTS. Cross-reference current affairs with Edd's files. Surface: CONNECTIONS where events relate to his projects, GAPS what his plans are missing, OPPORTUNITIES specific actions to take, RISKS current events threatening projects. Mark current affairs [WEB] and file info [FILES].’,combined,1500);
-// BUG FIX #5 (continued): same regex fix for cross-reference output
-var fmt=ans
-.replace(/[WEB]/g,’<span class="web-tag">🌐 WEB</span>’)
-.replace(/[FILES]/g,’<span style="display:inline;background:rgba(0,214,122,0.12);border:0.5px solid rgba(0,214,122,0.3);border-radius:4px;padding:1px 5px;font-size:11px;font-family:var(--fm);color:var(--gn)">📁 FILES</span>’)
-.replace(/\n/g,’<br>’);
-out.innerHTML+=’<div class="ins" style="border-left:3px solid var(--gn);margin-top:10px"><div class="i-tp" style="color:var(--gn)">✦ CROSS-REFERENCE ANALYSIS</div><div class="i-bo">’+fmt+’</div></div>’;
-}catch(e){toast(e.message,‘warn’);}
+  if(!lastNews||!S.analysed){toast('Analyse your files first, then fetch news','warn');return;}
+  var out=document.getElementById('news-result');
+  out.innerHTML+='<div style="display:flex;align-items:center;gap:8px;padding:8px 0;font-size:13px;color:var(--t3)"><div class="dots"><span></span><span></span><span></span></div> Cross-referencing with your files…</div>';
+  try{
+    var combined=S.corpus.slice(0,8000)+getKBCorpus().slice(0,3000)+'\n\n=== CURRENT AFFAIRS ===\n'+lastNews;
+    var ans=await claudeRaw('You are SCENTS. Cross-reference current affairs with Edd\'s files. Surface: CONNECTIONS where events relate to his projects, GAPS what his plans are missing, OPPORTUNITIES specific actions to take, RISKS current events threatening projects. Mark current affairs [WEB] and file info [FILES].',combined,1500);
+    // FIX #5 (continued): correct escaped bracket regex for [WEB] and [FILES]
+    var fmt=ans
+      .replace(/\[WEB\]/g,'<span class="web-tag">🌐 WEB</span>')
+      .replace(/\[FILES\]/g,'<span style="display:inline;background:rgba(0,214,122,0.12);border:0.5px solid rgba(0,214,122,0.3);border-radius:4px;padding:1px 5px;font-size:11px;font-family:var(--fm);color:var(--gn)">📁 FILES</span>')
+      .replace(/\n/g,'<br>');
+    out.innerHTML+='<div class="ins" style="border-left:3px solid var(--gn);margin-top:10px"><div class="i-tp" style="color:var(--gn)">✦ CROSS-REFERENCE ANALYSIS</div><div class="i-bo">'+fmt+'</div></div>';
+  }catch(e){toast(e.message,'warn');}
 }
 
-// ── REPORT ─────────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════
+// REPORT
+// ═══════════════════════════════════════════════════════════════════
 async function generateReport(){
-if(!S.analysed){toast(‘Analyse files first’,‘warn’);return;}
-var type=document.getElementById(‘rpt-type’).value,focus=document.getElementById(‘rpt-focus’).value,ctx=document.getElementById(‘rpt-ctx’).value;
-var out=document.getElementById(‘rpt-out’),cont=document.getElementById(‘rpt-content’);
-out.style.display=‘block’;
-cont.innerHTML=’<div style="display:flex;align-items:center;gap:10px;padding:20px 0"><div class="dots"><span></span><span></span><span></span></div><span style="font-size:14px;color:var(--t2)">Generating…</span></div>’;
-var q=S.rQ.length?’\n\nFlagged:\n’+S.rQ.map(function(r){return ‘- ‘+r.title+’: ‘+r.body;}).join(’\n’):’’;
-try{
-var ans=await claudeRaw(‘You are SCENTS generating a professional consulting report for Edd (EKN Consulting International Ltd, Nairobi). Use ## for sections, ### for subsections, **bold** for key terms, - for bullets. Reference actual names, numbers, and content from the documents.’,‘Type: ‘+type+’\nFocus: ‘+(focus||‘All projects’)+’\nContext: ‘+(ctx||‘General’)+’\n\nCorpus:\n’+S.corpus.slice(0,9500)+q,3000);
-// BUG FIX #6: Report HTML generation had broken regex for **bold** (unescaped asterisks)
-// and the <li> grouping regex used a character class that ate the closing tag
-var html=ans
-.replace(/^## (.+)$/gm,’<h2>$1</h2>’)
-.replace(/^### (.+)$/gm,’<h3>$1</h3>’)
-.replace(/**(.+?)**/g,’<strong>$1</strong>’)
-.replace(/^- (.+)$/gm,’<li>$1</li>’)
-.replace(/(<li>.*?</li>\n?)+/g,function(s){return ‘<ul>’+s+’</ul>’;})
-.replace(/\n\n/g,’<p></p>’);
-cont.innerHTML=’<div style="border-bottom:0.5px solid var(--b1);padding-bottom:14px;margin-bottom:20px"><div style="font-family:var(--fd);font-size:20px;font-weight:800;margin-bottom:3px">’+type+(focus?’ — ‘+focus:’’)+’</div><div style="font-size:10px;color:var(--t3);font-family:var(--fm)">EKN Consulting · SCENTS · ‘+new Date().toLocaleDateString(‘en-GB’,{day:‘numeric’,month:‘long’,year:‘numeric’})+’ · Nairobi</div></div>’+html+’<div style="margin-top:20px;padding-top:12px;border-top:0.5px solid var(--b1);font-size:10px;color:var(--t3);font-family:var(--fm)">SCENTS Personal Intelligence · EKN Consulting International Ltd</div>’;
-S.rQ=[];toast(‘Report ready’,‘ok’);document.getElementById(‘scroll’).scrollTo(0,99999);
-}catch(e){cont.innerHTML=’<div style="color:var(--am);padding:12px">’+e.message+’</div>’;}
-}
-async function shareReport(){
-var text=document.getElementById(‘rpt-content’).innerText;
-if(navigator.share){try{await navigator.share({title:‘SCENTS Intelligence Report’,text:text});}catch(e){if(e.name!==‘AbortError’)toast(‘Share failed’,‘warn’);}}
-else{await navigator.clipboard.writeText(text);toast(‘Report copied to clipboard’,‘ok’);}
+  if(!S.analysed){toast('Analyse files first','warn');return;}
+  var type=document.getElementById('rpt-type').value,focus=document.getElementById('rpt-focus').value,ctx=document.getElementById('rpt-ctx').value;
+  var out=document.getElementById('rpt-out'),cont=document.getElementById('rpt-content');
+  out.style.display='block';
+  cont.innerHTML='<div style="display:flex;align-items:center;gap:10px;padding:20px 0"><div class="dots"><span></span><span></span><span></span></div><span style="font-size:14px;color:var(--t2)">Generating…</span></div>';
+  var q=S.rQ.length?'\n\nFlagged:\n'+S.rQ.map(function(r){return '- '+r.title+': '+r.body;}).join('\n'):'';
+  try{
+    var ans=await claudeRaw('You are SCENTS generating a professional consulting report for Edd (EKN Consulting International Ltd, Nairobi). Use ## for sections, ### for subsections, **bold** for key terms, - for bullets. Reference actual names, numbers, and content from the documents.','Type: '+type+'\nFocus: '+(focus||'All projects')+'\nContext: '+(ctx||'General')+'\n\nCorpus:\n'+S.corpus.slice(0,9500)+q,3000);
+    // FIX #6: correct escaped asterisks for **bold** regex; renamed li grouping callback param
+    var html=ans
+      .replace(/^## (.+)$/gm,'<h2>$1</h2>')
+      .replace(/^### (.+)$/gm,'<h3>$1</h3>')
+      .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+      .replace(/^- (.+)$/gm,'<li>$1</li>')
+      .replace(/(<li>[^<]*<\/li>\n?)+/g,function(match){return '<ul>'+match+'</ul>';})
+      .replace(/\n\n/g,'<p></p>');
+    cont.innerHTML='<div style="border-bottom:0.5px solid var(--b1);padding-bottom:14px;margin-bottom:20px"><div style="font-family:var(--fd);font-size:20px;font-weight:800;margin-bottom:3px">'+type+(focus?' — '+focus:'')+'</div><div style="font-size:10px;color:var(--t3);font-family:var(--fm)">EKN Consulting · SCENTS · '+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+' · Nairobi</div></div>'+html+'<div style="margin-top:20px;padding-top:12px;border-top:0.5px solid var(--b1);font-size:10px;color:var(--t3);font-family:var(--fm)">SCENTS Personal Intelligence · EKN Consulting International Ltd</div>';
+    S.rQ=[];toast('Report ready','ok');document.getElementById('scroll').scrollTo(0,99999);
+  }catch(e){cont.innerHTML='<div style="color:var(--am);padding:12px">'+e.message+'</div>';}
 }
 
-// ── SIGNALS / BEHAVIOUR ENGINE ─────────────────────────────────────────────────
+async function shareReport(){
+  var text=document.getElementById('rpt-content').innerText;
+  if(navigator.share){
+    try{await navigator.share({title:'SCENTS Intelligence Report',text:text});}
+    catch(e){if(e.name!=='AbortError')toast('Share failed','warn');}
+  }else{
+    await navigator.clipboard.writeText(text);toast('Report copied to clipboard','ok');
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// SIGNALS / BEHAVIOUR ENGINE
+// ═══════════════════════════════════════════════════════════════════
 var EVENT_SCHEMA=[
-{id:‘MarketResearch’,layer:‘Awareness’,fi:0.18,alpha:0.3,color:’#00C8F0’,bg:‘rgba(0,200,240,0.15)’,desc:‘Researching a market, sector or opportunity’},
-{id:‘CompetitorScan’,layer:‘Awareness’,fi:0.15,alpha:0.3,color:’#00C8F0’,bg:‘rgba(0,200,240,0.15)’,desc:‘Scanning competitor activity or positioning’},
-{id:‘LeadIdentified’,layer:‘Awareness’,fi:0.25,alpha:0.4,color:’#00C8F0’,bg:‘rgba(0,200,240,0.15)’,desc:‘New potential client or investor identified’},
-{id:‘RegulatoryAlert’,layer:‘Awareness’,fi:0.30,alpha:0.5,color:’#00C8F0’,bg:‘rgba(0,200,240,0.15)’,desc:‘Kenya/EA policy or regulatory signal noted’},
-{id:‘MediaMention’,layer:‘Awareness’,fi:0.14,alpha:0.2,color:’#00C8F0’,bg:‘rgba(0,200,240,0.15)’,desc:‘Your venture or sector mentioned in media’},
-{id:‘FirstMeeting’,layer:‘Consideration’,fi:0.45,alpha:0.6,color:’#9B72FF’,bg:‘rgba(155,114,255,0.15)’,desc:‘First substantive meeting or call with a prospect’},
-{id:‘ProposalRequested’,layer:‘Consideration’,fi:0.58,alpha:0.7,color:’#9B72FF’,bg:‘rgba(155,114,255,0.15)’,desc:‘Client or investor asks for a proposal or deck’},
-{id:‘BudgetDiscussion’,layer:‘Consideration’,fi:0.62,alpha:0.8,color:’#9B72FF’,bg:‘rgba(155,114,255,0.15)’,desc:‘Fees, budget or investment size discussed’},
-{id:‘StakeholderIntro’,layer:‘Consideration’,fi:0.44,alpha:0.6,color:’#9B72FF’,bg:‘rgba(155,114,255,0.15)’,desc:‘Introduced to an additional decision-maker’},
-{id:‘DueDiligenceRequest’,layer:‘Consideration’,fi:0.68,alpha:0.8,color:’#9B72FF’,bg:‘rgba(155,114,255,0.15)’,desc:‘Client or investor requests due diligence materials’},
-{id:‘FollowUpMeeting’,layer:‘Consideration’,fi:0.52,alpha:0.7,color:’#9B72FF’,bg:‘rgba(155,114,255,0.15)’,desc:‘Second or subsequent meeting on the same opportunity’},
-{id:‘NDAShared’,layer:‘Consideration’,fi:0.60,alpha:0.7,color:’#9B72FF’,bg:‘rgba(155,114,255,0.15)’,desc:‘NDA or confidentiality agreement exchanged’},
-{id:‘ContractSigned’,layer:‘Conversion’,fi:1.00,alpha:1.0,color:’#00D67A’,bg:‘rgba(0,214,122,0.15)’,desc:‘Engagement contract or retainer signed — GROUND TRUTH’},
-{id:‘InvestmentClosed’,layer:‘Conversion’,fi:1.00,alpha:1.0,color:’#00D67A’,bg:‘rgba(0,214,122,0.15)’,desc:‘Funding round or investor commitment secured — GROUND TRUTH’},
-{id:‘PaymentReceived’,layer:‘Conversion’,fi:1.00,alpha:1.0,color:’#00D67A’,bg:‘rgba(0,214,122,0.15)’,desc:‘Invoice paid — cash received — GROUND TRUTH’},
-{id:‘PartnershipSigned’,layer:‘Conversion’,fi:1.00,alpha:1.0,color:’#00D67A’,bg:‘rgba(0,214,122,0.15)’,desc:‘Formal partnership or MOU executed — GROUND TRUTH’},
-{id:‘RetainerStarted’,layer:‘Conversion’,fi:0.95,alpha:0.9,color:’#00D67A’,bg:‘rgba(0,214,122,0.15)’,desc:‘Ongoing retainer arrangement confirmed and started’},
-{id:‘DeliverableSubmitted’,layer:‘Delivery’,fi:0.70,alpha:0.8,color:’#E8C200’,bg:‘rgba(232,194,0,0.15)’,desc:‘Report, deck or deliverable submitted to client’},
-{id:‘ClientApproval’,layer:‘Delivery’,fi:0.76,alpha:0.9,color:’#E8C200’,bg:‘rgba(232,194,0,0.15)’,desc:‘Client formally approves work or signs off on milestone’},
-{id:‘MilestoneReached’,layer:‘Delivery’,fi:0.68,alpha:0.8,color:’#E8C200’,bg:‘rgba(232,194,0,0.15)’,desc:‘Key project milestone achieved on time’},
-{id:‘ReferralReceived’,layer:‘Delivery’,fi:0.82,alpha:0.9,color:’#E8C200’,bg:‘rgba(232,194,0,0.15)’,desc:‘Client refers EKN to a new prospect — strongest LTV signal’},
-{id:‘ContractRenewal’,layer:‘Delivery’,fi:0.88,alpha:0.9,color:’#E8C200’,bg:‘rgba(232,194,0,0.15)’,desc:‘Existing engagement renewed or scope extended’},
-{id:‘MulikaVPP_Investor’,layer:‘VentureSignal’,fi:0.78,alpha:0.9,color:’#FF3A5C’,bg:‘rgba(255,58,92,0.15)’,desc:‘Mulika VPP — investor meeting, term sheet or due diligence’},
-{id:‘BIPOLAR_Drop’,layer:‘VentureSignal’,fi:0.65,alpha:0.7,color:’#FF3A5C’,bg:‘rgba(255,58,92,0.15)’,desc:‘BIPOLAR™ — product drop, campaign launch or sale event’},
-{id:‘Scents_Demo’,layer:‘VentureSignal’,fi:0.80,alpha:0.9,color:’#FF3A5C’,bg:‘rgba(255,58,92,0.15)’,desc:‘Scents Platform — client demo, pilot or data deal’},
-{id:‘WISMO_Merchant’,layer:‘VentureSignal’,fi:0.68,alpha:0.8,color:’#FF3A5C’,bg:‘rgba(255,58,92,0.15)’,desc:‘WISMO — new merchant onboarded or delivery milestone’},
-{id:‘MDMC_DataEvent’,layer:‘VentureSignal’,fi:0.58,alpha:0.6,color:’#FF3A5C’,bg:‘rgba(255,58,92,0.15)’,desc:‘MDMC — patient record, SHA/AAR/Jubilee or API event’},
-{id:‘CrossVentureSynergy’,layer:‘VentureSignal’,fi:0.85,alpha:0.9,color:’#FF3A5C’,bg:‘rgba(255,58,92,0.15)’,desc:‘Two or more EKN ventures intersect on a single deal’},
-{id:‘InvoiceRaised’,layer:‘Financial’,fi:0.62,alpha:0.7,color:’#F5A800’,bg:‘rgba(245,168,0,0.15)’,desc:‘Invoice issued and sent to client’},
-{id:‘PaymentDelayed’,layer:‘Financial’,fi:0.58,alpha:0.7,color:’#F5A800’,bg:‘rgba(245,168,0,0.15)’,desc:‘Expected payment overdue — cash flow risk signal’},
-{id:‘GrantOpportunity’,layer:‘Financial’,fi:0.72,alpha:0.8,color:’#F5A800’,bg:‘rgba(245,168,0,0.15)’,desc:‘Grant, DFI funding or impact capital identified’},
-{id:‘ValuationEvent’,layer:‘Financial’,fi:0.76,alpha:0.8,color:’#F5A800’,bg:‘rgba(245,168,0,0.15)’,desc:‘Venture valuation formally discussed or updated’},
-{id:‘KenyaPolicyChange’,layer:‘MacroKE’,fi:0.78,alpha:0.9,color:’#00C8F0’,bg:‘rgba(0,200,240,0.12)’,desc:‘Kenya government policy, Finance Bill or regulation change’},
-{id:‘EastAfricaMarket’,layer:‘MacroKE’,fi:0.65,alpha:0.8,color:’#00C8F0’,bg:‘rgba(0,200,240,0.12)’,desc:‘East African regional market development affecting EKN’},
-{id:‘FXRateShift’,layer:‘MacroKE’,fi:0.60,alpha:0.7,color:’#00C8F0’,bg:‘rgba(0,200,240,0.12)’,desc:‘KES/USD or relevant FX rate significant movement’},
-{id:‘EnergyGridEvent’,layer:‘MacroKE’,fi:0.74,alpha:0.8,color:’#00C8F0’,bg:‘rgba(0,200,240,0.12)’,desc:‘Kenya power grid, KPLC or renewable energy sector event’},
-{id:‘StartupEcosystem’,layer:‘MacroKE’,fi:0.55,alpha:0.6,color:’#00C8F0’,bg:‘rgba(0,200,240,0.12)’,desc:‘Nairobi/Africa startup ecosystem — funding, exits, M&A’},
-{id:‘KeyIntroduction’,layer:‘RelGraph’,fi:0.84,alpha:0.9,color:’#9B72FF’,bg:‘rgba(155,114,255,0.12)’,desc:‘High-value introduction made or received’},
-{id:‘MentorAdvisorEngaged’,layer:‘RelGraph’,fi:0.68,alpha:0.8,color:’#9B72FF’,bg:‘rgba(155,114,255,0.12)’,desc:‘Advisor, mentor or board member formally consulted’},
-{id:‘MediaInterview’,layer:‘RelGraph’,fi:0.64,alpha:0.7,color:’#9B72FF’,bg:‘rgba(155,114,255,0.12)’,desc:‘Interview, podcast, panel or speaking engagement’},
-{id:‘ConferencePitch’,layer:‘RelGraph’,fi:0.72,alpha:0.8,color:’#9B72FF’,bg:‘rgba(155,114,255,0.12)’,desc:‘EKN or a venture pitched at a conference or event’},
-{id:‘NetworkReActivated’,layer:‘RelGraph’,fi:0.58,alpha:0.7,color:’#9B72FF’,bg:‘rgba(155,114,255,0.12)’,desc:‘Dormant contact re-engaged — 2nd-order opportunity’},
-{id:‘CompetitorMove’,layer:‘StratIntel’,fi:0.74,alpha:0.8,color:’#00D67A’,bg:‘rgba(0,214,122,0.12)’,desc:‘Competitor launches, pivots or wins a deal in your space’},
-{id:‘RegulatoryRisk’,layer:‘StratIntel’,fi:0.82,alpha:0.9,color:’#00D67A’,bg:‘rgba(0,214,122,0.12)’,desc:‘Regulatory change threatening a venture or live deal’},
-{id:‘StrategicGapFound’,layer:‘StratIntel’,fi:0.88,alpha:0.9,color:’#00D67A’,bg:‘rgba(0,214,122,0.12)’,desc:‘Unmet market or client need EKN is positioned to fill’},
-{id:‘AllianceOpportunity’,layer:‘StratIntel’,fi:0.80,alpha:0.9,color:’#00D67A’,bg:‘rgba(0,214,122,0.12)’,desc:‘Strategic alliance or JV opportunity surfaces’},
-{id:‘MarketEntrySignal’,layer:‘StratIntel’,fi:0.76,alpha:0.8,color:’#00D67A’,bg:‘rgba(0,214,122,0.12)’,desc:‘New geography, sector or client segment becomes viable’},
+  {id:'MarketResearch',layer:'Awareness',fi:0.18,alpha:0.3,color:'#00C8F0',bg:'rgba(0,200,240,0.15)',desc:'Researching a market, sector or opportunity'},
+  {id:'CompetitorScan',layer:'Awareness',fi:0.15,alpha:0.3,color:'#00C8F0',bg:'rgba(0,200,240,0.15)',desc:'Scanning competitor activity or positioning'},
+  {id:'LeadIdentified',layer:'Awareness',fi:0.25,alpha:0.4,color:'#00C8F0',bg:'rgba(0,200,240,0.15)',desc:'New potential client or investor identified'},
+  {id:'RegulatoryAlert',layer:'Awareness',fi:0.30,alpha:0.5,color:'#00C8F0',bg:'rgba(0,200,240,0.15)',desc:'Kenya/EA policy or regulatory signal noted'},
+  {id:'MediaMention',layer:'Awareness',fi:0.14,alpha:0.2,color:'#00C8F0',bg:'rgba(0,200,240,0.15)',desc:'Your venture or sector mentioned in media'},
+  {id:'FirstMeeting',layer:'Consideration',fi:0.45,alpha:0.6,color:'#9B72FF',bg:'rgba(155,114,255,0.15)',desc:'First substantive meeting or call with a prospect'},
+  {id:'ProposalRequested',layer:'Consideration',fi:0.58,alpha:0.7,color:'#9B72FF',bg:'rgba(155,114,255,0.15)',desc:'Client or investor asks for a proposal or deck'},
+  {id:'BudgetDiscussion',layer:'Consideration',fi:0.62,alpha:0.8,color:'#9B72FF',bg:'rgba(155,114,255,0.15)',desc:'Fees, budget or investment size discussed'},
+  {id:'StakeholderIntro',layer:'Consideration',fi:0.44,alpha:0.6,color:'#9B72FF',bg:'rgba(155,114,255,0.15)',desc:'Introduced to an additional decision-maker'},
+  {id:'DueDiligenceRequest',layer:'Consideration',fi:0.68,alpha:0.8,color:'#9B72FF',bg:'rgba(155,114,255,0.15)',desc:'Client or investor requests due diligence materials'},
+  {id:'FollowUpMeeting',layer:'Consideration',fi:0.52,alpha:0.7,color:'#9B72FF',bg:'rgba(155,114,255,0.15)',desc:'Second or subsequent meeting on the same opportunity'},
+  {id:'NDAShared',layer:'Consideration',fi:0.60,alpha:0.7,color:'#9B72FF',bg:'rgba(155,114,255,0.15)',desc:'NDA or confidentiality agreement exchanged'},
+  {id:'ContractSigned',layer:'Conversion',fi:1.00,alpha:1.0,color:'#00D67A',bg:'rgba(0,214,122,0.15)',desc:'Engagement contract or retainer signed — GROUND TRUTH'},
+  {id:'InvestmentClosed',layer:'Conversion',fi:1.00,alpha:1.0,color:'#00D67A',bg:'rgba(0,214,122,0.15)',desc:'Funding round or investor commitment secured — GROUND TRUTH'},
+  {id:'PaymentReceived',layer:'Conversion',fi:1.00,alpha:1.0,color:'#00D67A',bg:'rgba(0,214,122,0.15)',desc:'Invoice paid — cash received — GROUND TRUTH'},
+  {id:'PartnershipSigned',layer:'Conversion',fi:1.00,alpha:1.0,color:'#00D67A',bg:'rgba(0,214,122,0.15)',desc:'Formal partnership or MOU executed — GROUND TRUTH'},
+  {id:'RetainerStarted',layer:'Conversion',fi:0.95,alpha:0.9,color:'#00D67A',bg:'rgba(0,214,122,0.15)',desc:'Ongoing retainer arrangement confirmed and started'},
+  {id:'DeliverableSubmitted',layer:'Delivery',fi:0.70,alpha:0.8,color:'#E8C200',bg:'rgba(232,194,0,0.15)',desc:'Report, deck or deliverable submitted to client'},
+  {id:'ClientApproval',layer:'Delivery',fi:0.76,alpha:0.9,color:'#E8C200',bg:'rgba(232,194,0,0.15)',desc:'Client formally approves work or signs off on milestone'},
+  {id:'MilestoneReached',layer:'Delivery',fi:0.68,alpha:0.8,color:'#E8C200',bg:'rgba(232,194,0,0.15)',desc:'Key project milestone achieved on time'},
+  {id:'ReferralReceived',layer:'Delivery',fi:0.82,alpha:0.9,color:'#E8C200',bg:'rgba(232,194,0,0.15)',desc:'Client refers EKN to a new prospect — strongest LTV signal'},
+  {id:'ContractRenewal',layer:'Delivery',fi:0.88,alpha:0.9,color:'#E8C200',bg:'rgba(232,194,0,0.15)',desc:'Existing engagement renewed or scope extended'},
+  {id:'MulikaVPP_Investor',layer:'VentureSignal',fi:0.78,alpha:0.9,color:'#FF3A5C',bg:'rgba(255,58,92,0.15)',desc:'Mulika VPP — investor meeting, term sheet or due diligence'},
+  {id:'BIPOLAR_Drop',layer:'VentureSignal',fi:0.65,alpha:0.7,color:'#FF3A5C',bg:'rgba(255,58,92,0.15)',desc:'BIPOLAR™ — product drop, campaign launch or sale event'},
+  {id:'Scents_Demo',layer:'VentureSignal',fi:0.80,alpha:0.9,color:'#FF3A5C',bg:'rgba(255,58,92,0.15)',desc:'Scents Platform — client demo, pilot or data deal'},
+  {id:'WISMO_Merchant',layer:'VentureSignal',fi:0.68,alpha:0.8,color:'#FF3A5C',bg:'rgba(255,58,92,0.15)',desc:'WISMO — new merchant onboarded or delivery milestone'},
+  {id:'MDMC_DataEvent',layer:'VentureSignal',fi:0.58,alpha:0.6,color:'#FF3A5C',bg:'rgba(255,58,92,0.15)',desc:'MDMC — patient record, SHA/AAR/Jubilee or API event'},
+  {id:'CrossVentureSynergy',layer:'VentureSignal',fi:0.85,alpha:0.9,color:'#FF3A5C',bg:'rgba(255,58,92,0.15)',desc:'Two or more EKN ventures intersect on a single deal'},
+  {id:'InvoiceRaised',layer:'Financial',fi:0.62,alpha:0.7,color:'#F5A800',bg:'rgba(245,168,0,0.15)',desc:'Invoice issued and sent to client'},
+  {id:'PaymentDelayed',layer:'Financial',fi:0.58,alpha:0.7,color:'#F5A800',bg:'rgba(245,168,0,0.15)',desc:'Expected payment overdue — cash flow risk signal'},
+  {id:'GrantOpportunity',layer:'Financial',fi:0.72,alpha:0.8,color:'#F5A800',bg:'rgba(245,168,0,0.15)',desc:'Grant, DFI funding or impact capital identified'},
+  {id:'ValuationEvent',layer:'Financial',fi:0.76,alpha:0.8,color:'#F5A800',bg:'rgba(245,168,0,0.15)',desc:'Venture valuation formally discussed or updated'},
+  {id:'KenyaPolicyChange',layer:'MacroKE',fi:0.78,alpha:0.9,color:'#00C8F0',bg:'rgba(0,200,240,0.12)',desc:'Kenya government policy, Finance Bill or regulation change'},
+  {id:'EastAfricaMarket',layer:'MacroKE',fi:0.65,alpha:0.8,color:'#00C8F0',bg:'rgba(0,200,240,0.12)',desc:'East African regional market development affecting EKN'},
+  {id:'FXRateShift',layer:'MacroKE',fi:0.60,alpha:0.7,color:'#00C8F0',bg:'rgba(0,200,240,0.12)',desc:'KES/USD or relevant FX rate significant movement'},
+  {id:'EnergyGridEvent',layer:'MacroKE',fi:0.74,alpha:0.8,color:'#00C8F0',bg:'rgba(0,200,240,0.12)',desc:'Kenya power grid, KPLC or renewable energy sector event'},
+  {id:'StartupEcosystem',layer:'MacroKE',fi:0.55,alpha:0.6,color:'#00C8F0',bg:'rgba(0,200,240,0.12)',desc:'Nairobi/Africa startup ecosystem — funding, exits, M&A'},
+  {id:'KeyIntroduction',layer:'RelGraph',fi:0.84,alpha:0.9,color:'#9B72FF',bg:'rgba(155,114,255,0.12)',desc:'High-value introduction made or received'},
+  {id:'MentorAdvisorEngaged',layer:'RelGraph',fi:0.68,alpha:0.8,color:'#9B72FF',bg:'rgba(155,114,255,0.12)',desc:'Advisor, mentor or board member formally consulted'},
+  {id:'MediaInterview',layer:'RelGraph',fi:0.64,alpha:0.7,color:'#9B72FF',bg:'rgba(155,114,255,0.12)',desc:'Interview, podcast, panel or speaking engagement'},
+  {id:'ConferencePitch',layer:'RelGraph',fi:0.72,alpha:0.8,color:'#9B72FF',bg:'rgba(155,114,255,0.12)',desc:'EKN or a venture pitched at a conference or event'},
+  {id:'NetworkReActivated',layer:'RelGraph',fi:0.58,alpha:0.7,color:'#9B72FF',bg:'rgba(155,114,255,0.12)',desc:'Dormant contact re-engaged — 2nd-order opportunity'},
+  {id:'CompetitorMove',layer:'StratIntel',fi:0.74,alpha:0.8,color:'#00D67A',bg:'rgba(0,214,122,0.12)',desc:'Competitor launches, pivots or wins a deal in your space'},
+  {id:'RegulatoryRisk',layer:'StratIntel',fi:0.82,alpha:0.9,color:'#00D67A',bg:'rgba(0,214,122,0.12)',desc:'Regulatory change threatening a venture or live deal'},
+  {id:'StrategicGapFound',layer:'StratIntel',fi:0.88,alpha:0.9,color:'#00D67A',bg:'rgba(0,214,122,0.12)',desc:'Unmet market or client need EKN is positioned to fill'},
+  {id:'AllianceOpportunity',layer:'StratIntel',fi:0.80,alpha:0.9,color:'#00D67A',bg:'rgba(0,214,122,0.12)',desc:'Strategic alliance or JV opportunity surfaces'},
+  {id:'MarketEntrySignal',layer:'StratIntel',fi:0.76,alpha:0.8,color:'#00D67A',bg:'rgba(0,214,122,0.12)',desc:'New geography, sector or client segment becomes viable'},
 ];
 
 var BS={events:[],totalFI:0,mapM:0,mapA:0,mapP:0,rw:{opportunity:0.5,risk:0.5,financial:0.5,client:0.5,deadline:0.5},rwP:{alpha:0.1,beta:0.3,lambda:1.0},eng:{opportunity:0,risk:0,financial:0,client:0,deadline:0},total:0};
 
 function openEvtModal(){
-var suggestions=EVENT_SCHEMA.map(function(e){return ‘<option value="'+e.id+'">’;}).join(’’);
-var m=document.createElement(‘div’);m.className=‘mbg’;
-m.innerHTML=’<div class="modal" onclick="event.stopPropagation()"><div class="mhdl"></div><div class="mttl">Log Consulting Signal</div><div class="flbl" style="margin-top:0">Event Type</div><div style="font-size:12px;color:var(--t3);font-family:var(--fm);margin-bottom:6px">Type your own or pick from EKN consulting events</div><datalist id="ev-dl">’+suggestions+’</datalist><input type="text" id="ev-id" list="ev-dl" placeholder="e.g. ContractSigned, FirstMeeting, MulikaVPP_Investor..." style="margin-bottom:6px" oninput="previewFI(this.value)"><div id="fi-prev" style="font-size:11px;color:var(--pu);font-family:var(--fm);margin-bottom:12px;min-height:16px"></div><div class="flbl">Entity / Subject</div><input type="text" id="ev-ent" placeholder="e.g. Mulika VPP Investor, Scents Enterprise Client..." style="margin-bottom:12px"><div class="flbl">Layer (auto-detected)</div><input type="text" id="ev-lyr" placeholder="e.g. Consideration, Custom..." style="margin-bottom:12px"><div class="flbl">Motivation (0–10)</div><input type="range" id="ev-m" min="0" max="10" value="5" style="width:100%" oninput="document.getElementById(\'ev-mv\').textContent=this.value"><div style="font-family:var(--fm);font-size:12px;color:var(--cy);margin-bottom:10px">M = <span id="ev-mv">5</span></div><div class="flbl">Ability (0–10)</div><input type="range" id="ev-a" min="0" max="10" value="5" style="width:100%" oninput="document.getElementById(\'ev-av\').textContent=this.value"><div style="font-family:var(--fm);font-size:12px;color:var(--gn);margin-bottom:10px">A = <span id="ev-av">5</span></div><div class="flbl">Prompt (0–10)</div><input type="range" id="ev-p" min="0" max="10" value="5" style="width:100%" oninput="document.getElementById(\'ev-pv\').textContent=this.value"><div style="font-family:var(--fm);font-size:12px;color:var(--am);margin-bottom:14px">P = <span id="ev-pv">5</span></div><div style="display:flex;gap:8px"><button class="btn btn-p" onclick="logEvt(this)" style="flex:1;justify-content:center;font-size:14px">Log Signal</button><button class="btn" onclick="this.closest(\'.mbg\').remove()" style="flex:1;justify-content:center">Cancel</button></div></div>’;
-m.onclick=function(){m.remove();};document.body.appendChild(m);
+  var suggestions=EVENT_SCHEMA.map(function(e){return '<option value="'+e.id+'">';}).join('');
+  var m=document.createElement('div');m.className='mbg';
+  m.innerHTML='<div class="modal" onclick="event.stopPropagation()"><div class="mhdl"></div><div class="mttl">Log Consulting Signal</div><div class="flbl" style="margin-top:0">Event Type</div><div style="font-size:12px;color:var(--t3);font-family:var(--fm);margin-bottom:6px">Type your own or pick from EKN consulting events</div><datalist id="ev-dl">'+suggestions+'</datalist><input type="text" id="ev-id" list="ev-dl" placeholder="e.g. ContractSigned, FirstMeeting, MulikaVPP_Investor..." style="margin-bottom:6px" oninput="previewFI(this.value)"><div id="fi-prev" style="font-size:11px;color:var(--pu);font-family:var(--fm);margin-bottom:12px;min-height:16px"></div><div class="flbl">Entity / Subject</div><input type="text" id="ev-ent" placeholder="e.g. Mulika VPP Investor, Scents Enterprise Client..." style="margin-bottom:12px"><div class="flbl">Layer (auto-detected)</div><input type="text" id="ev-lyr" placeholder="e.g. Consideration, Custom..." style="margin-bottom:12px"><div class="flbl">Motivation (0-10)</div><input type="range" id="ev-m" min="0" max="10" value="5" style="width:100%" oninput="document.getElementById(\'ev-mv\').textContent=this.value"><div style="font-family:var(--fm);font-size:12px;color:var(--cy);margin-bottom:10px">M = <span id="ev-mv">5</span></div><div class="flbl">Ability (0-10)</div><input type="range" id="ev-a" min="0" max="10" value="5" style="width:100%" oninput="document.getElementById(\'ev-av\').textContent=this.value"><div style="font-family:var(--fm);font-size:12px;color:var(--gn);margin-bottom:10px">A = <span id="ev-av">5</span></div><div class="flbl">Prompt (0-10)</div><input type="range" id="ev-p" min="0" max="10" value="5" style="width:100%" oninput="document.getElementById(\'ev-pv\').textContent=this.value"><div style="font-family:var(--fm);font-size:12px;color:var(--am);margin-bottom:14px">P = <span id="ev-pv">5</span></div><div style="display:flex;gap:8px"><button class="btn btn-p" onclick="logEvt(this)" style="flex:1;justify-content:center;font-size:14px">Log Signal</button><button class="btn" onclick="this.closest(\'.mbg\').remove()" style="flex:1;justify-content:center">Cancel</button></div></div>';
+  m.onclick=function(){m.remove();};document.body.appendChild(m);
 }
 
+// FIX #7: previewFI — CSS var references corrected from en-dash (–) to double-hyphen (--)
 function previewFI(val){
-var s=EVENT_SCHEMA.find(function(e){return e.id===val;});
-var prev=document.getElementById(‘fi-prev’),lyr=document.getElementById(‘ev-lyr’);
-if(s){
-prev.innerHTML=’<strong>✓ ‘+s.layer+’</strong> · FI: ‘+s.fi.toFixed(3)+’ — <span style="color:var(--t3);font-size:10px">’+s.desc+’</span>’;
-// BUG FIX #7: previewFI used CSS var refs with en-dash (–) instead of hyphen (-)
-// ‘var(–gn)’ → ‘var(–gn)’ — en-dash causes silent style failure
-prev.style.color=‘var(–gn)’;
-lyr.value=s.layer;
-}else if(val.trim()){
-prev.textContent=‘◈ Custom event — FI default: 0.400’;
-prev.style.color=‘var(–cy)’;
-}else{prev.textContent=’’;}
+  var s=EVENT_SCHEMA.find(function(e){return e.id===val;});
+  var prev=document.getElementById('fi-prev'),lyr=document.getElementById('ev-lyr');
+  if(s){
+    prev.innerHTML='<strong>✓ '+s.layer+'</strong> · FI: '+s.fi.toFixed(3)+' — <span style="color:var(--t3);font-size:10px">'+s.desc+'</span>';
+    prev.style.color='var(--gn)';   // FIXED: was var(–gn) with en-dash
+    if(lyr)lyr.value=s.layer;
+  }else if(val.trim()){
+    prev.textContent='◈ Custom event — FI default: 0.400';
+    prev.style.color='var(--cy)';   // FIXED: was var(–cy) with en-dash
+  }else{prev.textContent='';}
 }
 
 function logEvt(btn){
-var id=(document.getElementById(‘ev-id’).value||’’).trim();
-if(!id){toast(‘Enter an event type’,‘warn’);return;}
-var ent=document.getElementById(‘ev-ent’).value.trim()||‘Unknown’;
-var lyr=(document.getElementById(‘ev-lyr’).value||’’).trim();
-var m=parseInt(document.getElementById(‘ev-m’).value),a=parseInt(document.getElementById(‘ev-a’).value),p=parseInt(document.getElementById(‘ev-p’).value);
-var s=EVENT_SCHEMA.find(function(e){return e.id===id;});
-var fi=s?s.fi:0.40,alpha=s?s.alpha:0.50,layer=lyr||(s?s.layer:‘Custom’),color=s?s.color:’#00C8F0’,bg=s?s.bg:‘rgba(0,200,240,0.15)’;
-var bScore=(m/10)*(a/10)*(p/10),fiC=fi*bScore*alpha;
-BS.events.unshift({id:id,entity:ent,layer:layer,m:m,a:a,p:p,bScore:bScore,fi:fiC,color:color,bg:bg,ts:new Date().toLocaleTimeString(‘en-GB’,{hour:‘2-digit’,minute:‘2-digit’,second:‘2-digit’})});
-BS.mapM=BS.mapM*0.8+(m/10)*0.2;BS.mapA=BS.mapA*0.8+(a/10)*0.2;BS.mapP=BS.mapP*0.8+(p/10)*0.2;BS.totalFI=Math.min(10,BS.totalFI+fiC);
-updateSensor();renderEvtFeed();btn.closest(’.mbg’).remove();toast(‘Signal logged: ‘+id+’ (FI +’+fiC.toFixed(3)+’)’,‘ok’);
+  var id=(document.getElementById('ev-id').value||'').trim();
+  if(!id){toast('Enter an event type','warn');return;}
+  var ent=document.getElementById('ev-ent').value.trim()||'Unknown';
+  var lyr=(document.getElementById('ev-lyr').value||'').trim();
+  var m=parseInt(document.getElementById('ev-m').value),a=parseInt(document.getElementById('ev-a').value),p=parseInt(document.getElementById('ev-p').value);
+  var s=EVENT_SCHEMA.find(function(e){return e.id===id;});
+  var fi=s?s.fi:0.40,alpha=s?s.alpha:0.50,layer=lyr||(s?s.layer:'Custom'),color=s?s.color:'#00C8F0',bg=s?s.bg:'rgba(0,200,240,0.15)';
+  var bScore=(m/10)*(a/10)*(p/10),fiC=fi*bScore*alpha;
+  BS.events.unshift({id:id,entity:ent,layer:layer,m:m,a:a,p:p,bScore:bScore,fi:fiC,color:color,bg:bg,ts:new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit'})});
+  BS.mapM=BS.mapM*0.8+(m/10)*0.2;BS.mapA=BS.mapA*0.8+(a/10)*0.2;BS.mapP=BS.mapP*0.8+(p/10)*0.2;
+  BS.totalFI=Math.min(10,BS.totalFI+fiC);
+  updateSensor();renderEvtFeed();btn.closest('.mbg').remove();toast('Signal logged: '+id+' (FI +'+fiC.toFixed(3)+')','ok');
 }
 
 function updateSensor(){
-var b=BS.mapM*BS.mapA*BS.mapP,cp=Math.min(0.99,b*2.8+(BS.totalFI/10)*0.3);
-document.getElementById(‘map-m’).textContent=BS.mapM.toFixed(2);
-document.getElementById(‘map-a’).textContent=BS.mapA.toFixed(2);
-document.getElementById(‘map-p’).textContent=BS.mapP.toFixed(2);
-document.getElementById(‘bar-m’).style.width=(BS.mapM*100)+’%’;
-document.getElementById(‘bar-a’).style.width=(BS.mapA*100)+’%’;
-document.getElementById(‘bar-p’).style.width=(BS.mapP*100)+’%’;
-document.getElementById(‘b-score’).textContent=b.toFixed(3);
-document.getElementById(‘conv-p’).textContent=Math.round(cp*100)+’%’;
-document.getElementById(‘fisher’).textContent=‘I(X;Y) = ‘+BS.totalFI.toFixed(3)+’ / 10.000’;
+  var b=BS.mapM*BS.mapA*BS.mapP,cp=Math.min(0.99,b*2.8+(BS.totalFI/10)*0.3);
+  document.getElementById('map-m').textContent=BS.mapM.toFixed(2);
+  document.getElementById('map-a').textContent=BS.mapA.toFixed(2);
+  document.getElementById('map-p').textContent=BS.mapP.toFixed(2);
+  document.getElementById('bar-m').style.width=(BS.mapM*100)+'%';
+  document.getElementById('bar-a').style.width=(BS.mapA*100)+'%';
+  document.getElementById('bar-p').style.width=(BS.mapP*100)+'%';
+  document.getElementById('b-score').textContent=b.toFixed(3);
+  document.getElementById('conv-p').textContent=Math.round(cp*100)+'%';
+  document.getElementById('fisher').textContent='I(X;Y) = '+BS.totalFI.toFixed(3)+' / 10.000';
 }
 
 function renderEvtFeed(){
-var el=document.getElementById(‘evt-feed’);
-document.getElementById(‘evt-cnt’).textContent=BS.events.length+’ signal’+(BS.events.length!==1?‘s’:’’);
-if(!BS.events.length){el.innerHTML=’<div class="empty"><div style="font-size:28px;margin-bottom:12px;opacity:.4">◈</div><div style="font-size:13px">No signals logged yet</div></div>’;return;}
-el.innerHTML=BS.events.slice(0,20).map(function(ev){return ‘<div style="display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--b1)"><div style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;font-family:var(--fm);flex-shrink:0;background:'+ev.bg+';color:'+ev.color+'">’+ev.layer.slice(0,4).toUpperCase()+’</div><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500;margin-bottom:2px">’+ev.id+’</div><div style="font-size:11px;color:var(--t3);font-family:var(--fm)">’+ev.entity+’ · ‘+ev.ts+’</div><div style="font-size:10px;font-family:var(--fm);color:var(--pu)">FI +’+ev.fi.toFixed(3)+’ · B=’+ev.bScore.toFixed(3)+’ · MAP(’+ev.m+’,’+ev.a+’,’+ev.p+’)</div></div><span class="tag" style="background:'+ev.bg+';color:'+ev.color+';font-size:10px">’+ev.layer+’</span></div>’;}).join(’’);
+  var el=document.getElementById('evt-feed');
+  document.getElementById('evt-cnt').textContent=BS.events.length+' signal'+(BS.events.length!==1?'s':'');
+  if(!BS.events.length){el.innerHTML='<div class="empty"><div style="font-size:28px;margin-bottom:12px;opacity:.4">◈</div><div style="font-size:13px">No signals logged yet</div></div>';return;}
+  el.innerHTML=BS.events.slice(0,20).map(function(ev){return '<div style="display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--b1)"><div style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;font-family:var(--fm);flex-shrink:0;background:'+ev.bg+';color:'+ev.color+'">'+ev.layer.slice(0,4).toUpperCase()+'</div><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500;margin-bottom:2px">'+ev.id+'</div><div style="font-size:11px;color:var(--t3);font-family:var(--fm)">'+ev.entity+' · '+ev.ts+'</div><div style="font-size:10px;font-family:var(--fm);color:var(--pu)">FI +'+ev.fi.toFixed(3)+' · B='+ev.bScore.toFixed(3)+' · MAP('+ev.m+','+ev.a+','+ev.p+')</div></div><span class="tag" style="background:'+ev.bg+';color:'+ev.color+';font-size:10px">'+ev.layer+'</span></div>';}).join('');
 }
 
 function rwUpdate(cat){
-var p=BS.rwP,V=BS.rw[cat]||0.5,d=p.alpha*p.beta*(p.lambda-V);
-BS.rw[cat]=Math.min(1,Math.max(0,V+d));BS.eng[cat]=(BS.eng[cat]||0)+1;BS.total++;renderRW();
+  var p=BS.rwP,V=BS.rw[cat]||0.5,d=p.alpha*p.beta*(p.lambda-V);
+  BS.rw[cat]=Math.min(1,Math.max(0,V+d));BS.eng[cat]=(BS.eng[cat]||0)+1;BS.total++;renderRW();
 }
 
+// FIX #8: renderRW — all CSS var() references corrected from en-dash to double-hyphen
 function renderRW(){
-var el=document.getElementById(‘rw-list’);
-var cats=Object.entries(BS.rw).sort(function(a,b){return b[1]-a[1];});
-// BUG FIX #8: renderRW CSS var refs used en-dash (–) instead of double-hyphen (–)
-// e.g. ‘var(–go)’ → ‘var(–go)’ — silent failure in all category colours
-var TC={opportunity:‘var(–go)’,risk:‘var(–rd)’,financial:‘var(–gn)’,client:‘var(–cy)’,deadline:‘var(–am)’};
-el.innerHTML=cats.map(function(kv){
-var cat=kv[0],v=kv[1];
-return ‘<div class="rwrow"><div style="font-size:13px;font-weight:500;flex:1">’+cat.charAt(0).toUpperCase()+cat.slice(1)+’</div><div class="rwbar"><div style="height:100%;background:'+(TC[cat]||'var(--cy)')+';border-radius:4px;width:'+(v*100)+'%;transition:width .6s"></div></div><div style="font-family:var(--fm);font-size:11px;color:var(--t2);min-width:36px;text-align:right">’+v.toFixed(3)+’</div><span class="tag" style="font-size:10px;background:rgba(255,255,255,0.06);color:var(--t3)">’+(BS.eng[cat]||0)+’ taps</span></div>’;
-}).join(’’);
-var st=document.getElementById(‘rw-stats’),top=cats[0];
-if(st)st.textContent=‘Top: ‘+top[0]+’ (V=’+top[1].toFixed(3)+’)\nEngagements: ‘+BS.total+’\nα: ‘+BS.rwP.alpha+’ · β: ‘+BS.rwP.beta+’ · λ: ’+BS.rwP.lambda;
+  var el=document.getElementById('rw-list');
+  var cats=Object.entries(BS.rw).sort(function(a,b){return b[1]-a[1];});
+  var TC={
+    opportunity:'var(--go)',   // FIXED: was var(–go)
+    risk:'var(--rd)',          // FIXED: was var(–rd)
+    financial:'var(--gn)',     // FIXED: was var(–gn)
+    client:'var(--cy)',        // FIXED: was var(–cy)
+    deadline:'var(--am)'       // FIXED: was var(–am)
+  };
+  el.innerHTML=cats.map(function(kv){
+    var cat=kv[0],v=kv[1];
+    return '<div class="rwrow"><div style="font-size:13px;font-weight:500;flex:1">'+cat.charAt(0).toUpperCase()+cat.slice(1)+'</div><div class="rwbar"><div style="height:100%;background:'+(TC[cat]||'var(--cy)')+';border-radius:4px;width:'+(v*100)+'%;transition:width .6s"></div></div><div style="font-family:var(--fm);font-size:11px;color:var(--t2);min-width:36px;text-align:right">'+v.toFixed(3)+'</div><span class="tag" style="font-size:10px;background:rgba(255,255,255,0.06);color:var(--t3)">'+(BS.eng[cat]||0)+' taps</span></div>';
+  }).join('');
+  var st=document.getElementById('rw-stats'),top=cats[0];
+  if(st&&top)st.textContent='Top: '+top[0]+' (V='+top[1].toFixed(3)+')\nEngagements: '+BS.total+'\nα: '+BS.rwP.alpha+' · β: '+BS.rwP.beta+' · λ: '+BS.rwP.lambda;
 }
 
-function resetRW(){Object.keys(BS.rw).forEach(function(k){BS.rw[k]=0.5;});Object.keys(BS.eng).forEach(function(k){BS.eng[k]=0;});BS.total=0;renderRW();toast(‘Learning reset’,‘info’);}
+function resetRW(){
+  Object.keys(BS.rw).forEach(function(k){BS.rw[k]=0.5;});
+  Object.keys(BS.eng).forEach(function(k){BS.eng[k]=0;});
+  BS.total=0;renderRW();toast('Learning reset','info');
+}
 
 function reRank(){
-if(!S.insights||!S.insights.length){toast(‘Analyse files first’,‘warn’);return;}
-var scored=S.insights.map(function(ins,i){
-var pr=ins.confidence||0.5,rec=Math.max(0,1-(i*0.08)),vc=BS.rw[ins.type]||0.5,sc=0.5*pr+0.2*rec+0.3*vc,cb=sc-1.96*Math.sqrt(sc*(1-sc)/Math.max(1,BS.total));
-return Object.assign({},ins,{score:sc,cb:cb,rank:i+1});
-}).sort(function(a,b){return b.score-a.score;}).map(function(ins,i){return Object.assign({},ins,{rank:i+1});});
-var el=document.getElementById(‘rank-feed’);
-el.innerHTML=scored.map(function(r,i){
-var c=TCFG[r.type]||TCFG.client;
-return ‘<div style="background:var(--s1);border:0.5px solid var(--b1);border-radius:14px;padding:13px;margin-bottom:8px;cursor:pointer;animation:up .3s ease '+(i*.05)+'s both" onclick="rwUpdate(\''+r.type+'\')"><div style="font-family:var(--fm);font-size:11px;color:var(--t3);margin-bottom:4px">#’+r.rank+’ · score ‘+r.score.toFixed(3)+’ · CI lower ‘+r.cb.toFixed(3)+’</div><div style="display:flex;align-items:flex-start;gap:8px"><div style="flex:1"><div style="font-size:13px;font-weight:600;margin-bottom:4px">’+r.title+’</div><div style="font-size:12px;color:var(--t2);line-height:1.6">’+r.body+’</div></div><span class="tag '+c.cls+'" style="flex-shrink:0">’+c.l+’</span></div><div style="height:3px;background:var(--s3);border-radius:3px;margin-top:8px;overflow:hidden"><div style="height:100%;border-radius:3px;background:var(--cy);width:'+(r.score*100)+'%"></div></div><div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-top:5px">Tap to register engagement · trains your consulting intelligence feed</div></div>’;
-}).join(’’);
-toast(‘Feed re-ranked · ‘+scored.length+’ insights · 95% conformal coverage’,‘ok’);
+  if(!S.insights||!S.insights.length){toast('Analyse files first','warn');return;}
+  var scored=S.insights.map(function(ins,i){
+    var pr=ins.confidence||0.5,rec=Math.max(0,1-(i*0.08)),vc=BS.rw[ins.type]||0.5,sc=0.5*pr+0.2*rec+0.3*vc,cb=sc-1.96*Math.sqrt(sc*(1-sc)/Math.max(1,BS.total));
+    return Object.assign({},ins,{score:sc,cb:cb,rank:i+1});
+  }).sort(function(a,b){return b.score-a.score;}).map(function(ins,i){return Object.assign({},ins,{rank:i+1});});
+  var el=document.getElementById('rank-feed');
+  el.innerHTML=scored.map(function(r,i){
+    var c=TCFG[r.type]||TCFG.client;
+    return '<div style="background:var(--s1);border:0.5px solid var(--b1);border-radius:14px;padding:13px;margin-bottom:8px;cursor:pointer;animation:up .3s ease '+(i*.05)+'s both" onclick="rwUpdate(\''+r.type+'\')"><div style="font-family:var(--fm);font-size:11px;color:var(--t3);margin-bottom:4px">#'+r.rank+' · score '+r.score.toFixed(3)+' · CI lower '+r.cb.toFixed(3)+'</div><div style="display:flex;align-items:flex-start;gap:8px"><div style="flex:1"><div style="font-size:13px;font-weight:600;margin-bottom:4px">'+r.title+'</div><div style="font-size:12px;color:var(--t2);line-height:1.6">'+r.body+'</div></div><span class="tag '+c.cls+'" style="flex-shrink:0">'+c.l+'</span></div><div style="height:3px;background:var(--s3);border-radius:3px;margin-top:8px;overflow:hidden"><div style="height:100%;border-radius:3px;background:var(--cy);width:'+(r.score*100)+'%"></div></div><div style="font-size:10px;color:var(--t3);font-family:var(--fm);margin-top:5px">Tap to register engagement · trains your consulting intelligence feed</div></div>';
+  }).join('');
+  toast('Feed re-ranked · '+scored.length+' insights · 95% conformal coverage','ok');
 }
 
-// ── DELPHI ENGINE ──────────────────────────────────────────────────────────────
-var DS={experts:[],q:’’,ctx:’’,round:1,r1:[],responses:[],lastCons:null};
-var DEF_EXP=[‘Kenyan VC / early-stage investor’,‘East African market analyst’,‘Political & regulatory risk specialist’,‘Industry domain expert’];
+// ═══════════════════════════════════════════════════════════════════
+// DELPHI ENGINE
+// ═══════════════════════════════════════════════════════════════════
+var DS={experts:[],q:'',ctx:'',round:1,r1:[],responses:[],lastCons:null};
+var DEF_EXP=['Kenyan VC / early-stage investor','East African market analyst','Political & regulatory risk specialist','Industry domain expert'];
 
 function initDelphi(){DS.experts=[].concat(DEF_EXP);renderChips();renderBrier();}
-function renderChips(){document.getElementById(‘del-chips’).innerHTML=DS.experts.map(function(e,i){return ‘<div class="chip" onclick="removeExp('+i+')">◉ ‘+e+’ ✕</div>’;}).join(’’);}
-function addExpert(){var inp=document.getElementById(‘del-exp-inp’),v=inp.value.trim();if(!v)return;DS.experts.push(v);renderChips();inp.value=’’;}
+function renderChips(){document.getElementById('del-chips').innerHTML=DS.experts.map(function(e,i){return '<div class="chip" onclick="removeExp('+i+')">◉ '+e+' ✕</div>';}).join('');}
+function addExpert(){var inp=document.getElementById('del-exp-inp'),v=inp.value.trim();if(!v)return;DS.experts.push(v);renderChips();inp.value='';}
 function removeExp(i){DS.experts.splice(i,1);renderChips();}
-document.getElementById(‘del-exp-inp’).addEventListener(‘keydown’,function(e){if(e.key===‘Enter’){e.preventDefault();addExpert();}});
+document.getElementById('del-exp-inp').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();addExpert();}});
 
 async function runDelphi(){
-var q=document.getElementById(‘del-q’).value.trim();
-if(!q){toast(‘Enter a forecasting question’,‘warn’);return;}
-if(DS.experts.length<2){toast(‘Add at least 2 experts’,‘warn’);return;}
-DS.q=q;DS.ctx=document.getElementById(‘del-ctx’).value.trim();DS.round=1;DS.r1=[];
-var btn=document.getElementById(‘del-run-btn’);btn.disabled=true;btn.innerHTML=’<div class="dots" style="display:flex;justify-content:center"><span></span><span></span><span></span></div>’;
-var fc=S.corpus?’\n\nContext from files:\n’+S.corpus.slice(0,4000):’’;
-var uc=DS.ctx?’\n\nContext: ‘+DS.ctx:’’;
-var responses=[];
-for(var i=0;i<DS.experts.length;i++){
-var exp=DS.experts[i];
-btn.innerHTML=’<div class="dots" style="display:flex;justify-content:center"><span></span><span></span><span></span></div> Consulting ‘+exp.split(’ ‘).slice(0,2).join(’ ‘)+’…’;
-try{
-var raw=await claudeRaw(‘You are roleplaying as a senior ‘+exp+’ based in East Africa. Delphi forecasting panel for EKN Consulting Ltd, Nairobi.\n\nReturn ONLY valid JSON:\n{“estimate”:0.65,“confidence”:0.80,“competence”:0.75,“reasoning”:“2-3 sentences of specific reasoning”,“key_factors”:[“factor 1”,“factor 2”],“upside_scenario”:“brief”,“downside_scenario”:“brief”}\n\nestimate: probability 0.0-1.0. Return ONLY the JSON object.’,‘Forecasting question: ‘+q+fc+uc,600);
-var d=extractJSON(raw);
-responses.push({expert:exp,estimate:Math.min(1,Math.max(0,Number(d.estimate)||0.5)),confidence:Math.min(1,Math.max(0,Number(d.confidence)||0.7)),competence:Math.min(1,Math.max(0,Number(d.competence)||0.7)),reasoning:d.reasoning||’’,keyFactors:d.key_factors||[],upside:d.upside_scenario||’’,downside:d.downside_scenario||’’,weight:1});
-}catch(e){responses.push({expert:exp,estimate:0.5,confidence:0.5,competence:0.5,reasoning:‘Query failed — neutral prior.’,keyFactors:[],upside:’’,downside:’’,weight:1});}
-}
-DS.r1=responses.slice();DS.responses=applyIQR(responses);var cons=computeCons(DS.responses);
-btn.disabled=false;btn.textContent=‘◬ Run Delphi Round’;renderDelphiResults(DS.responses,cons,1);
+  var q=document.getElementById('del-q').value.trim();
+  if(!q){toast('Enter a forecasting question','warn');return;}
+  if(DS.experts.length<2){toast('Add at least 2 experts','warn');return;}
+  DS.q=q;DS.ctx=document.getElementById('del-ctx').value.trim();DS.round=1;DS.r1=[];
+  var btn=document.getElementById('del-run-btn');btn.disabled=true;
+  btn.innerHTML='<div class="dots" style="display:flex;justify-content:center"><span></span><span></span><span></span></div>';
+  var fc=S.corpus?'\n\nContext from files:\n'+S.corpus.slice(0,4000):'';
+  var uc=DS.ctx?'\n\nContext: '+DS.ctx:'';
+  var responses=[];
+  for(var i=0;i<DS.experts.length;i++){
+    var exp=DS.experts[i];
+    btn.innerHTML='<div class="dots" style="display:flex;justify-content:center"><span></span><span></span><span></span></div> Consulting '+exp.split(' ').slice(0,2).join(' ')+'…';
+    try{
+      var raw=await claudeRaw('You are roleplaying as a senior '+exp+' based in East Africa. Delphi forecasting panel for EKN Consulting Ltd, Nairobi.\n\nReturn ONLY valid JSON:\n{"estimate":0.65,"confidence":0.80,"competence":0.75,"reasoning":"2-3 sentences of specific reasoning","key_factors":["factor 1","factor 2"],"upside_scenario":"brief","downside_scenario":"brief"}\n\nestimate: probability 0.0-1.0. Return ONLY the JSON object.','Forecasting question: '+q+fc+uc,600);
+      var d=extractJSON(raw);
+      responses.push({expert:exp,estimate:Math.min(1,Math.max(0,Number(d.estimate)||0.5)),confidence:Math.min(1,Math.max(0,Number(d.confidence)||0.7)),competence:Math.min(1,Math.max(0,Number(d.competence)||0.7)),reasoning:d.reasoning||'',keyFactors:d.key_factors||[],upside:d.upside_scenario||'',downside:d.downside_scenario||'',weight:1});
+    }catch(e){responses.push({expert:exp,estimate:0.5,confidence:0.5,competence:0.5,reasoning:'Query failed — neutral prior.',keyFactors:[],upside:'',downside:'',weight:1});}
+  }
+  DS.r1=responses.slice();DS.responses=applyIQR(responses);var cons=computeCons(DS.responses);
+  btn.disabled=false;btn.textContent='◬ Run Delphi Round';renderDelphiResults(DS.responses,cons,1);
 }
 
 function applyIQR(rsp){
-var ests=rsp.map(function(r){return r.estimate;}).sort(function(a,b){return a-b;});
-var q1=ests[Math.floor(ests.length*0.25)],q3=ests[Math.floor(ests.length*0.75)],iqr=q3-q1,lo=q1-1.5*iqr,hi=q3+1.5*iqr;
-return rsp.map(function(r){var out=r.estimate<lo||r.estimate>hi,w=out?0.3:(r.competence*0.6+r.confidence*0.4);return Object.assign({},r,{weight:w,outlier:out});});
+  var ests=rsp.map(function(r){return r.estimate;}).sort(function(a,b){return a-b;});
+  var q1=ests[Math.floor(ests.length*0.25)],q3=ests[Math.floor(ests.length*0.75)],iqr=q3-q1,lo=q1-1.5*iqr,hi=q3+1.5*iqr;
+  return rsp.map(function(r){var out=r.estimate<lo||r.estimate>hi,w=out?0.3:(r.competence*0.6+r.confidence*0.4);return Object.assign({},r,{weight:w,outlier:out});});
 }
 
 function computeCons(rsp){
-var tw=rsp.reduce(function(s,r){return s+r.weight;},0),ws=rsp.reduce(function(s,r){return s+r.estimate*r.weight;},0),cons=tw>0?ws/tw:0.5;
-var n=rsp.length,ranks=rsp.map(function(r){return r.estimate;}),mr=ranks.reduce(function(a,b){return a+b;},0)/n,Ss=ranks.reduce(function(a,b){return a+Math.pow(b-mr,2);},0);
-var W=n>1?(12*Ss)/(n*n*n-n):1;
-return{value:cons,kW:Math.min(1,Math.abs(W)),tw:tw};
+  var tw=rsp.reduce(function(s,r){return s+r.weight;},0),ws=rsp.reduce(function(s,r){return s+r.estimate*r.weight;},0),cons=tw>0?ws/tw:0.5;
+  var n=rsp.length,ranks=rsp.map(function(r){return r.estimate;}),mr=ranks.reduce(function(a,b){return a+b;},0)/n,Ss=ranks.reduce(function(a,b){return a+Math.pow(b-mr,2);},0);
+  var W=n>1?(12*Ss)/(n*n*n-n):1;
+  return{value:cons,kW:Math.min(1,Math.abs(W)),tw:tw};
 }
 
+// FIX #9: renderDelphiResults — all CSS var() en-dashes corrected; second `var col`
+// renamed to `consCol` to avoid redeclaration in same function scope
 function renderDelphiResults(rsp,cons,round){
-document.getElementById(‘del-setup’).style.display=‘none’;document.getElementById(‘del-results’).style.display=’’;
-document.getElementById(‘del-rnd’).textContent=round;
-document.getElementById(‘del-cards’).innerHTML=rsp.map(function(r,i){
-var pct=Math.round(r.estimate*100);
-// BUG FIX #9: Delphi card colour used en-dash CSS vars → ‘var(–gn)’ etc; fixed to ‘–’
-var col=pct>=70?‘var(–gn)’:pct>=40?‘var(–am)’:‘var(–rd)’;
-var facs=r.keyFactors.length?’<div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:5px">’+r.keyFactors.map(function(f){return ‘<span class="tag tp" style="font-size:10px">’+f+’</span>’;}).join(’’)+’</div>’:’’;
-return ‘<div class="dc" style="animation:up .3s ease '+(i*.08)+'s both"><div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px"><div><div style="font-size:13px;font-weight:600">’+r.expert+’</div><div style="font-size:11px;color:var(--t3);font-family:var(--fm);margin-top:2px">Competence ’+Math.round(r.competence*100)+’% · Confidence ‘+Math.round(r.confidence*100)+’%</div>’+(r.outlier?’<span class="tag ta" style="font-size:9px;margin-top:4px">IQR outlier — down-weighted</span>’:’’)+’</div><div style="text-align:right"><div style="font-family:var(--fd);font-size:28px;font-weight:700;color:'+col+'">’+pct+’%</div><div style="font-size:10px;color:var(--t3);font-family:var(--fm)">weight ‘+r.weight.toFixed(2)+’</div></div></div><div style="height:4px;background:var(--s3);border-radius:4px;overflow:hidden;margin-bottom:8px"><div style="height:100%;border-radius:4px;background:'+col+';width:'+pct+'%;transition:width 1s ease"></div></div><div style="font-size:13px;color:var(--t2);line-height:1.7;border-top:0.5px solid var(--b1);padding-top:8px">’+r.reasoning+’</div>’+facs+(r.upside?’<div style="margin-top:8px;font-size:12px;color:var(--gn)">▲ ‘+r.upside+’</div>’:’’)+(r.downside?’<div style="font-size:12px;color:var(--rd)">▼ ‘+r.downside+’</div>’:’’)+’</div>’;
-}).join(’’);
-var cpct=Math.round(cons.value*100);
-// BUG FIX #9 (continued): same en-dash issue in consensus colour
-var col=cpct>=70?‘var(–gn)’:cpct>=40?‘var(–am)’:‘var(–rd)’;
-document.getElementById(‘cons-pct’).textContent=cpct+’%’;
-document.getElementById(‘cons-pct’).style.color=col;
-setTimeout(function(){document.getElementById(‘cons-bar’).style.width=cpct+’%’;document.getElementById(‘cons-bar’).style.background=col;},100);
-var interps=[‘Low probability — unlikely under current conditions.’,‘Slight lean negative — more experts see this as unlikely.’,‘Slight lean positive — more upside than downside but genuinely uncertain.’,‘Moderately high — most experts lean positive with meaningful uncertainty.’,‘Strong consensus — panel broadly agrees this is likely.’];
-document.getElementById(‘cons-interp’).textContent=interps[Math.min(4,Math.floor(cpct/20))];
-var ests=rsp.map(function(r){return r.estimate*100;}),mean=(ests.reduce(function(a,b){return a+b;},0)/ests.length).toFixed(1);
-var sorted=ests.slice().sort(function(a,b){return a-b;}),med=(sorted.length%2===0?((sorted[sorted.length/2-1]+sorted[sorted.length/2])/2):sorted[Math.floor(sorted.length/2)]).toFixed(1);
-var spread=(Math.max.apply(null,ests)-Math.min.apply(null,ests)).toFixed(1),w=cons.kW.toFixed(2),ag=cons.kW>0.7?‘Strong’:cons.kW>0.4?‘Moderate’:‘Weak’;
-document.getElementById(‘del-stats’).innerHTML=‘Mean: ‘+mean+’% · Median: ‘+med+’% · Spread: ‘+spread+’%<br>Kendall's W: ‘+w+’ (’+ag+’ agreement)<br>Experts: ‘+rsp.length+’ · Outliers down-weighted: ‘+rsp.filter(function(r){return r.outlier;}).length;
-document.getElementById(‘del-r2-btn’).style.display=round===1?’’:‘none’;DS.responses=rsp;DS.lastCons=cons;renderBrier();
+  document.getElementById('del-setup').style.display='none';
+  document.getElementById('del-results').style.display='';
+  document.getElementById('del-rnd').textContent=round;
+  document.getElementById('del-cards').innerHTML=rsp.map(function(r,i){
+    var pct=Math.round(r.estimate*100);
+    var col=pct>=70?'var(--gn)':pct>=40?'var(--am)':'var(--rd)';  // FIXED en-dashes
+    var facs=r.keyFactors.length?'<div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:5px">'+r.keyFactors.map(function(f){return '<span class="tag tp" style="font-size:10px">'+f+'</span>';}).join('')+'</div>':'';
+    return '<div class="dc" style="animation:up .3s ease '+(i*.08)+'s both"><div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px"><div><div style="font-size:13px;font-weight:600">'+r.expert+'</div><div style="font-size:11px;color:var(--t3);font-family:var(--fm);margin-top:2px">Competence '+Math.round(r.competence*100)+'% · Confidence '+Math.round(r.confidence*100)+'%</div>'+(r.outlier?'<span class="tag ta" style="font-size:9px;margin-top:4px">IQR outlier — down-weighted</span>':'')+'</div><div style="text-align:right"><div style="font-family:var(--fd);font-size:28px;font-weight:700;color:'+col+'">'+pct+'%</div><div style="font-size:10px;color:var(--t3);font-family:var(--fm)">weight '+r.weight.toFixed(2)+'</div></div></div><div style="height:4px;background:var(--s3);border-radius:4px;overflow:hidden;margin-bottom:8px"><div style="height:100%;border-radius:4px;background:'+col+';width:'+pct+'%;transition:width 1s ease"></div></div><div style="font-size:13px;color:var(--t2);line-height:1.7;border-top:0.5px solid var(--b1);padding-top:8px">'+r.reasoning+'</div>'+facs+(r.upside?'<div style="margin-top:8px;font-size:12px;color:var(--gn)">▲ '+r.upside+'</div>':'')+(r.downside?'<div style="font-size:12px;color:var(--rd)">▼ '+r.downside+'</div>':'')+'</div>';
+  }).join('');
+  var cpct=Math.round(cons.value*100);
+  var consCol=cpct>=70?'var(--gn)':cpct>=40?'var(--am)':'var(--rd)';  // FIXED: renamed + en-dashes fixed
+  document.getElementById('cons-pct').textContent=cpct+'%';
+  document.getElementById('cons-pct').style.color=consCol;
+  setTimeout(function(){
+    document.getElementById('cons-bar').style.width=cpct+'%';
+    document.getElementById('cons-bar').style.background=consCol;
+  },100);
+  var interps=['Low probability — unlikely under current conditions.','Slight lean negative — more experts see this as unlikely.','Slight lean positive — more upside than downside but genuinely uncertain.','Moderately high — most experts lean positive with meaningful uncertainty.','Strong consensus — panel broadly agrees this is likely.'];
+  document.getElementById('cons-interp').textContent=interps[Math.min(4,Math.floor(cpct/20))];
+  var ests=rsp.map(function(r){return r.estimate*100;}),mean=(ests.reduce(function(a,b){return a+b;},0)/ests.length).toFixed(1);
+  var sorted=ests.slice().sort(function(a,b){return a-b;}),med=(sorted.length%2===0?((sorted[sorted.length/2-1]+sorted[sorted.length/2])/2):sorted[Math.floor(sorted.length/2)]).toFixed(1);
+  var spread=(Math.max.apply(null,ests)-Math.min.apply(null,ests)).toFixed(1),w=cons.kW.toFixed(2),ag=cons.kW>0.7?'Strong':cons.kW>0.4?'Moderate':'Weak';
+  document.getElementById('del-stats').innerHTML='Mean: '+mean+'% · Median: '+med+'% · Spread: '+spread+'%<br>Kendall\'s W: '+w+' ('+ag+' agreement)<br>Experts: '+rsp.length+' · Outliers down-weighted: '+rsp.filter(function(r){return r.outlier;}).length;
+  document.getElementById('del-r2-btn').style.display=round===1?'':'none';
+  DS.responses=rsp;DS.lastCons=cons;renderBrier();
 }
 
 async function runDelphiR2(){
-var btn=document.getElementById(‘del-r2-btn’);btn.disabled=true;btn.innerHTML=’<div class="dots" style="display:inline-flex"><span></span><span></span><span></span></div>’;
-var r1sum=DS.r1.map(function(r){return r.expert+’: ‘+Math.round(r.estimate*100)+’% — “’+r.reasoning+’”’;}).join(’\n’);
-var r1c=Math.round(DS.lastCons.value*100);
-var responses=[];
-for(var i=0;i<DS.experts.length;i++){
-var exp=DS.experts[i],r1=DS.r1[i];
-try{
-var raw=await claudeRaw(‘You are a senior ‘+exp+’. Round 2 Delphi. Revise or hold firm.\n\nReturn ONLY valid JSON:\n{“estimate”:0.65,“confidence”:0.85,“competence”:0.75,“reasoning”:“2-3 sentences explaining Round 2 position”,“revised”:true}’,‘Question: ‘+DS.q+’\n\nRound 1 results:\n’+r1sum+’\n\nRound 1 consensus: ‘+r1c+’%\n\nYour Round 1 estimate: ‘+Math.round(r1.estimate*100)+’%’,500);
-var d=extractJSON(raw);
-responses.push({expert:exp,estimate:Math.min(1,Math.max(0,Number(d.estimate)||r1.estimate)),confidence:Math.min(1,Math.max(0,Number(d.confidence)||r1.confidence)),competence:Math.min(1,Math.max(0,Number(d.competence)||r1.competence)),reasoning:d.reasoning||’’,revised:!!d.revised,keyFactors:r1.keyFactors,upside:r1.upside,downside:r1.downside,weight:1});
-}catch(e){responses.push(Object.assign({},r1,{reasoning:‘Round 2 failed — holding Round 1.’,revised:false}));}
-}
-DS.round=2;DS.responses=applyIQR(responses);var cons=computeCons(DS.responses);DS.lastCons=cons;
-btn.disabled=false;btn.textContent=‘Round 2 ↻’;renderDelphiResults(DS.responses,cons,2);
+  var btn=document.getElementById('del-r2-btn');btn.disabled=true;
+  btn.innerHTML='<div class="dots" style="display:inline-flex"><span></span><span></span><span></span></div>';
+  var r1sum=DS.r1.map(function(r){return r.expert+': '+Math.round(r.estimate*100)+'% — "'+r.reasoning+'"';}).join('\n');
+  var r1c=Math.round(DS.lastCons.value*100);
+  var responses=[];
+  for(var i=0;i<DS.experts.length;i++){
+    var exp=DS.experts[i],r1=DS.r1[i];
+    try{
+      var raw=await claudeRaw('You are a senior '+exp+'. Round 2 Delphi. Revise or hold firm.\n\nReturn ONLY valid JSON:\n{"estimate":0.65,"confidence":0.85,"competence":0.75,"reasoning":"2-3 sentences explaining Round 2 position","revised":true}','Question: '+DS.q+'\n\nRound 1 results:\n'+r1sum+'\n\nRound 1 consensus: '+r1c+'%\n\nYour Round 1 estimate: '+Math.round(r1.estimate*100)+'%',500);
+      var d=extractJSON(raw);
+      responses.push({expert:exp,estimate:Math.min(1,Math.max(0,Number(d.estimate)||r1.estimate)),confidence:Math.min(1,Math.max(0,Number(d.confidence)||r1.confidence)),competence:Math.min(1,Math.max(0,Number(d.competence)||r1.competence)),reasoning:d.reasoning||'',revised:!!d.revised,keyFactors:r1.keyFactors,upside:r1.upside,downside:r1.downside,weight:1});
+    }catch(e){responses.push(Object.assign({},r1,{reasoning:'Round 2 failed — holding Round 1.',revised:false}));}
+  }
+  DS.round=2;DS.responses=applyIQR(responses);var cons=computeCons(DS.responses);DS.lastCons=cons;
+  btn.disabled=false;btn.textContent='Round 2 ↻';renderDelphiResults(DS.responses,cons,2);
 }
 
+// FIX #10: recordOutcome — added null guard for prompt() cancellation
 function recordOutcome(){
-// BUG FIX #10: prompt() is the correct function; no bug here, but added
-// guard to handle null (user cancelled) safely — was already handled
-var o=prompt(‘Actual outcome?\n\n1.0 = event happened\n0.0 = did not happen\n0.5 = ambiguous’);
-if(o===null)return;var y=parseFloat(o);if(isNaN(y)||y<0||y>1){toast(‘Enter 0 to 1’,‘warn’);return;}
-var p=DS.lastCons.value,bs=Math.pow(p-y,2);
-var rec={question:DS.q.slice(0,80)+(DS.q.length>80?’…’:’’),consensus:Math.round(p*100),outcome:Math.round(y*100),brier:bs.toFixed(3),date:new Date().toLocaleDateString(‘en-GB’,{day:‘numeric’,month:‘short’,year:‘numeric’})};
-var hist=JSON.parse(localStorage.getItem(‘delphi-hist’)||’[]’);hist.unshift(rec);localStorage.setItem(‘delphi-hist’,JSON.stringify(hist.slice(0,20)));
-renderBrier();toast(’Outcome recorded · Brier: ’+bs.toFixed(3),‘ok’);
+  var o=prompt('Actual outcome?\n\n1.0 = event happened\n0.0 = did not happen\n0.5 = ambiguous');
+  if(o===null||o.trim()==='')return;  // user cancelled or entered blank
+  var y=parseFloat(o);
+  if(isNaN(y)||y<0||y>1){toast('Enter a number between 0 and 1','warn');return;}
+  var p=DS.lastCons.value,bs=Math.pow(p-y,2);
+  var rec={question:DS.q.slice(0,80)+(DS.q.length>80?'…':''),consensus:Math.round(p*100),outcome:Math.round(y*100),brier:bs.toFixed(3),date:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})};
+  var hist=JSON.parse(localStorage.getItem('delphi-hist')||'[]');
+  hist.unshift(rec);localStorage.setItem('delphi-hist',JSON.stringify(hist.slice(0,20)));
+  renderBrier();toast('Outcome recorded · Brier: '+bs.toFixed(3),'ok');
 }
 
 function renderBrier(){
-var hist=JSON.parse(localStorage.getItem(‘delphi-hist’)||’[]’);
-var el=document.getElementById(‘brier-hist’);if(!el)return;
-if(!hist.length){el.innerHTML=‘No outcomes recorded yet. After an event resolves, tap <strong>Record Outcome</strong> to track calibration. Lower Brier = better (0 = perfect).’;return;}
-var avg=(hist.reduce(function(s,h){return s+parseFloat(h.brier);},0)/hist.length).toFixed(3);
-var lbl=avg<0.1?‘Excellent’:avg<0.2?‘Good’:‘Needs improvement’;
-el.innerHTML=’<div style="margin-bottom:10px">Avg Brier: <strong style="color:var(--cy)">’+avg+’</strong> — ‘+lbl+’</div>’+hist.slice(0,5).map(function(h){return ‘<div style="padding:6px 0;border-bottom:0.5px solid var(--b1);font-size:12px"><div style="font-weight:500;margin-bottom:2px">’+h.question+’</div><div style="color:var(--t3)">Forecast: ‘+h.consensus+’% · Actual: ‘+h.outcome+’% · Brier: ‘+h.brier+’ · ‘+h.date+’</div></div>’;}).join(’’);
+  var hist=JSON.parse(localStorage.getItem('delphi-hist')||'[]');
+  var el=document.getElementById('brier-hist');if(!el)return;
+  if(!hist.length){el.innerHTML='No outcomes recorded yet. After an event resolves, tap <strong>Record Outcome</strong> to track calibration. Lower Brier = better (0 = perfect).';return;}
+  var avg=(hist.reduce(function(s,h){return s+parseFloat(h.brier);},0)/hist.length).toFixed(3);
+  var lbl=avg<0.1?'Excellent':avg<0.2?'Good':'Needs improvement';
+  el.innerHTML='<div style="margin-bottom:10px">Avg Brier: <strong style="color:var(--cy)">'+avg+'</strong> — '+lbl+'</div>'+hist.slice(0,5).map(function(h){return '<div style="padding:6px 0;border-bottom:0.5px solid var(--b1);font-size:12px"><div style="font-weight:500;margin-bottom:2px">'+h.question+'</div><div style="color:var(--t3)">Forecast: '+h.consensus+'% · Actual: '+h.outcome+'% · Brier: '+h.brier+' · '+h.date+'</div></div>';}).join('');
 }
 
 function addDelphiToReport(){
-if(!DS.lastCons){toast(‘Run Delphi first’,‘warn’);return;}
-var cpct=Math.round(DS.lastCons.value*100);
-S.rQ.push({title:‘Delphi Forecast: ‘+DS.q.slice(0,60),body:‘Consensus (’+DS.experts.length+’ experts, Crawford-Williams): ‘+cpct+’% probability\n\nQuestion: ‘+DS.q+’\n\nKey reasoning:\n’+DS.responses.slice(0,3).map(function(r){return r.expert+’: ‘+r.reasoning;}).join(’\n’)});
-toast(‘Delphi forecast added to report queue’,‘ok’);
+  if(!DS.lastCons){toast('Run Delphi first','warn');return;}
+  var cpct=Math.round(DS.lastCons.value*100);
+  S.rQ.push({title:'Delphi Forecast: '+DS.q.slice(0,60),body:'Consensus ('+DS.experts.length+' experts, Crawford-Williams): '+cpct+'% probability\n\nQuestion: '+DS.q+'\n\nKey reasoning:\n'+DS.responses.slice(0,3).map(function(r){return r.expert+': '+r.reasoning;}).join('\n')});
+  toast('Delphi forecast added to report queue','ok');
 }
 
 function resetDelphi(){
-DS.q=’’;DS.responses=[];DS.r1=[];DS.lastCons=null;DS.round=1;
-document.getElementById(‘del-setup’).style.display=’’;
-document.getElementById(‘del-results’).style.display=‘none’;
-document.getElementById(‘del-q’).value=’’;
-document.getElementById(‘del-ctx’).value=’’;
+  DS.q='';DS.responses=[];DS.r1=[];DS.lastCons=null;DS.round=1;
+  document.getElementById('del-setup').style.display='';
+  document.getElementById('del-results').style.display='none';
+  document.getElementById('del-q').value='';
+  document.getElementById('del-ctx').value='';
 }
 
-// ── INIT ───────────────────────────────────────────────────────────────────────
-if(‘serviceWorker’in navigator)navigator.serviceWorker.register(’./sw.js’).catch(function(){});
+// ═══════════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════════
+if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(function(){});
 renderRW();
 initDelphi();
 renderKB();
 renderKey();
-// Show key screen only if no key AND user has not chosen browse mode
 (function(){
-if(!getKey()&&!hasBrowseMode())showKS();
+  if(!getKey()&&!hasBrowseMode())showKS();
 })();
-toast(‘SCENTS ready — tap + to add files’,‘info’);
+toast('SCENTS ready — tap + to add files','info');
 </script>
-
 </body>
 </html>
